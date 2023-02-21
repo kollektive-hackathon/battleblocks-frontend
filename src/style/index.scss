@@ -1,0 +1,13 @@
+//noinspection CssUnknownTarget
+@import url("https://fonts.googleapis.com/css2?family=Heebo&display=swap");
+
+@font-face {
+  font-weight: 400;
+  font-family: modeseven;
+  src: url("/fonts/modeseven.woff") format("woff"),
+       url("/fonts/modeseven.woff2") format("woff2");
+}
+
+body {
+  font-family: modeseven, monospace;
+}
