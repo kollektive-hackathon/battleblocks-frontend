@@ -1,19 +1,22 @@
 {
-  "name": "battleblocks-frontend",
-  "version": "1.0.0",
-  "description": "Frontend app for BattleBlocks (battleships game based on blockchain) built for Flow Hackathon using React.js",
-  "main": "index.ts",
+  "name": "battleblocks",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kollektive-hackathon/battleblocks-frontend.git"
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
-  "author": "Filip Štoković",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/kollektive-hackathon/battleblocks-frontend/issues"
-  },
-  "homepage": "https://github.com/kollektive-hackathon/battleblocks-frontend#readme"
+  "devDependencies": {
+    "@types/react": "^18.0.27",
+    "@types/react-dom": "^18.0.10",
+    "@vitejs/plugin-react": "^3.1.0",
+    "typescript": "^4.9.3",
+    "vite": "^4.1.0"
+  }
 }
