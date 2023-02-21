@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "stylelint": "stylelint '**/*.{scss,css}' --no-fix",
+    "stylelintAndFix": "stylelint '**/*.{scss,css}' --fix"
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -34,6 +36,15 @@
     "eslint-plugin-simple-import-sort": "^8.0.0",
     "prettier": "^2.2.0",
     "sass": "^1.58.3",
+    "stylelint": "^14.16.1",
+    "stylelint-config-prettier": "^9.0.4",
+    "stylelint-config-prettier-scss": "0.0.1",
+    "stylelint-config-rational-order": "^0.1.2",
+    "stylelint-config-recommended": "^9.0.0",
+    "stylelint-config-recommended-scss": "^8.0.0",
+    "stylelint-high-performance-animation": "^1.7.0",
+    "stylelint-order": "^6.0.1",
+    "stylelint-scss": "^4.3.0",
     "typescript": "^4.9.3",
     "vite": "^4.1.0"
   },
