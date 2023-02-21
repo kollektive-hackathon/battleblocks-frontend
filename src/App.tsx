@@ -1,24 +1,5 @@
-import { useState } from 'react'
+const storedUser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')!) : null
 
-import './App.css'
-
-function App() {
-    const [count, setCount] = useState(0)
-
-    return (
-        <div className="App">
-            <h1>Vite + React</h1>
-            <div className="card">
-                <button type="button" onClick={() => setCount((cunt) => cunt + 1)}>
-                    count is {count}
-                </button>
-                <p>
-                    Edit <code>src/App.tsx</code> and save to test HMR
-                </p>
-            </div>
-            <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
-        </div>
-    )
+export default function App() {
+    return <div className="app">battleblocks</div>
 }
-
-export default App
