@@ -27,6 +27,11 @@
     height: 89px;
 
     background-color: white;
+
+    &--small {
+        width: 41px;
+        height: 41px;
+    }
 }
 
 .login__message {

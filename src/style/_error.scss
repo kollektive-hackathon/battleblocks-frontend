@@ -1,0 +1,19 @@
+.error {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.error__message {
+    font-weight: 400;
+    font-size: 128px;
+    line-height: 128px;
+    letter-spacing: 0.1em;
+}
+
+.error__link-lobby {
+    text-transform: uppercase;
+}
