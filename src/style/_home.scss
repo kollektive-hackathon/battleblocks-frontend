@@ -2,7 +2,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 60px 0;
+    justify-content: space-between;
+    height: 100%;
+    padding: 60px 0 30px;
 }
 
 .logo {
@@ -13,4 +15,29 @@
     text-transform: uppercase;
 
     cursor: default;
+}
+
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 24px;
+}
+
+.footer__navigation {
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 17px;
+    text-transform: uppercase;
+}
+
+.footer__user-info {
+    display: flex;
+    gap: 8px;
+
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 13px;
+    text-transform: uppercase;
 }
