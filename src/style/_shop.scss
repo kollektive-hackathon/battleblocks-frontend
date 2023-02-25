@@ -3,6 +3,10 @@
     line-height: 1;
 
     cursor: pointer;
+
+    &:hover {
+        opacity: 0.8;
+    }
 }
 
 .shop-item__name,
