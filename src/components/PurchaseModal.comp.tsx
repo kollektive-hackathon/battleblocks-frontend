@@ -50,6 +50,12 @@ export default function PurchaseModal(props: Props) {
 
                             return Promise.resolve()
                         }}
+                        onError={() => {
+                            setNotification({
+                                title: 'paypal-error',
+                                description: 'something went wrong with paypal'
+                            })
+                        }}
                     />
                 )}
             </div>
