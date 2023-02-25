@@ -1,8 +1,9 @@
 @use "./reset";
+@use "./loader";
 @use "./home";
+@use "./shop";
 @use "./error";
-@use "./login/login";
-@use "./loader/loader";
+@use "./login";
 
 // noinspection CssUnknownTarget
 @import url("https://fonts.googleapis.com/css2?family=Heebo&display=swap");
@@ -20,6 +21,7 @@ body {
 
     color: white;
     font-family: modeseven, monospace;
+    text-transform: uppercase;
 
     background-color: black;
 }
@@ -33,4 +35,71 @@ a:hover {
 
     /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
     transition: color 0.3s ease-in-out;
+}
+
+.page-container {
+    width: 850px;
+    height: 650px;
+    padding: 0 5px 5px;
+
+    background-color: white;
+}
+
+.page-container__title {
+    margin: 24px 14px;
+
+    color: black;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 16px;
+}
+
+.page-container__content {
+    width: 100%;
+    height: calc(100% - 64px);
+    padding: 0 8px;
+    overflow: scroll;
+
+    background-color: black;
+}
+
+.page-container__content__table {
+    width: 100%;
+    margin-bottom: 30px;
+
+    text-align: center;
+
+    thead {
+        position: sticky;
+        top: 0;
+
+        background-color: black;
+
+        th {
+            padding: 12px 0 8px;
+
+            &:first-of-type {
+                text-align: left;
+            }
+        }
+    }
+
+    tbody {
+        color: black;
+
+        tr {
+            height: 0;
+
+            background-color: #e5e5e5;
+            border-top: 8px solid black;
+
+            td {
+                padding: 26px 13px;
+
+                &:first-of-type {
+                    text-align: left;
+                }
+            }
+        }
+    }
 }

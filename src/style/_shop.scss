@@ -1,0 +1,13 @@
+.shop-item {
+    font-weight: 400;
+    line-height: 1;
+
+    cursor: pointer;
+}
+
+.shop-item__name,
+.shop-item__block-type,
+.shop-item__rarity,
+.shop-item__price {
+    font-size: 15px;
+}
