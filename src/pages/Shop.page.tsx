@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import PurchaseModal from '@/components/PurchaseModal.comp'
 import { ShopItem } from '@/types/shop'
 
 export default function Shop() {
@@ -70,6 +71,8 @@ export default function Shop() {
         }
     ])
 
+    const [purchaseItem, setPurchaseItem] = useState<ShopItem>()
+
     return (
         <div className="shop page-container">
             <div className="page-container__title">shop //</div>
@@ -85,7 +88,7 @@ export default function Shop() {
                     </thead>
                     <tbody>
                         {items.map((item) => (
-                            <tr key={item.id} className="shop-item">
+                            <tr key={item.id} className="shop-item" onClick={() => setPurchaseItem(item)}>
                                 <td className="shop-item__name">{item.name}</td>
                                 <td className="shop-item__block-type">{item.blockType}</td>
                                 <td className="shop-item__rarity">{item.rarity}</td>
@@ -95,6 +98,7 @@ export default function Shop() {
                     </tbody>
                 </table>
             </div>
+            {!!purchaseItem && <PurchaseModal item={purchaseItem} closeModal={() => setPurchaseItem(undefined)} />}
         </div>
     )
 }

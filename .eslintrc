@@ -293,6 +293,7 @@
     ],
     "react/display-name": "off",
     "react/react-in-jsx-scope": "off",
+    "react/jsx-no-comment-textnodes": "off",
     "react/jsx-filename-extension": "off",
     "react/jsx-indent": [
       "off",
@@ -352,7 +353,8 @@
     "simple-import-sort/exports": "error",
     "no-nested-ternary": "off",
     "jsx-a11y/no-noninteractive-element-interactions": "off",
-    "jsx-a11y/click-events-have-key-events": "off"
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-static-element-interactions": "off"
   },
   "settings": {
     "import/resolver": {
