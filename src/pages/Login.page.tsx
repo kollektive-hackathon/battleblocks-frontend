@@ -8,10 +8,14 @@ export default function Login() {
     const { setUser } = useUserContext()
 
     const authenticateGoogle = useCallback(
-        async (token: TokenResponse) => {
+        // eslint-disable-next-line camelcase
+        async ({ access_token }: TokenResponse) => {
             // TODO: change endpoint when BE is deployed
             try {
-                const { data } = await axios.post('http://localhost:8000/battleblocks-api/auth/google', { accessToken: token.access_token })
+                const { data } = await axios.post('http://localhost:8000/battleblocks-api/auth/google', {
+                    accessToken: access_token
+                })
+
                 const { idToken, refreshToken, user } = data
 
                 axios.defaults.headers.common.Authorization = `Bearer ${idToken}`
