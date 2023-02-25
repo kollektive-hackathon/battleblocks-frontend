@@ -4,24 +4,21 @@ import { Outlet } from 'react-router-dom'
 import Loader from '@/components/Loader.comp'
 import Login from '@/pages/Login.page'
 
+import { User, UserContext } from './context/UserContext'
+
 export default function App() {
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null)
+    const [user, setUser] = useState<User | null>()
 
     useEffect(() => {
-        const storedToken = localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')!) : null
+        const storedUser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')!) : null
 
         // TODO: check token and log user in if it's valid
-        // also move state to context
-        setIsLoggedIn(!!storedToken)
+        setUser(storedUser)
     }, [])
 
-    if (isLoggedIn === null) {
-        return <Loader />
-    }
-
-    if (!isLoggedIn) {
-        return <Login />
-    }
-
-    return <Outlet />
+    return (
+        <UserContext.Provider value={{ user, setUser }}>
+            {user === undefined ? <Loader /> : user === null ? <Login /> : <Outlet />}
+        </UserContext.Provider>
+    )
 }

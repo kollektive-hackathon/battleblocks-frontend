@@ -1,4 +1,39 @@
+import { useCallback } from 'react'
+import { TokenResponse, useGoogleLogin } from '@react-oauth/google'
+import axios from 'axios'
+
+import { useUserContext } from '@/context/UserContext'
+
 export default function Login() {
+    const { setUser } = useUserContext()
+
+    const authenticateGoogle = useCallback(
+        async (token: TokenResponse) => {
+            // TODO: change endpoint when BE is deployed
+            try {
+                const { data } = await axios.post('/auth/google', { accessToken: token })
+                const { idToken, refreshToken, user } = data
+
+                axios.defaults.headers.common.Authorization = `Bearer ${idToken}`
+
+                localStorage.setItem('authToken', idToken)
+
+                localStorage.setItem('refreshToken', refreshToken)
+
+                localStorage.setItem('user', JSON.stringify(user))
+
+                setUser(user)
+            } catch (e) {
+                // TODO: handle this with toast notification
+                // eslint-disable-next-line no-console
+                console.error('Error with Google Auth endpoint')
+            }
+        },
+        [setUser]
+    )
+
+    const login = useGoogleLogin({ onSuccess: authenticateGoogle })
+
     return (
         <div className="login">
             <div className="login__content">
@@ -9,7 +44,7 @@ export default function Login() {
                 </div>
                 <div className="login__message">continue?with&gt;</div>
                 <div className="login__container">
-                    <div className="login__container__app login__container__app--google">
+                    <div className="login__container__app login__container__app--google" onClick={() => login()}>
                         <img src="/icons/google.svg" alt="Google login" />
                     </div>
                     <div className="login__container__app login__container__app--apple">
