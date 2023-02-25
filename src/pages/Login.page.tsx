@@ -11,7 +11,7 @@ export default function Login() {
         async (token: TokenResponse) => {
             // TODO: change endpoint when BE is deployed
             try {
-                const { data } = await axios.post('/auth/google', { accessToken: token })
+                const { data } = await axios.post('http://localhost:8000/battleblocks-api/auth/google', { accessToken: token.access_token })
                 const { idToken, refreshToken, user } = data
 
                 axios.defaults.headers.common.Authorization = `Bearer ${idToken}`
