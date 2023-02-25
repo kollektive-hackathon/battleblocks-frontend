@@ -39,4 +39,4 @@ jobs:
         with:
           push: true
           tags: |
-            europe-central2-docker.pkg.dev/flow-battleblocks/docker/$IMAGE_NAME:latest
+            europe-central2-docker.pkg.dev/flow-battleblocks/docker/${{ env.IMAGE_NAME }}:latest
