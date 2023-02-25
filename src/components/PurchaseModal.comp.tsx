@@ -33,7 +33,8 @@ export default function PurchaseModal(props: Props) {
                                         {
                                             amount: {
                                                 value: item.price.toString()
-                                            }
+                                            },
+                                            custom_id: item.id.toString()
                                         }
                                     ]
                                 })
