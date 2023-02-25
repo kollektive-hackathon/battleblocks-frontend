@@ -4,10 +4,14 @@ on:
   push:
     branches:
       - "main"
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}
   cancel-in-progress: true
+
+env:
+  IMAGE_NAME: battleblocks-frontend
 
 jobs:
   docker-build:
@@ -35,4 +39,4 @@ jobs:
         with:
           push: true
           tags: |
-            europe-central2-docker.pkg.dev/flow-battleblocks/docker/battleblocks-frontend:latest
+            europe-central2-docker.pkg.dev/flow-battleblocks/docker/$IMAGE_NAME:latest
