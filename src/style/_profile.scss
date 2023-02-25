@@ -1,0 +1,21 @@
+.profile__wallet-container {
+    display: flex;
+    gap: 10px;
+    margin: 16px 0;
+}
+
+.profile__wallet-container__battleblocks,
+.profile__wallet-container__custodial,
+.profile__wallet-container__connect {
+    width: 50%;
+    padding: 32px 0;
+
+    color: black;
+    text-align: center;
+
+    background-color: #e5e5e5;
+}
+
+.profile__wallet-container__connect {
+    cursor: pointer;
+}

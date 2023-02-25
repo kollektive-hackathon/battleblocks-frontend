@@ -88,11 +88,11 @@ export default function Shop() {
                     </thead>
                     <tbody>
                         {items.map((item) => (
-                            <tr key={item.id} className="shop-item" onClick={() => setPurchaseItem(item)}>
-                                <td className="shop-item__name">{item.name}</td>
-                                <td className="shop-item__block-type">{item.blockType}</td>
-                                <td className="shop-item__rarity">{item.rarity}</td>
-                                <td className="shop-item__price">${item.price}</td>
+                            <tr key={item.id} className="table-item" onClick={() => setPurchaseItem(item)}>
+                                <td className="table-item__property">{item.name}</td>
+                                <td className="table-item__property">{item.blockType}</td>
+                                <td className="table-item__property">{item.rarity}</td>
+                                <td className="table-item__property">${item.price}</td>
                             </tr>
                         ))}
                     </tbody>

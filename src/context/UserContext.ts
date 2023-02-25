@@ -5,7 +5,7 @@ export type User = {
     id: number
     email: string
     custodialWalletAddress: string
-    selfCustodyWalletAddress: string
+    selfCustodyWalletAddress?: string
 }
 
 type TUserContext = {

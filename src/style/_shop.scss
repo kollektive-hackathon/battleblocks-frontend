@@ -1,4 +1,4 @@
-.shop-item {
+.table-item {
     font-weight: 400;
     line-height: 1;
 
@@ -9,9 +9,6 @@
     }
 }
 
-.shop-item__name,
-.shop-item__block-type,
-.shop-item__rarity,
-.shop-item__price {
+.table-item__property {
     font-size: 15px;
 }
