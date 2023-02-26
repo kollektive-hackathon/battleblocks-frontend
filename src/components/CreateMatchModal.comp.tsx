@@ -20,6 +20,7 @@ export default function CreateMatchModal(props: Props) {
         }
 
         // TODO: send this (stake!.toFixed(2)) to BE once it's deployed
+        // TODO: navigate to /game/:id once id is known
 
         closeModal()
     }, [stake, closeModal])
