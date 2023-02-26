@@ -4,7 +4,6 @@ const ADDRESS = process.env.BATTLE_BLOCKS_ADDRESS
 const KEY_ID = 0
 
 const signingFunction = async (signable: any) => {
-    // TODO: change this endpoint when BE is deployed
     const response = await fetch(`${process.env.API_URL}/cosign`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
