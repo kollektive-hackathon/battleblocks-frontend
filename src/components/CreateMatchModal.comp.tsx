@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { useNotificationContext } from '@/context/NotificationContext'
 
@@ -10,6 +11,7 @@ export default function CreateMatchModal(props: Props) {
     const { closeModal } = props
     const [stake, setStake] = useState<number>()
     const { setNotification } = useNotificationContext()
+    const navigate = useNavigate()
 
     const createMatch = useCallback(() => {
         if (!stake || stake <= 0) {
@@ -20,7 +22,7 @@ export default function CreateMatchModal(props: Props) {
         }
 
         // TODO: send this (stake!.toFixed(2)) to BE once it's deployed
-        // TODO: navigate to /game/:id once id is known
+        navigate('/game/new')
 
         closeModal()
     }, [stake, closeModal])

@@ -18,3 +18,12 @@ export type Game = {
     timeStarted?: number
     winnerId?: number
 }
+
+export type TCell = {
+    coordinates: {
+        x: number
+        y: number
+    }
+    isRevealed: boolean
+    isShip: boolean
+}

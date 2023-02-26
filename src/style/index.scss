@@ -2,6 +2,7 @@
 @use "./loader";
 @use "./home";
 @use "./lobby";
+@use "./game";
 @use "./profile";
 @use "./shop";
 @use "./error";
@@ -51,6 +52,7 @@ a:hover {
 
 .page-container__title {
     display: flex;
+    align-items: center;
     justify-content: space-between;
     margin: 24px 14px;
 
