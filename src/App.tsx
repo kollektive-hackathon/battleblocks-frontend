@@ -31,7 +31,15 @@ export default function App() {
     return (
         <NotificationContext.Provider value={{ notification, setNotification: setNotificationWithTimeout }}>
             <UserContext.Provider value={{ user, setUser }}>
-                {user === undefined ? <Loader /> : user === null ? <Login /> : <Outlet />}
+                <>
+                    {user === undefined ? <Loader /> : user === null ? <Login /> : <Outlet />}
+                    {!!notification && (
+                        <div className="notification">
+                            <div className="notification__title">{notification.title}!&gt;</div>
+                            <div className="notification__description">{notification.description}</div>
+                        </div>
+                    )}
+                </>
             </UserContext.Provider>
         </NotificationContext.Provider>
     )

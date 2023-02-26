@@ -1,11 +1,9 @@
 import { Link, Outlet } from 'react-router-dom'
 
-import { useNotificationContext } from '@/context/NotificationContext'
 import { useUserContext } from '@/context/UserContext'
 
 export default function Home() {
     const { user } = useUserContext()
-    const { notification } = useNotificationContext()
 
     return (
         <div className="home">
@@ -25,12 +23,6 @@ export default function Home() {
                     <div className="footer__user-info__balance">balance: 333.49 usdc</div>
                 </div>
             </div>
-            {!!notification && (
-                <div className="notification">
-                    <div className="notification__title">{notification.title}!&gt;</div>
-                    <div className="notification__description">{notification.description}</div>
-                </div>
-            )}
         </div>
     )
 }
