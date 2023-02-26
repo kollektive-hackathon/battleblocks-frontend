@@ -8,6 +8,7 @@ import Error from '@/pages/Error.page'
 import Game from '@/pages/Game.page'
 import Home from '@/pages/Home.page'
 import Lobby from '@/pages/Lobby.page'
+import NewGame from '@/pages/NewGame.page'
 import Profile from '@/pages/Profile.page'
 import Shop from '@/pages/Shop.page'
 
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
                     {
                         path: 'profile',
                         element: <Profile />
+                    },
+                    {
+                        path: 'game/new',
+                        element: <NewGame />
                     },
                     {
                         path: 'game/:id',
