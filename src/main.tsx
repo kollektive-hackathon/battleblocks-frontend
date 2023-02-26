@@ -10,6 +10,8 @@ import Home from '@/pages/Home.page'
 import Profile from '@/pages/Profile.page'
 import Shop from '@/pages/Shop.page'
 
+import '@/config/flow.config'
+
 import App from './App'
 
 import '@/style/index.scss'

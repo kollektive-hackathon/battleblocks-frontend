@@ -11,6 +11,7 @@
     "stylelintAndFix": "stylelint '**/*.{scss,css}' --fix"
   },
   "dependencies": {
+    "@onflow/fcl": "^0.0.78",
     "@paypal/react-paypal-js": "^7.8.2",
     "@react-oauth/google": "^0.7.0",
     "axios": "^0.27.2",
@@ -19,6 +20,8 @@
     "react-router-dom": "^6.8.1"
   },
   "devDependencies": {
+    "@onflow/types": "^1.0.5",
+    "@rollup/plugin-inject": "^5.0.3",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
