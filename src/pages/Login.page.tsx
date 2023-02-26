@@ -1,104 +1,118 @@
-import { useCallback, useState } from 'react'
-import { TokenResponse, useGoogleLogin } from '@react-oauth/google'
-import axios from 'axios'
+import { useCallback, useState } from 'react';
+import { TokenResponse, useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
 
-import { useNotificationContext } from '@/context/NotificationContext'
-import { useUserContext } from '@/context/UserContext'
+import { useNotificationContext } from '@/context/NotificationContext';
+import { useUserContext } from '@/context/UserContext';
 
 export default function Login() {
-    const { setUser } = useUserContext()
-    const [hasUsername, setHasUsername] = useState(true)
-    const [username, setUsername] = useState('')
-    const { setNotification } = useNotificationContext()
+  const { setUser } = useUserContext();
+  const [hasUsername, setHasUsername] = useState(true);
+  const [username, setUsername] = useState('');
+  const { setNotification } = useNotificationContext();
 
-    const authenticateGoogle = useCallback(
-        // eslint-disable-next-line camelcase
-        async ({ access_token }: TokenResponse) => {
-            // TODO: change endpoint when BE is deployed
-            try {
-                const { data } = await axios.post('/api/auth/google', {
-                    accessToken: access_token
-                })
+  const authenticateGoogle = useCallback(
+    // eslint-disable-next-line camelcase
+    async ({ access_token }: TokenResponse) => {
+      // TODO: change endpoint when BE is deployed
+      try {
+        const { data } = await axios.post(`${process.env.API_URL}/auth/google`, {
+          accessToken: access_token,
+        });
 
-                const { idToken, refreshToken, user } = data
+        console.log(data);
 
-                axios.defaults.headers.common.Authorization = `Bearer ${idToken}`
+        const { idToken, refreshToken, profile } = data;
 
-                localStorage.setItem('battleblocks_authToken', idToken)
+        axios.defaults.headers.common.Authorization = `Bearer ${idToken}`;
 
-                localStorage.setItem('battleblocks_refreshToken', refreshToken)
+        localStorage.setItem('battleblocks_authToken', idToken);
 
-                localStorage.setItem('battleblocks_user', JSON.stringify(user))
+        localStorage.setItem('battleblocks_refreshToken', refreshToken);
 
-                setUser(user)
-            } catch (e) {
-                setNotification({
-                    title: 'google-error',
-                    description: 'something went wrong with google login'
-                })
-            }
-        },
-        [setUser, setNotification]
-    )
+        localStorage.setItem('battleblocks_user', JSON.stringify(profile));
 
-    const login = useGoogleLogin({ onSuccess: authenticateGoogle })
+        setUser(profile);
 
-    const submitUsername = useCallback(() => {
-        // TODO: submit username to BE
-    }, [username])
+        setHasUsername(!!profile);
+      } catch (e) {
+        setNotification({
+          title: 'google-error',
+          description: 'something went wrong with google login',
+        });
 
-    return (
-        <div className="login">
-            <div className="login__content">
-                {hasUsername ? (
-                    <>
-                        <div className="login__title">
-                            battlebl
-                            <div className="white-square" />
-                            cks
-                        </div>
-                        <div className="login__message">continue?with&gt;</div>
-                        <div className="login__container">
-                            <div
-                                className="login__container__app login__container__app--google"
-                                onClick={() => login()}
-                            >
-                                <img src="/icons/google.svg" alt="Google login" />
-                            </div>
-                            <div className="login__container__app login__container__app--twitter">
-                                <img src="/icons/twitter.svg" alt="Twitter login" />
-                            </div>
-                        </div>
-                    </>
-                ) : (
-                    <>
-                        <div className="logo">
-                            battle <br /> bl
-                            <div className="white-square white-square--small" />
-                            cks
-                        </div>
-                        <div className="register">
-                            <div className="register__title">enter?your-username&gt;</div>
-                            <input
-                                type="text"
-                                className="register__input"
-                                onChange={(e) => setUsername(e.target.value)}
-                                onKeyUp={(e) => {
-                                    if (e.key === 'Enter') {
-                                        submitUsername()
-                                    }
-                                }}
-                            />
-                        </div>
-                    </>
-                )}
+        console.error(e);
+      }
+    },
+    [setUser, setNotification]
+  );
+
+  const login = useGoogleLogin({ onSuccess: authenticateGoogle });
+
+  const submitUsername = useCallback(async () => {
+    try {
+      await axios.post(`${process.env.API_URL}/registration`, {
+        username,
+      });
+    } catch (e) {
+      setNotification({
+        title: 'registration-error',
+        description: 'something went wrong while registering',
+      });
+
+      console.error(e);
+    }
+  }, [username]);
+
+  return (
+    <div className="login">
+      <div className="login__content">
+        {hasUsername ? (
+          <>
+            <div className="login__title">
+              battlebl
+              <div className="white-square" />
+              cks
             </div>
-            <div className="login__footer">
-                BATTLEBLOCKS is an open-source decentralized application developed by the team of the same name as part
-                of the FLOW Hackathon 2023, held from February 21st to 26th. The dApp is not affiliated with any other
-                organizations or entities and is provided &quot;as is&quot; without any warranties of any kind, express
-                or implied. Your use of the dApp is entirely at your own risk and under your own discretion.
+            <div className="login__message">continue?with&gt;</div>
+            <div className="login__container">
+              <div className="login__container__app login__container__app--google" onClick={() => login()}>
+                <img src="/icons/google.svg" alt="Google login" />
+              </div>
+              <div className="login__container__app login__container__app--twitter">
+                <img src="/icons/twitter.svg" alt="Twitter login" />
+              </div>
             </div>
-        </div>
-    )
+          </>
+        ) : (
+          <>
+            <div className="logo">
+              battle <br /> bl
+              <div className="white-square white-square--small" />
+              cks
+            </div>
+            <div className="register">
+              <div className="register__title">enter?your-username&gt;</div>
+              <input
+                type="text"
+                className="register__input"
+                onChange={(e) => setUsername(e.target.value)}
+                onKeyUp={(e) => {
+                  if (e.key === 'Enter') {
+                    submitUsername();
+                  }
+                }}
+              />
+            </div>
+          </>
+        )}
+      </div>
+      <div className="login__footer">
+        BATTLEBLOCKS is an open-source decentralized application developed by the team of the same name as part of the
+        FLOW Hackathon 2023, held from February 21st to 26th. The dApp is not affiliated with any other organizations or
+        entities and is provided &quot;as is&quot; without any warranties of any kind, express or implied. Your use of
+        the dApp is entirely at your own risk and under your own discretion.
+      </div>
+    </div>
+  );
 }
