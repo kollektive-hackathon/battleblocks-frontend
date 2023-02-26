@@ -1,5 +1,4 @@
 import * as fcl from '@onflow/fcl'
-import * as process from 'process'
 
 const ADDRESS = process.env.BATTLE_BLOCKS_ADDRESS
 const KEY_ID = 0
