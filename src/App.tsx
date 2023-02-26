@@ -12,7 +12,9 @@ export default function App() {
     const [notification, setNotification] = useState<Notification | null>(null)
 
     useEffect(() => {
-        const storedUser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')!) : null
+        const storedUser = localStorage.getItem('battleblocks_user')
+            ? JSON.parse(localStorage.getItem('battleblocks_user')!)
+            : null
 
         // TODO: check token and log user in if it's valid
         setUser(storedUser)

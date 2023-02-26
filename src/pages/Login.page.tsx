@@ -20,11 +20,11 @@ export default function Login() {
 
                 axios.defaults.headers.common.Authorization = `Bearer ${idToken}`
 
-                localStorage.setItem('authToken', idToken)
+                localStorage.setItem('battleblocks_authToken', idToken)
 
-                localStorage.setItem('refreshToken', refreshToken)
+                localStorage.setItem('battleblocks_refreshToken', refreshToken)
 
-                localStorage.setItem('user', JSON.stringify(user))
+                localStorage.setItem('battleblocks_user', JSON.stringify(user))
 
                 setUser(user)
             } catch (e) {
