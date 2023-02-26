@@ -17,7 +17,7 @@ export default function App() {
             : null
 
         // TODO: check token and log user in if it's valid
-        setUser(storedUser)
+        setUser(storedUser ?? { id: 420 })
     }, [])
 
     const setNotificationWithTimeout = useCallback((newNotification: Notification) => {
