@@ -1,6 +1,7 @@
 import { Link, Outlet } from 'react-router-dom'
 
 import { useUserContext } from '@/context/UserContext'
+import { fetchBalance } from '@/flow/fetchBalance.script'
 
 export default function Home() {
     const { user } = useUserContext()
@@ -20,7 +21,9 @@ export default function Home() {
                 <div className="footer__user-info">
                     <div className="footer__user-info__username">username: {user?.username}</div> /
                     <div className="footer__user-info__ratio">record: 44w - 31l</div> /
-                    <div className="footer__user-info__balance">balance: 333.49 usdc</div>
+                    <div className="footer__user-info__balance">
+                        balance: {fetchBalance(user?.custodialWalletAddress ?? '')}
+                    </div>
                 </div>
             </div>
         </div>

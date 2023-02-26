@@ -56,10 +56,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <React.StrictMode>
-        <GoogleOAuthProvider clientId="80881299977-lsoime6se02ich5l3f9sgenm22c7mcmi.apps.googleusercontent.com">
+        <GoogleOAuthProvider clientId={process.env.GOOGLE_AUTH_CLIENT_ID!}>
             <PayPalScriptProvider
                 options={{
-                    'client-id': 'ARRT0F4SWvvfZcbZuSayEpUxVyC6dam-KsC5qvudmLwlPQ8XPaMXvBzW-0sfreHifBX0TzptZx4cSloi',
+                    'client-id': process.env.PAYPAL_CLIENT_ID!,
                     currency: 'USD'
                 }}
             >

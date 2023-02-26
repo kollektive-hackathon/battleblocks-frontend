@@ -14,13 +14,12 @@ export default function Login() {
     const authenticateGoogle = useCallback(
         // eslint-disable-next-line camelcase
         async ({ access_token }: TokenResponse) => {
-            // TODO: change endpoint when BE is deployed
             try {
-                const { data } = await axios.post('/api/auth/google', {
+                const { data } = await axios.post(`${process.env.API_URL}/auth/google`, {
                     accessToken: access_token
                 })
 
-                const { idToken, refreshToken, user } = data
+                const { idToken, refreshToken, profile } = data
 
                 axios.defaults.headers.common.Authorization = `Bearer ${idToken}`
 
@@ -28,9 +27,11 @@ export default function Login() {
 
                 localStorage.setItem('battleblocks_refreshToken', refreshToken)
 
-                localStorage.setItem('battleblocks_user', JSON.stringify(user))
+                localStorage.setItem('battleblocks_user', JSON.stringify(profile))
 
-                setUser(user)
+                setUser(profile)
+
+                setHasUsername(!!profile)
             } catch (e) {
                 setNotification({
                     title: 'google-error',
@@ -43,8 +44,17 @@ export default function Login() {
 
     const login = useGoogleLogin({ onSuccess: authenticateGoogle })
 
-    const submitUsername = useCallback(() => {
-        // TODO: submit username to BE
+    const submitUsername = useCallback(async () => {
+        try {
+            await axios.post(`${process.env.API_URL}/registration`, {
+                username
+            })
+        } catch (e) {
+            setNotification({
+                title: 'registration-error',
+                description: 'something went wrong while registering'
+            })
+        }
     }, [username])
 
     return (

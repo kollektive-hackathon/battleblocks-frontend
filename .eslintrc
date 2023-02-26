@@ -1,17 +1,6 @@
 {
-  "extends": [
-    "airbnb",
-    "plugin:react/recommended",
-    "prettier"
-  ],
-  "plugins": [
-    "module-resolver",
-    "react",
-    "react-hooks",
-    "import",
-    "prettier",
-    "simple-import-sort"
-  ],
+  "extends": ["airbnb", "plugin:react/recommended", "prettier"],
+  "plugins": ["module-resolver", "react", "react-hooks", "import", "prettier", "simple-import-sort"],
   "env": {
     "browser": true,
     "es2021": true
@@ -28,16 +17,11 @@
     "JSX": true
   },
   "rules": {
-    "curly": [
-      "error",
-      "all"
-    ],
+    "curly": ["error", "all"],
     "no-shadow": [
       "error",
       {
-        "allow": [
-          "props"
-        ]
+        "allow": ["props"]
       }
     ],
     "import/extensions": [
@@ -101,12 +85,7 @@
     "no-underscore-dangle": [
       "error",
       {
-        "allow": [
-          "__REDUX_DEVTOOLS_EXTENSION_COMPOSE__",
-          "_allPostsMeta",
-          "_retry",
-          "_jsenv"
-        ]
+        "allow": ["__REDUX_DEVTOOLS_EXTENSION_COMPOSE__", "_allPostsMeta", "_retry", "_jsenv"]
       }
     ],
     "no-unused-vars": [
@@ -139,29 +118,21 @@
         "ignoreRegExpLiterals": true
       }
     ],
-    "quote-props": [
-      1,
-      "as-needed"
-    ],
+    "quote-props": [1, "as-needed"],
     "no-param-reassign": [
       "error",
       {
         "props": false
       }
     ],
-    "linebreak-style": [
-      "error",
-      "unix"
-    ],
+    "linebreak-style": ["error", "unix"],
     "no-trailing-spaces": [
       "warn",
       {
         "skipBlankLines": true
       }
     ],
-    "no-use-before-define": [
-      "off"
-    ],
+    "no-use-before-define": ["off"],
     "padding-line-between-statements": [
       "error",
       {
@@ -171,27 +142,13 @@
       },
       {
         "blankLine": "always",
-        "prev": [
-          "multiline-const",
-          "multiline-let",
-          "multiline-var",
-          "multiline-expression",
-          "multiline-block-like"
-        ],
+        "prev": ["multiline-const", "multiline-let", "multiline-var", "multiline-expression", "multiline-block-like"],
         "next": "*"
       },
       {
         "blankLine": "always",
-        "prev": [
-          "const",
-          "let",
-          "var",
-          "expression",
-          "multiline-block-like"
-        ],
-        "next": [
-          "export"
-        ]
+        "prev": ["const", "let", "var", "expression", "multiline-block-like"],
+        "next": ["export"]
       },
       {
         "blankLine": "always",
@@ -215,10 +172,7 @@
       },
       {
         "blankLine": "always",
-        "prev": [
-          "case",
-          "default"
-        ],
+        "prev": ["case", "default"],
         "next": "*"
       }
     ],
@@ -229,15 +183,9 @@
         "array": false
       }
     ],
-    "prefer-const": [
-      "error"
-    ],
-    "prefer-rest-params": [
-      "error"
-    ],
-    "prefer-spread": [
-      "off"
-    ],
+    "prefer-const": ["error"],
+    "prefer-rest-params": ["error"],
+    "prefer-spread": ["off"],
     "prettier/prettier": [
       "warn",
       {
@@ -262,17 +210,9 @@
     "jsx-a11y/anchor-is-valid": [
       "error",
       {
-        "components": [
-          "Link"
-        ],
-        "specialLink": [
-          "hrefLeft",
-          "hrefRight"
-        ],
-        "aspects": [
-          "invalidHref",
-          "preferButton"
-        ]
+        "components": ["Link"],
+        "specialLink": ["hrefLeft", "hrefRight"],
+        "aspects": ["invalidHref", "preferButton"]
       }
     ],
     "react/jsx-props-no-spreading": "off",
@@ -280,29 +220,15 @@
     "react/prop-types": [
       "error",
       {
-        "ignore": [
-          "children",
-          "style",
-          "forwardRef",
-          "ref",
-          "classes",
-          "className",
-          "theme"
-        ]
+        "ignore": ["children", "style", "forwardRef", "ref", "classes", "className", "theme"]
       }
     ],
     "react/display-name": "off",
     "react/react-in-jsx-scope": "off",
     "react/jsx-no-comment-textnodes": "off",
     "react/jsx-filename-extension": "off",
-    "react/jsx-indent": [
-      "off",
-      4
-    ],
-    "react/jsx-indent-props": [
-      "off",
-      4
-    ],
+    "react/jsx-indent": ["off", 4],
+    "react/jsx-indent-props": ["off", 4],
     "react/jsx-closing-bracket-location": [
       "warn",
       {
@@ -325,28 +251,12 @@
       "error",
       {
         "groups": [
-          [
-            "^react",
-            "^@?\\w"
-          ],
-          [
-            "^(@|components)(/.*|$)"
-          ],
-          [
-            "^\\u0000"
-          ],
-          [
-            "^\\.\\.(?!/?$)",
-            "^\\.\\./?$"
-          ],
-          [
-            "^\\./(?=.*/)(?!/?$)",
-            "^\\.(?!/?$)",
-            "^\\./?$"
-          ],
-          [
-            "^.+\\.?(css|scss)$"
-          ]
+          ["^react", "^@?\\w"],
+          ["^(@|components)(/.*|$)"],
+          ["^\\u0000"],
+          ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
+          ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
+          ["^.+\\.?(css|scss)$"]
         ]
       }
     ],

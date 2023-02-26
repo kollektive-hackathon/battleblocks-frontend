@@ -2,6 +2,7 @@ const path = require('path')
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const Dotenv = require('dotenv-webpack')
 
 // eslint-disable-next-line import/no-commonjs
 module.exports = {
@@ -53,5 +54,5 @@ module.exports = {
         hot: true,
         historyApiFallback: true
     },
-    plugins: [new NodePolyfillPlugin(), new HtmlWebpackPlugin({ template: 'index.html' })]
+    plugins: [new NodePolyfillPlugin(), new HtmlWebpackPlugin({ template: 'index.html' }), new Dotenv()]
 }
