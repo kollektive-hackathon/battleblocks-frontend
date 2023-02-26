@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { PayPalButtons } from '@paypal/react-paypal-js'
 
 import { useNotificationContext } from '@/context/NotificationContext'
+import { useUserContext } from '@/context/UserContext'
 import { ShopItem } from '@/types/shop'
 
 type Props = {
@@ -12,6 +13,7 @@ export default function PurchaseModal(props: Props) {
     const { item, closeModal } = props
     const [showPaypal, setShowPaypal] = useState(false)
     const { setNotification } = useNotificationContext()
+    const { user } = useUserContext()
 
     return (
         <div className="modal-backdrop" onClick={() => closeModal()}>
@@ -34,7 +36,8 @@ export default function PurchaseModal(props: Props) {
                                             amount: {
                                                 value: item.price.toString()
                                             },
-                                            custom_id: item.id.toString()
+                                            custom_id: item.id.toString(),
+                                            description: user?.custodialWalletAddress
                                         }
                                     ]
                                 })
