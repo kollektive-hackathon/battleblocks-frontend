@@ -1,0 +1,55 @@
+.new-game-stake {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    letter-spacing: 0.1em;
+}
+
+.new-game-stake__title {
+    font-size: 12px;
+}
+
+.new-game-stake__value {
+    font-size: 15px;
+}
+
+.new-game .page-container__content {
+    height: calc(100% - 83px);
+    padding: 0;
+}
+
+.game-board {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: fit-content;
+    margin: 15px 0 0 15px;
+}
+
+.game-board__row {
+    display: flex;
+    gap: 4px;
+}
+
+.game-board__cell {
+    width: 34px;
+    height: 34px;
+
+    background-color: #e5e5e5;
+    cursor: pointer;
+
+    &--hit,
+    &--miss {
+        border: 4px solid #e5e5e5;
+        cursor: not-allowed;
+    }
+
+    &--hit {
+        background-color: red;
+    }
+
+    &--miss {
+        background-color: #9b9b9b;
+    }
+}
