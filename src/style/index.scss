@@ -1,6 +1,7 @@
 @use "./reset";
 @use "./loader";
 @use "./home";
+@use "./lobby";
 @use "./profile";
 @use "./shop";
 @use "./error";
@@ -49,6 +50,8 @@ a:hover {
 }
 
 .page-container__title {
+    display: flex;
+    justify-content: space-between;
     margin: 24px 14px;
 
     color: black;

@@ -17,13 +17,13 @@ export default function PurchaseModal(props: Props) {
 
     return (
         <div className="modal-backdrop" onClick={() => closeModal()}>
-            <div className="purchase-modal" onClick={(e) => e.stopPropagation()}>
-                <div className="purchase-modal__title">
+            <div className="modal" onClick={(e) => e.stopPropagation()}>
+                <div className="modal__title">
                     {item.name} // {item.blockType} // {item.rarity}
                 </div>
-                <div className="purchase-modal__preview">mcdick</div>
-                <div className="purchase-modal__price">total: ${item.price}</div>
-                <div className="purchase-modal__paypal" onClick={() => setShowPaypal(true)}>
+                <div className="modal__preview">mcdick</div>
+                <div className="modal__price">total: ${item.price}</div>
+                <div className="modal__cta" onClick={() => setShowPaypal(true)}>
                     continue with paypal &gt;&gt;
                 </div>
                 {showPaypal && (

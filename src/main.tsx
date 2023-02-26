@@ -7,6 +7,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google'
 import Error from '@/pages/Error.page'
 import Game from '@/pages/Game.page'
 import Home from '@/pages/Home.page'
+import Lobby from '@/pages/Lobby.page'
 import Profile from '@/pages/Profile.page'
 import Shop from '@/pages/Shop.page'
 
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
                 path: '',
                 element: <Home />,
                 children: [
+                    {
+                        path: '/',
+                        element: <Lobby />
+                    },
                     {
                         path: 'shop',
                         element: <Shop />
