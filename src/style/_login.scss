@@ -16,7 +16,6 @@
 .login__title {
     font-weight: 400;
     font-size: 128px;
-    line-height: 128px;
     letter-spacing: 0.1em;
 }
 
@@ -38,7 +37,6 @@
 
     font-weight: 400;
     font-size: 12px;
-    line-height: 12px;
     letter-spacing: 0.1em;
 }
 
@@ -77,8 +75,28 @@
     font-weight: 400;
     font-size: 7px;
     font-family: Heebo, monospace;
-    line-height: 10px;
     letter-spacing: 0.1em;
     text-align: center;
     text-transform: none;
+}
+
+.register {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 450px;
+    margin-top: 64px;
+}
+
+.register__title {
+    font-size: 12px;
+}
+
+.register__input {
+    padding-bottom: 8px;
+
+    font-size: 15px;
+    letter-spacing: 0.1em;
+
+    border-bottom: 4px solid white;
 }

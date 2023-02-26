@@ -1,18 +1,22 @@
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { TokenResponse, useGoogleLogin } from '@react-oauth/google'
 import axios from 'axios'
 
+import { useNotificationContext } from '@/context/NotificationContext'
 import { useUserContext } from '@/context/UserContext'
 
 export default function Login() {
     const { setUser } = useUserContext()
+    const [hasUsername, setHasUsername] = useState(true)
+    const [username, setUsername] = useState('')
+    const { setNotification } = useNotificationContext()
 
     const authenticateGoogle = useCallback(
         // eslint-disable-next-line camelcase
         async ({ access_token }: TokenResponse) => {
             // TODO: change endpoint when BE is deployed
             try {
-                const { data } = await axios.post('http://localhost:8000/battleblocks-api/auth/google', {
+                const { data } = await axios.post('/api/auth/google', {
                     accessToken: access_token
                 })
 
@@ -28,33 +32,66 @@ export default function Login() {
 
                 setUser(user)
             } catch (e) {
-                // TODO: handle this with toast notification
-                // eslint-disable-next-line no-console
-                console.error('Error with Google Auth endpoint')
+                setNotification({
+                    title: 'google-error',
+                    description: 'something went wrong with google login'
+                })
             }
         },
-        [setUser]
+        [setUser, setNotification]
     )
 
     const login = useGoogleLogin({ onSuccess: authenticateGoogle })
 
+    const submitUsername = useCallback(() => {
+        // TODO: submit username to BE
+    }, [username])
+
     return (
         <div className="login">
             <div className="login__content">
-                <div className="login__title">
-                    battlebl
-                    <div className="white-square" />
-                    cks
-                </div>
-                <div className="login__message">continue?with&gt;</div>
-                <div className="login__container">
-                    <div className="login__container__app login__container__app--google" onClick={() => login()}>
-                        <img src="/icons/google.svg" alt="Google login" />
-                    </div>
-                    <div className="login__container__app login__container__app--twitter">
-                        <img src="/icons/twitter.svg" alt="Twitter login" />
-                    </div>
-                </div>
+                {hasUsername ? (
+                    <>
+                        <div className="login__title">
+                            battlebl
+                            <div className="white-square" />
+                            cks
+                        </div>
+                        <div className="login__message">continue?with&gt;</div>
+                        <div className="login__container">
+                            <div
+                                className="login__container__app login__container__app--google"
+                                onClick={() => login()}
+                            >
+                                <img src="/icons/google.svg" alt="Google login" />
+                            </div>
+                            <div className="login__container__app login__container__app--twitter">
+                                <img src="/icons/twitter.svg" alt="Twitter login" />
+                            </div>
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        <div className="logo">
+                            battle <br /> bl
+                            <div className="white-square white-square--small" />
+                            cks
+                        </div>
+                        <div className="register">
+                            <div className="register__title">enter?your-username&gt;</div>
+                            <input
+                                type="text"
+                                className="register__input"
+                                onChange={(e) => setUsername(e.target.value)}
+                                onKeyUp={(e) => {
+                                    if (e.key === 'Enter') {
+                                        submitUsername()
+                                    }
+                                }}
+                            />
+                        </div>
+                    </>
+                )}
             </div>
             <div className="login__footer">
                 BATTLEBLOCKS is an open-source decentralized application developed by the team of the same name as part

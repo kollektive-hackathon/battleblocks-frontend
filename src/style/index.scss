@@ -23,6 +23,7 @@ body {
 
     color: white;
     font-family: modeseven, monospace;
+    line-height: 1;
     text-transform: uppercase;
 
     background-color: black;
@@ -53,7 +54,6 @@ a:hover {
     color: black;
     font-weight: 400;
     font-size: 16px;
-    line-height: 16px;
 }
 
 .page-container__content {
