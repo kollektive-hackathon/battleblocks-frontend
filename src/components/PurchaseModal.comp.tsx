@@ -78,7 +78,7 @@ export default function PurchaseModal(props: Props) {
                                                 value: item.price.toString()
                                             },
                                             custom_id: item.id.toString(),
-                                            description: user?.custodialWalletAddress
+                                            description: user?.id.toString()
                                         }
                                     ]
                                 })
