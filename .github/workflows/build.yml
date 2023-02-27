@@ -46,5 +46,5 @@ jobs:
           cluster_name: cluster-1
           location: europe-central2-a
       - run: |
-          kubectl rollout restart deployment/${{ env.IMAGE_NAME }}-service -n bb
-          kubectl rollout status deployment/${{ env.IMAGE_NAME }}-service -n bb --timeout 60s
+          kubectl rollout restart deployment/${{ env.IMAGE_NAME }} -n bb
+          kubectl rollout status deployment/${{ env.IMAGE_NAME }} -n bb --timeout 60s
