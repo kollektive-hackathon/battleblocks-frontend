@@ -84,10 +84,10 @@ export default function Login() {
                                 className="login__container__app login__container__app--google"
                                 onClick={() => login()}
                             >
-                                <img src="/icons/google.svg" alt="Google login" />
+                                <img src="/public/icons/google.svg" alt="Google login" />
                             </div>
                             <div className="login__container__app login__container__app--twitter">
-                                <img src="/icons/twitter.svg" alt="Twitter login" />
+                                <img src="/public/icons/twitter.svg" alt="Twitter login" />
                             </div>
                         </div>
                     </>
