@@ -4,6 +4,7 @@ import * as fcl from '@onflow/fcl'
 import axios from 'axios'
 
 import Loader from '@/components/Loader.comp'
+import { API_URL } from '@/config/variables'
 import { Notification, NotificationContext } from '@/context/NotificationContext'
 import { useResize } from '@/hooks/useResize.hook'
 import Login from '@/pages/Login.page'
@@ -65,6 +66,8 @@ axios.interceptors.response.use(
         return Promise.reject(err)
     }
 )
+
+axios.defaults.baseURL = API_URL
 
 export default function App() {
     const [user, setUser] = useState<User | null>()

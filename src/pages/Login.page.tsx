@@ -17,7 +17,7 @@ export default function Login() {
         // eslint-disable-next-line camelcase
         async ({ access_token }: TokenResponse) => {
             try {
-                const { data } = await axios.post(`${process.env.API_URL}/auth/google`, {
+                const { data } = await axios.post('/auth/google', {
                     accessToken: access_token
                 })
 
@@ -51,7 +51,7 @@ export default function Login() {
         }
 
         try {
-            const { data } = await axios.post(`${process.env.API_URL}/registration`, {
+            const { data } = await axios.post('/registration', {
                 username
             })
 

@@ -3,7 +3,6 @@ import axios from 'axios'
 
 import Loader from '@/components/Loader.comp'
 import PurchaseModal from '@/components/PurchaseModal.comp'
-import { API_URL } from '@/config/variables'
 import { useNotificationContext } from '@/context/NotificationContext'
 import { ShopItem } from '@/types/shop'
 
@@ -15,7 +14,7 @@ export default function Shop() {
 
     useEffect(() => {
         axios
-            .get(`${API_URL}/shop`)
+            .get('/shop')
             .then((result) => setItems(result.data))
             .catch(() => setNotification({ title: 'shop-error', description: 'error fetching shop items' }))
     }, [])
