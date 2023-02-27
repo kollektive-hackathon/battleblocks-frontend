@@ -19,6 +19,8 @@ export default function CreateMatchModal(props: Props) {
                 title: 'invalid-stake',
                 description: 'stake must be greater than 0'
             })
+
+            return
         }
 
         // TODO: send this (stake!.toFixed(2)) to BE once it's deployed
@@ -31,17 +33,20 @@ export default function CreateMatchModal(props: Props) {
         <div className="modal-backdrop" onClick={() => closeModal()}>
             <div className="modal" onClick={(e) => e.stopPropagation()}>
                 <div className="modal__title">create match</div>
-                <input
-                    type="number"
-                    className="modal__input"
-                    placeholder="stake?amount"
-                    onChange={(event) => setStake(+event.target.value)}
-                    onKeyUp={(e) => {
-                        if (e.key === 'Enter') {
-                            createMatch()
-                        }
-                    }}
-                />
+                <div className="modal__stake">
+                    <input
+                        type="number"
+                        className="modal__input"
+                        placeholder="stake?amount"
+                        onChange={(event) => setStake(+event.target.value)}
+                        onKeyUp={(e) => {
+                            if (e.key === 'Enter') {
+                                createMatch()
+                            }
+                        }}
+                    />
+                    flow
+                </div>
                 <div className="modal__cta" onClick={() => createMatch()}>
                     finish &gt;&gt;
                 </div>
