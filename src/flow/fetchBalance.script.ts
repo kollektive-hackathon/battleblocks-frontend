@@ -17,10 +17,16 @@ pub fun main(account: Address): UFix64 {
 }
 `
 
-export function fetchBalance(address: string) {
+export async function fetchBalance(address: string) {
     if (!address) {
         return 0
     }
 
-    return send([script(CODE), args([arg(address, Address)])]).then(decode)
+    try {
+        const result: number = (await send([script(CODE), args([arg(address, Address)])]).then(decode)) ?? 0
+
+        return result
+    } catch (e) {
+        return 0
+    }
 }

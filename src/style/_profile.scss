@@ -20,3 +20,14 @@
 .profile__wallet-container__connect {
     cursor: pointer;
 }
+
+.logout {
+    cursor: pointer;
+
+    &:hover {
+        color: red;
+
+        /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
+        transition: color 0.3s ease-in-out;
+    }
+}

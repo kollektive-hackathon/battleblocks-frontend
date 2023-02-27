@@ -1,109 +1,47 @@
-import { useState } from 'react'
+import { useCallback } from 'react'
+import axios from 'axios'
 
 import Loader from '@/components/Loader.comp'
 import { useUserContext } from '@/context/UserContext'
 import { cosign } from '@/flow/cosign.tx'
-import { UserProfile } from '@/types/profile'
 
 export default function Profile() {
-    const [userProfile, setUserProfile] = useState<UserProfile>({
-        id: 420,
-        username: 'kojesrao',
-        email: 'filip.stokovic@gmail.com',
-        custodialWalletAddress: '0x494d3d8ed363250b',
-        inventoryBlocks: [
-            {
-                id: 0,
-                name: 'red tube',
-                type: '4x1',
-                rarity: 'epic',
-                active: true
-            },
-            {
-                id: 1,
-                name: 'blue ivy',
-                type: '2x2',
-                rarity: 'rare',
-                active: false
-            },
-            {
-                id: 2,
-                name: 'red tube',
-                type: '4x1',
-                rarity: 'epic',
-                active: true
-            },
-            {
-                id: 3,
-                name: 'blue ivy',
-                type: '2x2',
-                rarity: 'rare',
-                active: true
-            },
-            {
-                id: 4,
-                name: 'blue ivy',
-                type: '2x2',
-                rarity: 'rare',
-                active: false
-            },
-            {
-                id: 5,
-                name: 'red tube',
-                type: '4x1',
-                rarity: 'epic',
-                active: true
-            },
-            {
-                id: 6,
-                name: 'blue ivy',
-                type: '2x2',
-                rarity: 'rare',
-                active: true
-            },
-            {
-                id: 7,
-                name: 'blue ivy',
-                type: '2x2',
-                rarity: 'rare',
-                active: false
-            },
-            {
-                id: 8,
-                name: 'red tube',
-                type: '4x1',
-                rarity: 'epic',
-                active: true
-            },
-            {
-                id: 9,
-                name: 'blue ivy',
-                type: '2x2',
-                rarity: 'rare',
-                active: true
-            }
-        ]
-    })
+    const { bloctoUser, setUser, user } = useUserContext()
 
-    const { bloctoUser } = useUserContext()
+    const logout = useCallback(() => {
+        setUser(null)
+
+        delete axios.defaults.headers.common.Authorization
+
+        localStorage.removeItem('battleblocks_authToken')
+
+        localStorage.removeItem('battleblocks_refreshToken')
+
+        localStorage.removeItem('battleblocks_user')
+    }, [])
 
     return (
         <div className="profile page-container">
-            {userProfile ? (
+            {user ? (
                 <>
-                    <div className="page-container__title">profile // {userProfile.username}</div>
+                    <div className="page-container__title">
+                        <div className="page-container__title__value">profile // {user.username}</div>
+                        <div className="logout" onClick={() => logout()}>
+                            logout //
+                        </div>
+                    </div>
                     <div className="page-container__content">
                         <div className="profile__wallet-container">
                             <div className="profile__wallet-container__battleblocks">
-                                battleblocks-wallet: {userProfile.custodialWalletAddress}
+                                battleblocks-wallet:{' '}
+                                <span className="wallet-container__address">{user.custodialWalletAddress}</span>
                             </div>
-                            {userProfile.selfCustodyWalletAddress ? (
-                                <div className="profile__wallet-container__custodial">
-                                    wallet: {userProfile.selfCustodyWalletAddress}
-                                </div>
-                            ) : bloctoUser?.addr ? (
+                            {user.selfCustodyWalletAddress || bloctoUser?.addr ? (
                                 <div className="profile__wallet-container__connected">
-                                    personal-wallet: {bloctoUser.addr}
+                                    personal-wallet:{' '}
+                                    <span className="wallet-container__address">
+                                        {user.selfCustodyWalletAddress ?? bloctoUser?.addr}
+                                    </span>
                                 </div>
                             ) : (
                                 <div className="profile__wallet-container__connect" onClick={() => cosign()}>
@@ -121,7 +59,7 @@ export default function Profile() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {userProfile.inventoryBlocks.map((block) => (
+                                {user.inventoryBlocks.map((block) => (
                                     <tr
                                         key={block.id}
                                         className={`table-item${!block.active ? ' table-item--deactivated' : ''}`}

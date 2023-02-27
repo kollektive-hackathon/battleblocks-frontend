@@ -6,8 +6,9 @@ import { useNotificationContext } from '@/context/NotificationContext'
 import { useUserContext } from '@/context/UserContext'
 
 export default function Login() {
-    const { setUser, user } = useUserContext()
-    const [hasUsername, setHasUsername] = useState(true)
+    const { setUser } = useUserContext()
+    // default has to be true because of conditions in rendering, will be set to false if user isn't registered
+    const [isRegistered, setIsRegistered] = useState(true)
     const [username, setUsername] = useState('')
     const { setNotification } = useNotificationContext()
 
@@ -27,11 +28,13 @@ export default function Login() {
 
                 localStorage.setItem('battleblocks_refreshToken', refreshToken)
 
-                localStorage.setItem('battleblocks_user', JSON.stringify(profile))
+                if (profile) {
+                    localStorage.setItem('battleblocks_user', JSON.stringify(profile))
+                }
 
-                setUser(profile)
+                setUser(profile ?? null)
 
-                setHasUsername(!!profile)
+                setIsRegistered(!!profile)
             } catch (e) {
                 setNotification({
                     title: 'google-error',
@@ -55,9 +58,13 @@ export default function Login() {
         }
 
         try {
-            await axios.post(`${process.env.API_URL}/registration`, {
+            const { data } = await axios.post(`${process.env.API_URL}/registration`, {
                 username
             })
+
+            setUser(data)
+
+            localStorage.setItem('battleblocks_user', JSON.stringify(data))
         } catch (e) {
             setNotification({
                 title: 'registration-error',
@@ -69,7 +76,7 @@ export default function Login() {
     return (
         <div className="login">
             <div className="login__content">
-                {user ? (
+                {isRegistered ? (
                     <>
                         <div className="login__title">
                             battlebl
