@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Outlet } from 'react-router-dom'
+import * as fcl from '@onflow/fcl'
 
 import Loader from '@/components/Loader.comp'
 import { Notification, NotificationContext } from '@/context/NotificationContext'
@@ -9,6 +10,7 @@ import { User, UserContext } from './context/UserContext'
 
 export default function App() {
     const [user, setUser] = useState<User | null>()
+    const [bloctoUser, setBloctoUser] = useState()
     const [notification, setNotification] = useState<Notification | null>(null)
 
     useEffect(() => {
@@ -18,6 +20,8 @@ export default function App() {
 
         // TODO: check token and log user in if it's valid
         setUser(storedUser)
+
+        fcl.currentUser.subscribe(setBloctoUser)
     }, [])
 
     const setNotificationWithTimeout = useCallback((newNotification: Notification) => {
@@ -30,7 +34,7 @@ export default function App() {
 
     return (
         <NotificationContext.Provider value={{ notification, setNotification: setNotificationWithTimeout }}>
-            <UserContext.Provider value={{ user, setUser }}>
+            <UserContext.Provider value={{ user, setUser, bloctoUser }}>
                 <>
                     {user === undefined ? <Loader /> : user === null ? <Login /> : <Outlet />}
                     {!!notification && (
