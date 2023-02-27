@@ -65,7 +65,7 @@ a:hover {
     width: 100%;
     height: calc(100% - 64px);
     padding: 0 8px;
-    overflow: scroll;
+    overflow-y: scroll;
 
     background-color: black;
 }

@@ -2,35 +2,15 @@ import { useState } from 'react'
 
 import Cell from '@/components/Cell.comp'
 import { TCell } from '@/types/game'
-
-const emptyBoard: TCell[][] = []
-
-for (let x = 0; x < 10; x += 1) {
-    emptyBoard.push([])
-
-    for (let y = 0; y < 10; y += 1) {
-        emptyBoard[x].push({
-            coordinates: {
-                x,
-                y
-            },
-            isRevealed: false,
-            isShip: false
-        })
-    }
-}
+import { EMPTY_BOARD } from '@/utils/game'
 
 export default function NewGame() {
-    const [game] = useState<TCell[][]>(emptyBoard)
+    const [game] = useState<TCell[][]>(EMPTY_BOARD)
 
     return (
         <div className="new-game page-container">
             <div className="page-container__title">
                 <div className="page-container__title__value">you vs ???</div>
-                <div className="new-game-stake">
-                    <div className="new-game-stake__title">prize?amount&gt;</div>
-                    <div className="new-game-stake__value">$69</div>
-                </div>
             </div>
             <div className="page-container__content">
                 <div className="game-board">
@@ -41,11 +21,14 @@ export default function NewGame() {
                                     key={`${boardCell.coordinates.x}${boardCell.coordinates.y}`}
                                     isRevealedDefault={boardCell.isRevealed}
                                     isShipDefault={boardCell.isShip}
+                                    myBoard
                                 />
                             ))}
                         </div>
                     ))}
                 </div>
+                <div className="delimiter" />
+                <div className="game-board">waiting for opponent...</div>
             </div>
         </div>
     )
