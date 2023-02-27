@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { PayPalScriptProvider } from '@paypal/react-paypal-js'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 
+import { GOOGLE_AUTH_CLIENT_ID, PAYPAL_CLIENT_ID } from '@/config/variables'
 import Error from '@/pages/Error.page'
 import Game from '@/pages/Game.page'
 import Home from '@/pages/Home.page'
@@ -56,10 +57,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <React.StrictMode>
-        <GoogleOAuthProvider clientId={process.env.GOOGLE_AUTH_CLIENT_ID!}>
+        <GoogleOAuthProvider clientId={GOOGLE_AUTH_CLIENT_ID}>
             <PayPalScriptProvider
                 options={{
-                    'client-id': process.env.PAYPAL_CLIENT_ID!,
+                    'client-id': PAYPAL_CLIENT_ID,
                     currency: 'USD'
                 }}
             >

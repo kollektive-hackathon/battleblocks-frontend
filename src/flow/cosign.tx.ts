@@ -1,10 +1,12 @@
 import * as fcl from '@onflow/fcl'
 
-const ADDRESS = process.env.BATTLE_BLOCKS_ADDRESS
+import { API_URL, BATTLE_BLOCKS_ADDRESS } from '@/config/variables'
+
+const ADDRESS = BATTLE_BLOCKS_ADDRESS
 const KEY_ID = 0
 
 const signingFunction = async (signable: any) => {
-    const response = await fetch(`${process.env.API_URL}/cosign`, {
+    const response = await fetch(`${API_URL}/cosign`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ method: 'purchase_tokens', payload: signable })
