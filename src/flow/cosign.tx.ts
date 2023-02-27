@@ -1,38 +1,34 @@
-import * as fcl from '@onflow/fcl'
+import * as fcl from '@onflow/fcl';
+import axios from 'axios';
 
-import { API_URL, BATTLE_BLOCKS_ADDRESS } from '@/config/variables'
+import { API_URL, BATTLE_BLOCKS_ADDRESS } from '@/config/variables';
 
-const ADDRESS = BATTLE_BLOCKS_ADDRESS
-const KEY_ID = 0
-
+const ADDRESS = BATTLE_BLOCKS_ADDRESS;
+const KEY_ID = 0;
 const signingFunction = async (signable: any) => {
-    const response = await fetch(`${API_URL}/cosign`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ method: 'purchase_tokens', payload: signable })
-    })
+  const response = await axios.post(`${API_URL}/cosign`, { payload: signable });
 
-    const signature = Buffer.from(await response.json(), 'base64').toString('hex')
+  const signature = Buffer.from(await response.json(), 'base64').toString('hex');
 
-    return {
-        addr: fcl.withPrefix(ADDRESS),
-        keyId: KEY_ID,
-        signature
-    }
-}
+  return {
+    addr: fcl.withPrefix(ADDRESS),
+    keyId: KEY_ID,
+    signature,
+  };
+};
 
 const serverAuthorization = (account: any) => ({
-    ...account,
-    tempId: `${ADDRESS}-${KEY_ID}`,
-    addr: fcl.sansPrefix(ADDRESS),
-    keyId: KEY_ID,
-    signingFunction
-})
+  ...account,
+  tempId: `${ADDRESS}-${KEY_ID}`,
+  addr: fcl.sansPrefix(ADDRESS),
+  keyId: KEY_ID,
+  signingFunction,
+});
 
 export const cosign = () =>
-    fcl
-        .send([
-            fcl.transaction`
+  fcl
+    .send([
+      fcl.transaction`
             import BattleBlocksAccounts from 0xBATTLE_BLOCKS_ADDRESS
             import BattleBlocksNFT from 0xBATTLE_BLOCKS_ADDRESS
             import FungibleToken from 0xFUNGIBLE_TOKEN_ADDRESS
@@ -127,9 +123,9 @@ export const cosign = () =>
                 }
             }
             `,
-            fcl.payer(serverAuthorization),
-            fcl.proposer(fcl.authz),
-            fcl.authorizations([fcl.authz, serverAuthorization]),
-            fcl.limit(9999)
-        ])
-        .then(fcl.decode)
+      fcl.payer(serverAuthorization),
+      fcl.proposer(fcl.authz),
+      fcl.authorizations([fcl.authz, serverAuthorization]),
+      fcl.limit(9999),
+    ])
+    .then(fcl.decode);
