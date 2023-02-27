@@ -27,3 +27,9 @@ export type TCell = {
     isRevealed: boolean
     isShip: boolean
 }
+
+export type GameList = {
+    games: Game[]
+    nextPageToken: number
+    gameCount: number
+}

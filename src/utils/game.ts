@@ -1,6 +1,7 @@
 import { TCell } from '@/types/game'
 
 const EMPTY_BOARD: TCell[][] = []
+const PAGE_SIZE = 8
 
 for (let x = 0; x < 10; x += 1) {
     EMPTY_BOARD.push([])
@@ -17,4 +18,4 @@ for (let x = 0; x < 10; x += 1) {
     }
 }
 
-export { EMPTY_BOARD }
+export { EMPTY_BOARD, PAGE_SIZE }

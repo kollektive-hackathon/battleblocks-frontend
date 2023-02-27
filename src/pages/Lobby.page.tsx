@@ -1,44 +1,44 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import axios from 'axios'
 import { DateTime } from 'luxon'
 
 import CreateMatchModal from '@/components/CreateMatchModal.comp'
+import Loader from '@/components/Loader.comp'
+import { useNotificationContext } from '@/context/NotificationContext'
 import { useUserContext } from '@/context/UserContext'
-import { Game } from '@/types/game'
+import { GameList } from '@/types/game'
+import { PAGE_SIZE } from '@/utils/game'
 
 export default function Lobby() {
-    const { user } = useUserContext()
-    const [games, setGames] = useState<Game[]>([
-        {
-            id: 0,
-            ownerId: 36,
-            ownerUsername: 'kojesrao',
-            stake: 50,
-            timeCreated: 1677437547000
-        },
-        {
-            id: 1,
-            ownerId: 69,
-            ownerUsername: 'toma',
-            stake: 33,
-            timeCreated: 1677437547000
-        },
-        {
-            id: 2,
-            ownerId: 11,
-            ownerUsername: 'lovro',
-            stake: 51,
-            timeCreated: 1677437547000
-        },
-        {
-            id: 3,
-            ownerId: 69,
-            ownerUsername: 'toma',
-            stake: 420,
-            timeCreated: 1677437547000
-        }
-    ])
-
+    const [gamesList, setGamesList] = useState<GameList>()
     const [showCreateModal, setShowCreateModal] = useState(false)
+
+    const { user } = useUserContext()
+    const { setNotification } = useNotificationContext()
+
+    useEffect(() => {
+        fetchGames()
+    }, [])
+
+    const fetchGames = useCallback(() => {
+        axios
+            .get(`/game?page_size=${PAGE_SIZE}&page_token=${gamesList?.nextPageToken ?? 0}`)
+            .then((result) => {
+                const { items: games, nextPageToken, itemCount: gameCount } = result.data
+
+                setGamesList((prevState) => ({
+                    games: prevState?.games ? [...prevState.games, ...games] : games,
+                    nextPageToken,
+                    gameCount
+                }))
+            })
+            .catch(() => {
+                setNotification({
+                    title: 'lobby-error',
+                    description: 'something went wrong when fetching games'
+                })
+            })
+    }, [gamesList, setGamesList, setNotification])
 
     return (
         <div className="lobby page-container">
@@ -59,25 +59,44 @@ export default function Lobby() {
                         </tr>
                     </thead>
                     <tbody>
-                        {games.map((game) => (
-                            <tr key={game.id} className="table-item">
-                                <td className="table-item__property">
-                                    {game.challengerId
-                                        ? 'battling //'
-                                        : game.ownerId === user?.id
-                                        ? 'waiting //'
-                                        : 'join >>'}
+                        {gamesList?.games ? (
+                            <>
+                                {gamesList.games.map((game) => (
+                                    <tr key={game.id} className="table-item">
+                                        <td className="table-item__property">
+                                            {game.challengerId
+                                                ? 'battling //'
+                                                : game.ownerId === user?.id
+                                                ? 'waiting //'
+                                                : 'join >>'}
+                                        </td>
+                                        <td className="table-item__property">
+                                            {game.ownerId === user?.id ? 'you' : game.ownerUsername} vs{' '}
+                                            {game.challengerUsername ?? '???'}
+                                        </td>
+                                        <td className="table-item__property">
+                                            {DateTime.fromMillis(game.timeCreated).toFormat('HH:mm dd/LL/yyyy')}
+                                        </td>
+                                        <td className="table-item__property">{game.stake} flow</td>
+                                    </tr>
+                                ))}
+                                {gamesList?.nextPageToken && (
+                                    <tr className="load-more__row">
+                                        <td className="load-more__cell">
+                                            <div className="load-more" onClick={() => fetchGames()}>
+                                                load more
+                                            </div>
+                                        </td>
+                                    </tr>
+                                )}
+                            </>
+                        ) : (
+                            <tr>
+                                <td style={{ backgroundColor: 'black' }}>
+                                    <Loader />
                                 </td>
-                                <td className="table-item__property">
-                                    {game.ownerId === user?.id ? 'you' : game.ownerUsername} vs{' '}
-                                    {game.challengerUsername ?? '???'}
-                                </td>
-                                <td className="table-item__property">
-                                    {DateTime.fromMillis(game.timeCreated).toFormat('HH:mm dd/LL/yyyy')}
-                                </td>
-                                <td className="table-item__property">{game.stake} flow</td>
                             </tr>
-                        ))}
+                        )}
                     </tbody>
                 </table>
             </div>
