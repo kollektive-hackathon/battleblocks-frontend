@@ -33,7 +33,7 @@ export default function Home() {
                     <div className="footer__user-info__username">username: {user?.username}</div> /
                     <div className="footer__user-info__ratio">record: 44w - 31l</div> /
                     <div className="footer__user-info__balance">
-                        balance: {!balance ? 0.0 : (+balance)?.toFixed(2)} FLOW
+                        balance: {!balance ? (0).toFixed(2) : (+balance)?.toFixed(2)} FLOW
                     </div>
                 </div>
             </div>
