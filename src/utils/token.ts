@@ -9,7 +9,7 @@ export const getLocalIdToken = () => window.localStorage.getItem('battleblocks_a
 export const getRefreshedToken = async () => {
     const refreshToken = getLocalRefreshToken()
     if (refreshToken) {
-        return (await axios.post('/refresh', { refreshToken })).data
+        return (await axios.post('/auth/refresh', { refreshToken })).data
     }
 
     return null
