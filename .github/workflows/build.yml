@@ -11,6 +11,8 @@ concurrency:
   cancel-in-progress: true
 
 env:
+  PROJECT: flow-battleblocks
+  REGISTRY: europe-central2-docker.pkg.dev
   IMAGE_NAME: battleblocks-frontend
 
 jobs:
@@ -19,7 +21,7 @@ jobs:
     outputs:
       digest: ${{ steps.build-and-push.outputs.digest }}
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v3
       - id: auth
@@ -39,4 +41,14 @@ jobs:
         with:
           push: true
           tags: |
-            europe-central2-docker.pkg.dev/flow-battleblocks/docker/${{ env.IMAGE_NAME }}:latest
+            ${{ env.REGISTRY }}/${{ env.PROJECT }}/docker/${{ env.IMAGE_NAME }}:latest
+      - uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: ${{ env.PROJECT }}
+      - uses: google-github-actions/get-gke-credentials@v1
+        with:
+          cluster_name: cluster-1
+          location: europe-central2-a
+      - run: |
+          kubectl rollout restart deployment/${{ env.IMAGE_NAME }}-service -n bb
+          kubectl rollout status deployment/${{ env.IMAGE_NAME }}-service -n bb --timeout 60s
