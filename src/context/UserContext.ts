@@ -8,9 +8,15 @@ export type User = {
     selfCustodyWalletAddress?: string
 }
 
+export type BloctoUser = {
+    addr: string | null
+    isLoggedIn: boolean | null
+}
+
 type TUserContext = {
     user?: User | null
     setUser: (user: User) => void
+    bloctoUser?: BloctoUser
 }
 
 export const UserContext = createContext<TUserContext>({

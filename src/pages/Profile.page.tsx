@@ -1,6 +1,8 @@
 import { useState } from 'react'
 
 import Loader from '@/components/Loader.comp'
+import { useUserContext } from '@/context/UserContext'
+import { cosign } from '@/flow/cosign.tx'
 import { UserProfile } from '@/types/profile'
 
 export default function Profile() {
@@ -83,6 +85,8 @@ export default function Profile() {
         ]
     })
 
+    const { bloctoUser } = useUserContext()
+
     return (
         <div className="profile page-container">
             {userProfile ? (
@@ -97,8 +101,12 @@ export default function Profile() {
                                 <div className="profile__wallet-container__custodial">
                                     wallet: {userProfile.selfCustodyWalletAddress}
                                 </div>
+                            ) : bloctoUser?.addr ? (
+                                <div className="profile__wallet-container__connected">
+                                    personal-wallet: {bloctoUser.addr}
+                                </div>
                             ) : (
-                                <div className="profile__wallet-container__connect">
+                                <div className="profile__wallet-container__connect" onClick={() => cosign()}>
                                     personal-wallet?connect &gt;&gt;
                                 </div>
                             )}
