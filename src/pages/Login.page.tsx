@@ -2,11 +2,9 @@ import { useCallback, useState } from 'react'
 import { TokenResponse, useGoogleLogin } from '@react-oauth/google'
 import axios from 'axios'
 
-import { API_URL } from '@/config/variables'
 import { useNotificationContext } from '@/context/NotificationContext'
 import { useUserContext } from '@/context/UserContext'
-// import { RarityEnum } from '@/types/shop'
-import { persistTokenAndUser } from '@/utils/login'
+import { persistTokenAndUser } from '@/utils/token'
 
 export default function Login() {
     const { setUser } = useUserContext()

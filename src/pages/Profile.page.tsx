@@ -3,7 +3,7 @@ import { useCallback } from 'react'
 import Loader from '@/components/Loader.comp'
 import { useUserContext } from '@/context/UserContext'
 import { cosign } from '@/flow/cosign.tx'
-import { removeTokenAndUser } from '@/utils/login'
+import { removeTokenAndUser } from '@/utils/token'
 
 export default function Profile() {
     const { bloctoUser, setUser, user } = useUserContext()
