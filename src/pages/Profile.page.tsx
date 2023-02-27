@@ -1,17 +1,32 @@
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
+import axios from 'axios'
 
 import Loader from '@/components/Loader.comp'
+import { useNotificationContext } from '@/context/NotificationContext'
 import { useUserContext } from '@/context/UserContext'
 import { cosign } from '@/flow/cosign.tx'
 import { removeTokenAndUser } from '@/utils/token'
 
 export default function Profile() {
     const { bloctoUser, setUser, user } = useUserContext()
+    const { setNotification } = useNotificationContext()
 
     const logout = useCallback(() => {
         setUser(null)
 
         removeTokenAndUser()
+    }, [])
+
+    useEffect(() => {
+        axios
+            .get('/profile')
+            .then((result) => setUser(result.data))
+            .catch(() =>
+                setNotification({
+                    title: 'profile-error',
+                    description: 'error fetching profile'
+                })
+            )
     }, [])
 
     return user ? (
