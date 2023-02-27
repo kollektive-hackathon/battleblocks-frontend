@@ -16,8 +16,8 @@ env:
   IMAGE_NAME: battleblocks-frontend
 
 jobs:
-  docker-build:
-    name: Docker Build
+  build-and-deploy:
+    name: Build & Deploy
     outputs:
       digest: ${{ steps.build-and-push.outputs.digest }}
     runs-on: ubuntu-latest
