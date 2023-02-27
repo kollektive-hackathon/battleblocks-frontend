@@ -44,6 +44,7 @@ export default function CreateMatchModal(props: Props) {
                                 createMatch()
                             }
                         }}
+                        autoFocus
                     />
                     flow
                 </div>
