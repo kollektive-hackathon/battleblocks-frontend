@@ -8,6 +8,6 @@ export const FLOW_ACCESS_NODE = process.env.FLOW_ACCESS_NODE ?? 'https://access-
 export const FLOW_DISCOVERY_WALLET =
     process.env.FLOW_DISCOVERY_WALLET ?? 'https://flow-wallet-testnet.blocto.app/api/flow/authn'
 export const FLOW_TOKEN_ADDRESS = process.env.FLOW_TOKEN_ADDRESS ?? '0x7e60df042a9c0868'
-export const FUNGIBLE_TOKEN_ADDRESS = process.env.FUNGIBLE_TOKEN_ADDRESS ?? '0x9a0766d93b6608b'
+export const FUNGIBLE_TOKEN_ADDRESS = process.env.FUNGIBLE_TOKEN_ADDRESS ?? '0x9a0766d93b6608b7'
 export const NON_FUNGIBLE_TOKEN_ADDRESS = process.env.NON_FUNGIBLE_TOKEN_ADDRESS ?? '0x631e88ae7f1d7c20'
 export const BATTLE_BLOCKS_ADDRESS = process.env.BATTLE_BLOCKS_ADDRESS ?? '0xf95724cf2202cd00'
