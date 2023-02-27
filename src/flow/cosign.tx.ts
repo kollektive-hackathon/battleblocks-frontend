@@ -4,7 +4,8 @@ import axios from 'axios'
 const KEY_ID = 0
 
 const signingFunction = async (signable: any, battleBlocksWallet: string) => {
-    const { data } = await axios.post(`/cosign`, { payload: signable })
+    // TODO: catch possible error
+    const { data } = await axios.post('/cosign', { payload: signable })
 
     const signature = Buffer.from(data, 'base64').toString('hex')
 
