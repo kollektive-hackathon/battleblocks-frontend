@@ -26,7 +26,7 @@ export default function PurchaseModal(props: Props) {
             item.blockType.length
         )
 
-        return [a, b]
+        return [a.split(''), b.split('')]
     }, [item.blockType])
 
     return (
@@ -38,22 +38,27 @@ export default function PurchaseModal(props: Props) {
                 <div className="modal__preview">
                     {[...Array(2).keys()].map(
                         (numero) =>
-                            (numero === 0 ? aLocations : bLocations).indexOf((numero + 1).toString()) !== -1 && (
+                            (numero === 0 ? aLocations : bLocations).includes((numero + 1).toString()) && (
                                 <div key={numero} className="modal__preview__row">
-                                    {[...Array(4).keys()].map((num) => (
-                                        <div
-                                            key={num}
-                                            className="modal__preview__cell"
-                                            style={{
-                                                backgroundColor:
-                                                    (numero === 0 ? aLocations : bLocations).indexOf(
-                                                        (num + 1).toString()
-                                                    ) !== -1
-                                                        ? item.colorHex
-                                                        : '#d9d9d9'
-                                            }}
-                                        />
-                                    ))}
+                                    {[...Array(4).keys()].map(
+                                        (num) =>
+                                            (numero === 0 ? aLocations : bLocations).some(
+                                                (number: string) => number >= (num + 1).toString()
+                                            ) && (
+                                                <div
+                                                    key={num}
+                                                    className="modal__preview__cell"
+                                                    style={{
+                                                        backgroundColor: (numero === 0
+                                                            ? aLocations
+                                                            : bLocations
+                                                        ).includes((num + 1).toString())
+                                                            ? item.colorHex
+                                                            : '#d9d9d9'
+                                                    }}
+                                                />
+                                            )
+                                    )}
                                 </div>
                             )
                     )}
