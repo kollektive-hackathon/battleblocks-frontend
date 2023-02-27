@@ -6,7 +6,7 @@ import { API_URL, BATTLE_BLOCKS_ADDRESS } from '@/config/variables';
 const ADDRESS = BATTLE_BLOCKS_ADDRESS;
 const KEY_ID = 0;
 const signingFunction = async (signable: any) => {
-  const response = await axios.post(`${API_URL}/cosign`, { payload: signable });
+  const response = await axios.post(`/cosign`, { payload: signable });
 
   const signature = Buffer.from(await response.json(), 'base64').toString('hex');
 
