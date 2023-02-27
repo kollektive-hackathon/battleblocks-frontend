@@ -1,4 +1,4 @@
-export const API_URL = process.env.API_URL ?? 'http://35.227.207.100/api'
+export const API_URL = process.env.API_URL ?? 'https://battleblocks.lol/api'
 
 export const GOOGLE_AUTH_CLIENT_ID =
     process.env.GOOGLE_AUTH_CLIENT_ID ?? '80881299977-lsoime6se02ich5l3f9sgenm22c7mcmi.apps.googleusercontent.com'
