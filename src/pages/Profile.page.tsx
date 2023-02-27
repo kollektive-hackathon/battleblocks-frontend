@@ -17,6 +17,18 @@ export default function Profile() {
         removeTokenAndUser()
     }, [])
 
+    const copyToClipboard = useCallback(
+        (address: string) => {
+            navigator.clipboard.writeText(address).then(() => {
+                setNotification({
+                    title: 'wallet-address',
+                    description: 'successfully copied to clipboard'
+                })
+            })
+        },
+        [setNotification]
+    )
+
     useEffect(() => {
         axios
             .get('/profile')
@@ -41,12 +53,26 @@ export default function Profile() {
                 <div className="profile__wallet-container">
                     <div className="profile__wallet-container__battleblocks">
                         battleblocks-wallet:{' '}
-                        <span className="wallet-container__address">{user.custodialWalletAddress}</span>
+                        <span
+                            className="wallet-container__address"
+                            onClick={() => copyToClipboard(user.custodialWalletAddress)}
+                        >
+                            {user.custodialWalletAddress}
+                        </span>
                     </div>
                     {user.selfCustodyWalletAddress || bloctoUser?.addr ? (
                         <div className="profile__wallet-container__connected">
                             personal-wallet:{' '}
-                            <span className="wallet-container__address">
+                            <span
+                                className="wallet-container__address"
+                                onClick={
+                                    () =>
+                                        user.selfCustodyWalletAddress ||
+                                        (bloctoUser?.addr &&
+                                            copyToClipboard(user.selfCustodyWalletAddress || bloctoUser?.addr))
+                                    // eslint-disable-next-line react/jsx-curly-newline
+                                }
+                            >
                                 {user.selfCustodyWalletAddress || bloctoUser?.addr}
                             </span>
                         </div>
