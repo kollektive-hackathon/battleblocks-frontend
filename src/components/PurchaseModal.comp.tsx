@@ -15,10 +15,18 @@ export default function PurchaseModal(props: Props) {
     const { setNotification } = useNotificationContext()
     const { user } = useUserContext()
 
-    const [width, height] = useMemo(() => {
-        const [x, y] = item.blockType.split('x')
+    const [aLocations, bLocations] = useMemo(() => {
+        const a = item.blockType.substring(
+            1,
+            item.blockType.indexOf('b') === -1 ? item.blockType.length : item.blockType.indexOf('b')
+        )
 
-        return [+x, +y]
+        const b = item.blockType.substring(
+            item.blockType.indexOf('b') === -1 ? item.blockType.length : item.blockType.indexOf('b') + 1,
+            item.blockType.length
+        )
+
+        return [a, b]
     }, [item.blockType])
 
     return (
@@ -28,17 +36,27 @@ export default function PurchaseModal(props: Props) {
                     {item.name} // {item.blockType} // {item.rarity}
                 </div>
                 <div className="modal__preview">
-                    {[...Array(height).keys()].map((numero) => (
-                        <div key={numero} className="modal__preview__row">
-                            {[...Array(width).keys()].map((num) => (
-                                <div
-                                    key={num}
-                                    className="modal__preview__cell"
-                                    style={{ backgroundColor: item.colorHex }}
-                                />
-                            ))}
-                        </div>
-                    ))}
+                    {[...Array(2).keys()].map(
+                        (numero) =>
+                            (numero === 0 ? aLocations : bLocations).indexOf((numero + 1).toString()) !== -1 && (
+                                <div key={numero} className="modal__preview__row">
+                                    {[...Array(4).keys()].map((num) => (
+                                        <div
+                                            key={num}
+                                            className="modal__preview__cell"
+                                            style={{
+                                                backgroundColor:
+                                                    (numero === 0 ? aLocations : bLocations).indexOf(
+                                                        (num + 1).toString()
+                                                    ) !== -1
+                                                        ? item.colorHex
+                                                        : '#d9d9d9'
+                                            }}
+                                        />
+                                    ))}
+                                </div>
+                            )
+                    )}
                 </div>
                 <div className="modal__price">total: ${item.price}</div>
                 <div className="modal__cta" onClick={() => setShowPaypal(true)}>
