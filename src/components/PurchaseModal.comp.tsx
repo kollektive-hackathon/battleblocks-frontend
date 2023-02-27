@@ -28,9 +28,9 @@ export default function PurchaseModal(props: Props) {
                     {item.name} // {item.blockType} // {item.rarity}
                 </div>
                 <div className="modal__preview">
-                    {[...Array(height)].map((numero) => (
+                    {[...Array(height).keys()].map((numero) => (
                         <div key={numero} className="modal__preview__row">
-                            {[...Array(width)].map((num) => (
+                            {[...Array(width).keys()].map((num) => (
                                 <div
                                     key={num}
                                     className="modal__preview__cell"
