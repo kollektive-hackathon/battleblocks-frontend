@@ -6,7 +6,7 @@ import { useNotificationContext } from '@/context/NotificationContext'
 import { useUserContext } from '@/context/UserContext'
 
 export default function Login() {
-    const { setUser } = useUserContext()
+    const { setUser, user } = useUserContext()
     const [hasUsername, setHasUsername] = useState(true)
     const [username, setUsername] = useState('')
     const { setNotification } = useNotificationContext()
@@ -45,6 +45,15 @@ export default function Login() {
     const login = useGoogleLogin({ onSuccess: authenticateGoogle })
 
     const submitUsername = useCallback(async () => {
+        if (!username) {
+            setNotification({
+                title: 'username-error',
+                description: 'please enter username'
+            })
+
+            return
+        }
+
         try {
             await axios.post(`${process.env.API_URL}/registration`, {
                 username
@@ -60,7 +69,7 @@ export default function Login() {
     return (
         <div className="login">
             <div className="login__content">
-                {hasUsername ? (
+                {user ? (
                     <>
                         <div className="login__title">
                             battlebl
@@ -89,16 +98,25 @@ export default function Login() {
                         </div>
                         <div className="register">
                             <div className="register__title">enter?your-username&gt;</div>
-                            <input
-                                type="text"
-                                className="register__input"
-                                onChange={(e) => setUsername(e.target.value)}
-                                onKeyUp={(e) => {
-                                    if (e.key === 'Enter') {
-                                        submitUsername()
-                                    }
-                                }}
-                            />
+                            <div className="register__input-container">
+                                <input
+                                    type="text"
+                                    className="register__input"
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    onKeyUp={(e) => {
+                                        if (e.key === 'Enter') {
+                                            submitUsername()
+                                        }
+                                    }}
+                                />
+                                <div
+                                    className="register__submit"
+                                    onClick={() => submitUsername()}
+                                    style={{ cursor: username ? 'pointer' : 'not-allowed' }}
+                                >
+                                    &gt;&gt;
+                                </div>
+                            </div>
                         </div>
                     </>
                 )}

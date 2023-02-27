@@ -92,11 +92,21 @@
     font-size: 12px;
 }
 
+.register__input-container {
+    display: flex;
+    gap: 5px;
+}
+
 .register__input {
+    flex: 1;
     padding-bottom: 8px;
 
     font-size: 15px;
     letter-spacing: 0.1em;
 
     border-bottom: 4px solid white;
+}
+
+.register__submit {
+    cursor: pointer;
 }
