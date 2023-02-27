@@ -2,8 +2,11 @@ import { useCallback, useState } from 'react'
 import { TokenResponse, useGoogleLogin } from '@react-oauth/google'
 import axios from 'axios'
 
+import { API_URL } from '@/config/variables'
 import { useNotificationContext } from '@/context/NotificationContext'
 import { useUserContext } from '@/context/UserContext'
+// import { RarityEnum } from '@/types/shop'
+import { persistTokenAndUser } from '@/utils/login'
 
 export default function Login() {
     const { setUser } = useUserContext()
@@ -22,15 +25,7 @@ export default function Login() {
 
                 const { idToken, refreshToken, profile } = data
 
-                axios.defaults.headers.common.Authorization = `Bearer ${idToken}`
-
-                localStorage.setItem('battleblocks_authToken', idToken)
-
-                localStorage.setItem('battleblocks_refreshToken', refreshToken)
-
-                if (profile) {
-                    localStorage.setItem('battleblocks_user', JSON.stringify(profile))
-                }
+                persistTokenAndUser(idToken, refreshToken, profile)
 
                 setUser(profile ?? null)
 

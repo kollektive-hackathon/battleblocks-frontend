@@ -1,9 +1,9 @@
 import { useCallback } from 'react'
-import axios from 'axios'
 
 import Loader from '@/components/Loader.comp'
 import { useUserContext } from '@/context/UserContext'
 import { cosign } from '@/flow/cosign.tx'
+import { removeTokenAndUser } from '@/utils/login'
 
 export default function Profile() {
     const { bloctoUser, setUser, user } = useUserContext()
@@ -11,13 +11,7 @@ export default function Profile() {
     const logout = useCallback(() => {
         setUser(null)
 
-        delete axios.defaults.headers.common.Authorization
-
-        localStorage.removeItem('battleblocks_authToken')
-
-        localStorage.removeItem('battleblocks_refreshToken')
-
-        localStorage.removeItem('battleblocks_user')
+        removeTokenAndUser()
     }, [])
 
     return (
