@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Link, Outlet } from 'react-router-dom'
 
 import { useUserContext } from '@/context/UserContext'
 import { fetchBalance } from '@/flow/fetchBalance.script'
+import { removeTokenAndUser } from '@/utils/token'
 
 export default function Home() {
-    const { user } = useUserContext()
+    const { user, setUser } = useUserContext()
     const [balance, setBalance] = useState<number>()
 
     useEffect(() => {
@@ -17,6 +18,12 @@ export default function Home() {
         getBalance()
     }, [user?.custodialWalletAddress])
 
+    const logout = useCallback(() => {
+        setUser(null)
+
+        removeTokenAndUser()
+    }, [])
+
     return (
         <div className="home">
             <div className="logo">
@@ -27,7 +34,10 @@ export default function Home() {
             <Outlet />
             <div className="footer">
                 <div className="footer__navigation">
-                    <Link to="/">play</Link> / <Link to="profile">profile</Link> / <Link to="shop">shop</Link>
+                    <Link to="/">play</Link> / <Link to="profile">profile</Link> / <Link to="shop">shop</Link> /{' '}
+                    <span className="logout" onClick={() => logout()}>
+                        logout
+                    </span>
                 </div>
                 <div className="footer__user-info">
                     <div className="footer__user-info__username">username: {user?.username}</div> /
