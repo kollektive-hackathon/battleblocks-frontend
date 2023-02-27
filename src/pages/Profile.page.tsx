@@ -41,32 +41,34 @@ export default function Profile() {
                         </div>
                     )}
                 </div>
-                <table className="page-container__content__table">
-                    <thead>
-                        <tr>
-                            <th>my inventory</th>
-                            <th>block type</th>
-                            <th>rarity</th>
-                            <th>active</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {user.inventoryBlocks.map((block) => (
-                            <tr
-                                key={block.id}
-                                className={`table-item${!block.active ? ' table-item--deactivated' : ''}`}
-                                onClick={() => {
-                                    // TODO: toggle active
-                                }}
-                            >
-                                <td className="table-item__property">{block.name}</td>
-                                <td className="table-item__property">{block.type}</td>
-                                <td className="table-item__property">{block.rarity}</td>
-                                <td className="table-item__property">{block.active ? '+' : '-'}</td>
+                {!!user.inventoryBlocks && (
+                    <table className="page-container__content__table">
+                        <thead>
+                            <tr>
+                                <th>my inventory</th>
+                                <th>block type</th>
+                                <th>rarity</th>
+                                <th>active</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {user.inventoryBlocks.map((block) => (
+                                <tr
+                                    key={block.id}
+                                    className={`table-item${!block.active ? ' table-item--deactivated' : ''}`}
+                                    onClick={() => {
+                                        // TODO: toggle active
+                                    }}
+                                >
+                                    <td className="table-item__property">{block.name}</td>
+                                    <td className="table-item__property">{block.type}</td>
+                                    <td className="table-item__property">{block.rarity}</td>
+                                    <td className="table-item__property">{block.active ? '+' : '-'}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                )}
             </div>
         </div>
     ) : (

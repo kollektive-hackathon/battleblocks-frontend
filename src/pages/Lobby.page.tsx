@@ -10,7 +10,7 @@ export default function Lobby() {
     const [games, setGames] = useState<Game[]>([
         {
             id: 0,
-            ownerId: 420,
+            ownerId: 36,
             ownerUsername: 'kojesrao',
             stake: 50,
             timeCreated: 1677437547000
