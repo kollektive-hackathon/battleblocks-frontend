@@ -124,7 +124,7 @@ export default function Profile() {
                                 {userProfile.inventoryBlocks.map((block) => (
                                     <tr
                                         key={block.id}
-                                        className="table-item"
+                                        className={`table-item${!block.active ? ' table-item--deactivated' : ''}`}
                                         onClick={() => {
                                             // TODO: toggle active
                                         }}

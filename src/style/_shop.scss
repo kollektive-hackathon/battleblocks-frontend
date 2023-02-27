@@ -6,6 +6,10 @@
     &:hover {
         opacity: 0.8;
     }
+
+    &--deactivated {
+        filter: brightness(0.6);
+    }
 }
 
 .table-item__property {
