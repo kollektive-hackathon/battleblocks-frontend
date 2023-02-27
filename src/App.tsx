@@ -24,7 +24,7 @@ export default function App() {
         fcl.currentUser.subscribe(setBloctoUser)
     }, [])
 
-    const setNotificationWithTimeout = useCallback((newNotification: Notification) => {
+    const setNotificationAndUnset = useCallback((newNotification: Notification) => {
         setNotification(newNotification)
 
         setTimeout(() => {
@@ -33,7 +33,7 @@ export default function App() {
     }, [])
 
     return (
-        <NotificationContext.Provider value={{ notification, setNotification: setNotificationWithTimeout }}>
+        <NotificationContext.Provider value={{ notification, setNotification: setNotificationAndUnset }}>
             <UserContext.Provider value={{ user, setUser, bloctoUser }}>
                 <>
                     {user === undefined ? <Loader /> : user === null ? <Login /> : <Outlet />}
