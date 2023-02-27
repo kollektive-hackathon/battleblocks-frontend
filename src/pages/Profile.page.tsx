@@ -33,7 +33,7 @@ export default function Profile() {
               <span className="wallet-container__address">{user.selfCustodyWalletAddress || bloctoUser?.addr}</span>
             </div>
           ) : (
-            <div className="profile__wallet-container__connect" onClick={() => cosign()}>
+            <div className="profile__wallet-container__connect" onClick={() => cosign(user.custodialWalletAddress)}>
               personal-wallet?connect &gt;&gt;
             </div>
           )}
