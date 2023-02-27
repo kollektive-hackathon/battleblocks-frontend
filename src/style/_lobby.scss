@@ -1,5 +1,11 @@
 .create-match {
     cursor: pointer;
+
+    &:hover {
+        color: red;
+        /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
+        transition: color 0.3s ease-in-out;
+    }
 }
 
 .load-more__row {
