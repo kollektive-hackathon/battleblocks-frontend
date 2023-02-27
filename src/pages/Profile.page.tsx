@@ -32,7 +32,7 @@ export default function Profile() {
                         <div className="profile__wallet-container__connected">
                             personal-wallet:{' '}
                             <span className="wallet-container__address">
-                                {user.selfCustodyWalletAddress ?? bloctoUser?.addr}
+                                {user.selfCustodyWalletAddress || bloctoUser?.addr}
                             </span>
                         </div>
                     ) : (
