@@ -48,3 +48,23 @@
 
     border-bottom: 4px solid black;
 }
+
+.modal__preview {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 50px 100px;
+
+    background-color: #d9d9d9;
+    border: 4px solid black;
+}
+
+.modal__preview__row {
+    display: flex;
+    gap: 5px;
+}
+
+.modal__preview__cell {
+    width: 35px;
+    height: 35px;
+}

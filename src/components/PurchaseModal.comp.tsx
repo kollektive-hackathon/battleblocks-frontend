@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { PayPalButtons } from '@paypal/react-paypal-js'
 
 import { useNotificationContext } from '@/context/NotificationContext'
@@ -15,13 +15,31 @@ export default function PurchaseModal(props: Props) {
     const { setNotification } = useNotificationContext()
     const { user } = useUserContext()
 
+    const [width, height] = useMemo(() => {
+        const [x, y] = item.blockType.split('x')
+
+        return [+x, +y]
+    }, [item.blockType])
+
     return (
         <div className="modal-backdrop" onClick={() => closeModal()}>
             <div className="modal" onClick={(e) => e.stopPropagation()}>
                 <div className="modal__title">
                     {item.name} // {item.blockType} // {item.rarity}
                 </div>
-                <div className="modal__preview">mcdick</div>
+                <div className="modal__preview">
+                    {[...Array(height)].map((numero) => (
+                        <div key={numero} className="modal__preview__row">
+                            {[...Array(width)].map((num) => (
+                                <div
+                                    key={num}
+                                    className="modal__preview__cell"
+                                    style={{ backgroundColor: item.colorHex }}
+                                />
+                            ))}
+                        </div>
+                    ))}
+                </div>
                 <div className="modal__price">total: ${item.price}</div>
                 <div className="modal__cta" onClick={() => setShowPaypal(true)}>
                     continue with paypal &gt;&gt;

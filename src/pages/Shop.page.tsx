@@ -11,7 +11,7 @@ export default function Shop() {
             blockType: '4x1',
             rarity: 'epic',
             price: 33,
-            colorHex: '#131414'
+            colorHex: '#00F0FF'
         },
         {
             id: 1,
@@ -19,7 +19,7 @@ export default function Shop() {
             blockType: '2x2',
             rarity: 'rare',
             price: 69,
-            colorHex: '#696969'
+            colorHex: '#8F00FF'
         },
         {
             id: 2,
@@ -27,7 +27,7 @@ export default function Shop() {
             blockType: '4x1',
             rarity: 'epic',
             price: 33,
-            colorHex: '#131414'
+            colorHex: '#8F00FF'
         },
         {
             id: 3,
@@ -35,7 +35,7 @@ export default function Shop() {
             blockType: '2x2',
             rarity: 'rare',
             price: 69,
-            colorHex: '#696969'
+            colorHex: '#00F0FF'
         },
         {
             id: 4,
