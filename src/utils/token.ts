@@ -1,6 +1,5 @@
 import axios from 'axios'
 
-import { API_URL } from '@/config/variables'
 import { User } from '@/context/UserContext'
 
 export const getLocalRefreshToken = () => window.localStorage.getItem('battleblocks_refreshToken')
@@ -10,7 +9,7 @@ export const getLocalIdToken = () => window.localStorage.getItem('battleblocks_a
 export const getRefreshedToken = async () => {
     const refreshToken = getLocalRefreshToken()
     if (refreshToken) {
-        return (await axios.post(`${API_URL}/refresh`, { refreshToken })).data
+        return (await axios.post('/refresh', { refreshToken })).data
     }
 
     return null
