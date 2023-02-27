@@ -24,10 +24,13 @@ const serverAuthorization = (account: any, battleBlocksWallet: string) => ({
     signingFunction: (signable: any) => signingFunction(signable, battleBlocksWallet)
 })
 
-export const cosign = (battleBlocksWallet: string | null) =>
-    fcl
-        .send([
-            fcl.transaction`
+export const cosign = (battleBlocksWallet?: string) => {
+    if (!battleBlocksWallet) {
+        return
+    }
+
+    fcl.send([
+        fcl.transaction`
 import BattleBlocksAccounts from 0xBATTLE_BLOCKS_ADDRESS
 import BattleBlocksNFT from 0xBATTLE_BLOCKS_ADDRESS
 import FungibleToken from 0xFUNGIBLE_TOKEN_ADDRESS
@@ -122,9 +125,9 @@ transaction {
     }
 }
             `,
-            fcl.payer((account: any) => serverAuthorization(account, battleBlocksWallet!)),
-            fcl.proposer(fcl.authz),
-            fcl.authorizations([fcl.authz, (account: any) => serverAuthorization(account, battleBlocksWallet!)]),
-            fcl.limit(9999)
-        ])
-        .then(fcl.decode)
+        fcl.payer((account: any) => serverAuthorization(account, battleBlocksWallet!)),
+        fcl.proposer(fcl.authz),
+        fcl.authorizations([fcl.authz, (account: any) => serverAuthorization(account, battleBlocksWallet!)]),
+        fcl.limit(9999)
+    ]).then(fcl.decode)
+}
