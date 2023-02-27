@@ -1,12 +1,13 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { PayPalButtons } from '@paypal/react-paypal-js'
 
+import Block from '@/components/Block.comp'
 import { useNotificationContext } from '@/context/NotificationContext'
 import { useUserContext } from '@/context/UserContext'
-import { ShopItem } from '@/types/shop'
+import { BlockItem } from '@/types/block'
 
 type Props = {
-    item: ShopItem
+    item: BlockItem
     closeModal: () => void
 }
 export default function PurchaseModal(props: Props) {
@@ -15,20 +16,6 @@ export default function PurchaseModal(props: Props) {
     const { setNotification } = useNotificationContext()
     const { user } = useUserContext()
 
-    const [aLocations, bLocations] = useMemo(() => {
-        const a = item.blockType.substring(
-            1,
-            item.blockType.indexOf('b') === -1 ? item.blockType.length : item.blockType.indexOf('b')
-        )
-
-        const b = item.blockType.substring(
-            item.blockType.indexOf('b') === -1 ? item.blockType.length : item.blockType.indexOf('b') + 1,
-            item.blockType.length
-        )
-
-        return [a.split(''), b.split('')]
-    }, [item.blockType])
-
     return (
         <div className="modal-backdrop" onClick={() => closeModal()}>
             <div className="modal" onClick={(e) => e.stopPropagation()}>
@@ -36,32 +23,7 @@ export default function PurchaseModal(props: Props) {
                     {item.name} // {item.blockType} // {item.rarity}
                 </div>
                 <div className="modal__preview">
-                    {[...Array(2).keys()].map(
-                        (numero) =>
-                            (numero === 0 ? aLocations : bLocations).includes((numero + 1).toString()) && (
-                                <div key={numero} className="modal__preview__row">
-                                    {[...Array(4).keys()].map(
-                                        (num) =>
-                                            (numero === 0 ? aLocations : bLocations).some(
-                                                (number: string) => number >= (num + 1).toString()
-                                            ) && (
-                                                <div
-                                                    key={num}
-                                                    className="modal__preview__cell"
-                                                    style={{
-                                                        backgroundColor: (numero === 0
-                                                            ? aLocations
-                                                            : bLocations
-                                                        ).includes((num + 1).toString())
-                                                            ? item.colorHex
-                                                            : '#d9d9d9'
-                                                    }}
-                                                />
-                                            )
-                                    )}
-                                </div>
-                            )
-                    )}
+                    <Block block={item} />
                 </div>
                 <div className="modal__price">total: ${item.price}</div>
                 <div className="modal__cta" onClick={() => setShowPaypal(true)}>
@@ -75,7 +37,7 @@ export default function PurchaseModal(props: Props) {
                                     purchase_units: [
                                         {
                                             amount: {
-                                                value: item.price.toString()
+                                                value: item.price!.toString()
                                             },
                                             custom_id: item.id.toString(),
                                             description: user?.id.toString()

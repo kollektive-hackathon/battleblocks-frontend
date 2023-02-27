@@ -4,12 +4,12 @@ import axios from 'axios'
 import Loader from '@/components/Loader.comp'
 import PurchaseModal from '@/components/PurchaseModal.comp'
 import { useNotificationContext } from '@/context/NotificationContext'
-import { ShopItem } from '@/types/shop'
+import { BlockItem } from '@/types/block'
 
 export default function Shop() {
-    const [items, setItems] = useState<ShopItem[]>()
+    const [items, setItems] = useState<BlockItem[]>()
 
-    const [purchaseItem, setPurchaseItem] = useState<ShopItem>()
+    const [purchaseItem, setPurchaseItem] = useState<BlockItem>()
     const { setNotification } = useNotificationContext()
 
     useEffect(() => {

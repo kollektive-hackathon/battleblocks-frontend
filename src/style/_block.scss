@@ -1,0 +1,15 @@
+.block {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.block__row {
+    display: flex;
+    gap: 5px;
+}
+
+.block__cell {
+    width: 35px;
+    height: 35px;
+}

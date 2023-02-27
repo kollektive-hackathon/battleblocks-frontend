@@ -63,3 +63,42 @@
         background-color: #9b9b9b;
     }
 }
+
+.game-board__placement {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: center;
+    width: 100%;
+    margin-top: 16px;
+}
+
+.game-board__placement__title {
+    font-size: 14px;
+}
+
+.game-board__placement__inventory {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    width: calc(100% - 30px);
+    height: 100px;
+    padding: 10px;
+    overflow-y: scroll;
+
+    border: 4px solid white;
+}
+
+.game-board__placement__submit {
+    margin-top: 7px;
+
+    font-size: 12px;
+
+    cursor: pointer;
+
+    &:hover {
+        color: red;
+        /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
+        transition: color 0.3s ease-in-out;
+    }
+}

@@ -105,7 +105,7 @@ export default function Profile() {
                                     }}
                                 >
                                     <td className="table-item__property">{block.name}</td>
-                                    <td className="table-item__property">{block.type}</td>
+                                    <td className="table-item__property">{block.blockType}</td>
                                     <td className="table-item__property">{block.rarity}</td>
                                     <td className="table-item__property">{block.active ? '+' : '-'}</td>
                                 </tr>

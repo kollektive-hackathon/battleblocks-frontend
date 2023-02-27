@@ -1,14 +1,6 @@
 import { createContext, useContext } from 'react'
 
-import { Rarity } from '@/types/shop'
-
-type UserItem = {
-    id: number
-    name: string
-    type: string
-    rarity: Rarity
-    active: boolean
-}
+import { BlockItem } from '@/types/block'
 
 export type User = {
     username: string
@@ -16,7 +8,7 @@ export type User = {
     email: string
     custodialWalletAddress: string
     selfCustodyWalletAddress?: string
-    inventoryBlocks: UserItem[]
+    inventoryBlocks: BlockItem[]
 }
 
 export type BloctoUser = {
