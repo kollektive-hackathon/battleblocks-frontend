@@ -72,7 +72,7 @@ export default function Profile() {
                     </div>
                 </>
             ) : (
-                <Loader />
+                <Loader dark />
             )}
         </div>
     )
