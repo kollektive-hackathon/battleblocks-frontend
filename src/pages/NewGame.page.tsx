@@ -30,7 +30,7 @@ export default function NewGame(props: Props) {
         if (Object.values(blockPlacements).filter((value) => value !== '#e5e5e5').length < 10) {
             setNotification({
                 title: 'placement-error',
-                description: 'make sure you place at least 10 individual blocks'
+                description: 'make sure your placed ships contain at least 10 blocks'
             })
 
             return
