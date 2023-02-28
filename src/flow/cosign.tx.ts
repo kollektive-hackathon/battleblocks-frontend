@@ -1,32 +1,32 @@
-import * as fcl from '@onflow/fcl';
-import axios from 'axios';
+import * as fcl from '@onflow/fcl'
+import axios from 'axios'
 
-const KEY_ID = 0;
+const KEY_ID = 0
 
 const signingFunction = async (signable: any, battleBlocksWallet: string) => {
-  const { data } = await axios.post(`/cosign`, { payload: signable });
+    const { data } = await axios.post(`/cosign`, { payload: signable })
 
-  const signature = Buffer.from(data, 'base64').toString('hex');
+    const signature = Buffer.from(data, 'base64').toString('hex')
 
-  return {
-    addr: fcl.withPrefix(battleBlocksWallet),
-    keyId: KEY_ID,
-    signature,
-  };
-};
+    return {
+        addr: fcl.withPrefix(battleBlocksWallet),
+        keyId: KEY_ID,
+        signature
+    }
+}
 
 const serverAuthorization = (account: any, battleBlocksWallet: string) => ({
-  ...account,
-  tempId: `${battleBlocksWallet}-${KEY_ID}`,
-  addr: fcl.sansPrefix(battleBlocksWallet),
-  keyId: KEY_ID,
-  signingFunction: (signable: any) => signingFunction(signable, battleBlocksWallet),
-});
+    ...account,
+    tempId: `${battleBlocksWallet}-${KEY_ID}`,
+    addr: fcl.sansPrefix(battleBlocksWallet),
+    keyId: KEY_ID,
+    signingFunction: (signable: any) => signingFunction(signable, battleBlocksWallet)
+})
 
 export const cosign = async (battleBlocksWallet: string | null) => {
-  const test = await fcl
-    .send([
-      fcl.transaction`
+    const tx = await fcl
+        .send([
+            fcl.transaction`
 import BattleBlocksAccounts from 0xBATTLE_BLOCKS_ADDRESS
 import BattleBlocksNFT from 0xBATTLE_BLOCKS_ADDRESS
 import FungibleToken from 0xFUNGIBLE_TOKEN_ADDRESS
@@ -121,12 +121,12 @@ transaction {
     }
 }
             `,
-      fcl.payer((account: any) => serverAuthorization(account, battleBlocksWallet!)),
-      fcl.proposer(fcl.authz),
-      fcl.authorizations([fcl.authz, (account: any) => serverAuthorization(account, battleBlocksWallet!)]),
-      fcl.limit(9999),
-    ])
-    .then(fcl.decode);
+            fcl.payer((account: any) => serverAuthorization(account, battleBlocksWallet!)),
+            fcl.proposer(fcl.authz),
+            fcl.authorizations([fcl.authz, (account: any) => serverAuthorization(account, battleBlocksWallet!)]),
+            fcl.limit(9999)
+        ])
+        .then(fcl.decode)
 
-  return fcl.tx(test).onceSealed();
-};
+    return fcl.tx(tx).onceSealed()
+}
