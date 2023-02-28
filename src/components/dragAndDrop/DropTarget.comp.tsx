@@ -12,8 +12,7 @@ export default function DropTarget(props: Props) {
             console.log('mcdick', item)
         },
         collect: (monitor) => ({
-            canDrop: monitor.canDrop(),
-            isOver: monitor.isOver()
+            canDrop: monitor.canDrop()
         })
     })
 
