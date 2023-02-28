@@ -1,3 +1,4 @@
+// we know this shouldn't be here hardcoded, but BE doesn't set env variables, so...
 export const API_URL = process.env.API_URL ?? 'https://battleblocks.lol/api'
 
 export const GOOGLE_AUTH_CLIENT_ID =
