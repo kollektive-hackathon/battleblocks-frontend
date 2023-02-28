@@ -20,10 +20,14 @@ type TUserContext = {
     user?: User | null
     setUser: (user: User | null) => void
     bloctoUser?: BloctoUser
+    email: string
+    setEmail: (email: string) => void
 }
 
 export const UserContext = createContext<TUserContext>({
-    setUser: () => {}
+    setUser: () => {},
+    email: '',
+    setEmail: () => {}
 })
 
 export const useUserContext = () => {
