@@ -19,18 +19,18 @@ export type Game = {
     winnerId?: number
 }
 
+export type Coordinates = {
+    x: number
+    y: number
+}
+
 export type TCell = {
-    coordinates: {
-        x: number
-        y: number
-    }
+    coordinates: Coordinates
     isRevealed: boolean
     isShip: boolean
 }
 
-export type PlacementItem = {
-    x: number
-    y: number
+export type PlacementItem = Coordinates & {
     blockId: number
 }
 
