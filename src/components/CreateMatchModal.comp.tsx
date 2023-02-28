@@ -2,6 +2,8 @@ import { useCallback, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { useNotificationContext } from '@/context/NotificationContext'
+import { useUserContext } from '@/context/UserContext'
+import { fetchBalance } from '@/flow/fetchBalance.script'
 
 type Props = {
     closeModal: () => void
@@ -11,9 +13,20 @@ export default function CreateMatchModal(props: Props) {
     const { closeModal } = props
     const [stake, setStake] = useState<number>()
     const { setNotification } = useNotificationContext()
+    const { user } = useUserContext()
     const navigate = useNavigate()
 
-    const createMatch = useCallback(() => {
+    const createMatch = useCallback(async () => {
+        const balance = await fetchBalance(user?.custodialWalletAddress ?? '')
+        if (balance < (stake ?? 0)) {
+            setNotification({
+                title: 'invalid-stake',
+                description: `you don't have enough FLOW`
+            })
+
+            return
+        }
+
         if (!stake || stake <= 0) {
             setNotification({
                 title: 'invalid-stake',
@@ -23,8 +36,7 @@ export default function CreateMatchModal(props: Props) {
             return
         }
 
-        // TODO: send this (stake!.toFixed(2)) to BE once it's deployed
-        navigate('/game/new')
+        navigate('/game/new', { state: { stake } })
 
         closeModal()
     }, [stake, closeModal])
