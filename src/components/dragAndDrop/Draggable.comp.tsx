@@ -14,7 +14,7 @@ export default function DraggableComponent(props: Props) {
     })
 
     return (
-        <div ref={dragRef} style={{ opacity: isDragging ? 0.5 : 1 }}>
+        <div ref={dragRef} className="draggable-component" style={{ opacity: isDragging ? 0.5 : 1 }}>
             {children}
         </div>
     )

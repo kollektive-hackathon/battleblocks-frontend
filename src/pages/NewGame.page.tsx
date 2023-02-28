@@ -22,7 +22,10 @@ export default function NewGame() {
                     {game.map((boardRow) => (
                         <div key={boardRow[0].coordinates.x} className="game-board__row">
                             {boardRow.map((boardCell) => (
-                                <DropTarget key={`${boardCell.coordinates.x}${boardCell.coordinates.y}`}>
+                                <DropTarget
+                                    key={`${boardCell.coordinates.x}${boardCell.coordinates.y}`}
+                                    onDrop={() => console.log(boardCell.coordinates.x, boardCell.coordinates.y)}
+                                >
                                     <Cell
                                         isRevealedDefault={boardCell.isRevealed}
                                         isShipDefault={boardCell.isShip}

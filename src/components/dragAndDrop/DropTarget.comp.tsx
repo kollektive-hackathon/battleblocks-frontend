@@ -2,14 +2,15 @@ import { useDrop } from 'react-dnd'
 
 type Props = {
     children: JSX.Element | JSX.Element[]
+    onDrop: () => void
 }
 
 export default function DropTarget(props: Props) {
-    const { children } = props
+    const { children, onDrop } = props
     const [{ canDrop }, dropRef] = useDrop({
         accept: 'COMPONENT',
-        drop: (item) => {
-            console.log('mcdick', item)
+        drop: () => {
+            onDrop()
         },
         collect: (monitor) => ({
             canDrop: monitor.canDrop()
