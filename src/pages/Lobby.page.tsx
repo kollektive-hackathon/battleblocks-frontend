@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { DateTime } from 'luxon'
 
@@ -15,6 +16,7 @@ export default function Lobby() {
 
     const { user } = useUserContext()
     const { setNotification } = useNotificationContext()
+    const navigate = useNavigate()
 
     useEffect(() => {
         fetchGames()
@@ -62,7 +64,11 @@ export default function Lobby() {
                         {gamesList?.games ? (
                             <>
                                 {gamesList.games.map((game) => (
-                                    <tr key={game.id} className="table-item">
+                                    <tr
+                                        key={game.id}
+                                        className="table-item"
+                                        onClick={() => navigate(`/game/${game.id}`)}
+                                    >
                                         <td className="table-item__property">
                                             {game.challengerId
                                                 ? 'battling //'
