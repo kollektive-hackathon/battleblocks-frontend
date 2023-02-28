@@ -31,12 +31,19 @@ export default function NewGame() {
             return
         }
 
-        axios.post('/game', { stake: state.stake, placements }).catch(() =>
-            setNotification({
-                title: 'placement-error',
-                description: 'make sure you place ships containing at least 10 blocks'
+        axios
+            .post('/game', { stake: state.stake, placements })
+            .then((result) => {
+                const { id } = result.data
+
+                navigate(`/game/${id}`)
             })
-        )
+            .catch(() =>
+                setNotification({
+                    title: 'game-error',
+                    description: 'something went wrong when creating game'
+                })
+            )
     }, [state.stake, placements])
 
     const addPlacement = useCallback(
