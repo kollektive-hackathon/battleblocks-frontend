@@ -73,7 +73,6 @@ a:hover {
 
 .page-container__content__table {
     width: 100%;
-    min-height: 70%;
     margin-bottom: 8px;
 
     text-align: center;
@@ -114,6 +113,13 @@ a:hover {
             }
         }
     }
+}
+
+.login-page__message {
+    position: absolute;
+    top: 60%;
+    left: 39%;
+    text-align: center;
 }
 
 .draggable-component {

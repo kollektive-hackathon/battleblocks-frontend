@@ -73,6 +73,7 @@ axios.defaults.baseURL = API_URL
 
 export default function App() {
     const [user, setUser] = useState<User | null>()
+    const [email, setEmail] = useState('')
     const [bloctoUser, setBloctoUser] = useState()
     const [notification, setNotification] = useState<Notification | null>(null)
     const { showOverlay, setShowOverlay, resizeCallback } = useResize()
@@ -90,6 +91,12 @@ export default function App() {
         resizeCallback()
     }, [])
 
+    useEffect(() => {
+        if (email) {
+            openSocket()
+        }
+    }, [email])
+
     const setNotificationAndUnset = useCallback((newNotification: Notification) => {
         setNotification(newNotification)
 
@@ -105,12 +112,44 @@ export default function App() {
             .catch(() => setUser(null))
     }, [])
 
+    const openSocket = useCallback(() => {
+        const sock = new WebSocket(`wss://battleblocks.lol/api/ws/registration/${email}`)
+
+        sock.onmessage = (e) => {
+            const { payload } = JSON.parse(e.data)
+
+            setUser(payload)
+
+            sock.close()
+
+            setEmail('')
+        }
+    }, [email])
+
     return (
         <DndProvider backend={HTML5Backend}>
             <NotificationContext.Provider value={{ notification, setNotification: setNotificationAndUnset }}>
-                <UserContext.Provider value={{ user, setUser, bloctoUser }}>
+                <UserContext.Provider value={{ user, setUser, bloctoUser, email, setEmail }}>
                     <>
-                        {user === undefined ? <Loader /> : user === null ? <Login /> : <Outlet />}
+                        {user === undefined || email ? (
+                            <>
+                                <Loader />
+                                {email ? (
+                                    <div className="login-page__message">
+                                        setting up account...
+                                        <br />
+                                        <br />
+                                        this may take a while (seriously haha)
+                                    </div>
+                                ) : (
+                                    ''
+                                )}
+                            </>
+                        ) : user === null ? (
+                            <Login />
+                        ) : (
+                            <Outlet />
+                        )}
                         {!!notification && (
                             <div className="notification">
                                 <div className="notification__title">{notification.title}!&gt;</div>
