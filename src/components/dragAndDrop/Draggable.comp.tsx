@@ -2,12 +2,14 @@ import { useDrag } from 'react-dnd'
 
 type Props = {
     children: JSX.Element | JSX.Element[]
+    blockId: number
 }
 
 export default function DraggableComponent(props: Props) {
-    const { children } = props
+    const { children, blockId } = props
     const [{ isDragging }, dragRef] = useDrag({
         type: 'COMPONENT',
+        item: { data: blockId },
         collect: (monitor) => ({
             isDragging: monitor.isDragging()
         })

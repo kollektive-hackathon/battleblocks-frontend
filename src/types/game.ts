@@ -28,6 +28,12 @@ export type TCell = {
     isShip: boolean
 }
 
+export type PlacementItem = {
+    x: number
+    y: number
+    blockId: number
+}
+
 export type GameList = {
     games: Game[]
     nextPageToken: number
