@@ -4,7 +4,7 @@ type Props = {
     isRevealedDefault: boolean
     isShipDefault: boolean
     myBoard: boolean
-    colorHex: string
+    colorHex?: string
 }
 
 export default function Cell(props: Props) {
@@ -18,7 +18,10 @@ export default function Cell(props: Props) {
                 isRevealed ? (isShip ? ' game-board__cell--hit' : ' game-board__cell--miss') : ''
             }`}
             onClick={!myBoard ? () => setIsRevealed(true) : () => {}}
-            style={{ cursor: myBoard ? 'default' : isRevealed ? 'not-allowed' : 'pointer', backgroundColor: colorHex }}
+            style={{
+                cursor: myBoard ? 'default' : isRevealed ? 'not-allowed' : 'pointer',
+                backgroundColor: colorHex ?? ''
+            }}
         />
     )
 }
