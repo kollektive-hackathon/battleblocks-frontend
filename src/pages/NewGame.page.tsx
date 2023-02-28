@@ -27,10 +27,10 @@ export default function NewGame(props: Props) {
     const navigate = useNavigate()
 
     const createMatch = useCallback(() => {
-        if (!placements.length) {
+        if (Object.values(blockPlacements).filter((value) => value !== '#e5e5e5').length < 10) {
             setNotification({
                 title: 'placement-error',
-                description: 'make sure you place ships containing at least 10 blocks'
+                description: 'make sure your placed ships contain at least 10 blocks'
             })
 
             return
