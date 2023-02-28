@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 
-const MIN_WIDTH = 1260
-const MIN_HEIGHT = 920
+const MIN_WIDTH = 1000
+const MIN_HEIGHT = 900
 
 export function useResize() {
     const [showOverlay, setShowOverlay] = useState(false)
