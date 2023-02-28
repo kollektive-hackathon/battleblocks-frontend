@@ -67,7 +67,22 @@ export default function Lobby() {
                                     <tr
                                         key={game.id}
                                         className="table-item"
-                                        onClick={() => navigate(`/game/${game.id}`)}
+                                        onClick={
+                                            () =>
+                                                navigate(
+                                                    `/game/${game.id}${
+                                                        !game.challengerId && game.ownerId !== user?.id ? '/join' : ''
+                                                    }`,
+                                                    {
+                                                        state: {
+                                                            stake: game.stake,
+                                                            owner: game.ownerUsername,
+                                                            id: game.id
+                                                        }
+                                                    }
+                                                )
+                                            // eslint-disable-next-line
+                                        }
                                     >
                                         <td className="table-item__property">
                                             {game.challengerId

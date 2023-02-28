@@ -11,7 +11,12 @@ import { useUserContext } from '@/context/UserContext'
 import { PlacementItem, TCell } from '@/types/game'
 import { BLOCK_PLACEMENT_DEFAULT, EMPTY_BOARD, getShipCoordinates } from '@/utils/game'
 
-export default function NewGame() {
+type Props = {
+    isJoin: boolean
+}
+
+export default function NewGame(props: Props) {
+    const { isJoin } = props
     const [game] = useState<TCell[][]>(EMPTY_BOARD)
     const [placements, setPlacements] = useState<PlacementItem[]>([])
     const [blockPlacements, setBlockPlacements] = useState<{ [coordinates: string]: string }>(BLOCK_PLACEMENT_DEFAULT)
@@ -32,11 +37,11 @@ export default function NewGame() {
         }
 
         axios
-            .post('/game', { stake: state.stake, placements })
+            .post(`/game${isJoin ? `${state.id}/join` : ''}`, { stake: state?.stake, placements })
             .then((result) => {
                 const { id } = result.data
 
-                navigate(`/game/${id}`)
+                navigate(`/game/${id ?? state.id}`)
             })
             .catch(() =>
                 setNotification({
@@ -44,7 +49,7 @@ export default function NewGame() {
                     description: 'something went wrong when creating game'
                 })
             )
-    }, [state.stake, placements])
+    }, [state?.stake, placements])
 
     const addPlacement = useCallback(
         (x: number, y: number, blockId: number) => {
@@ -92,7 +97,7 @@ export default function NewGame() {
     return (
         <div className="new-game page-container">
             <div className="page-container__title">
-                <div className="page-container__title__value">you vs ???</div>
+                <div className="page-container__title__value">you vs {state?.owner ?? '???'}</div>
             </div>
             <div className="page-container__content">
                 <div className="game-board">
@@ -132,7 +137,7 @@ export default function NewGame() {
                     </div>
                 </div>
                 <div className="delimiter" />
-                <div className="game-board">waiting for opponent...</div>
+                <div className="game-board">{isJoin ? 'place blocks and confirm' : 'waiting for opponent...'}</div>
             </div>
         </div>
     )

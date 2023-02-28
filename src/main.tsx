@@ -43,11 +43,15 @@ const router = createBrowserRouter([
                     },
                     {
                         path: 'game/new',
-                        element: <NewGame />
+                        element: <NewGame isJoin={false} />
                     },
                     {
                         path: 'game/:id',
                         element: <Game />
+                    },
+                    {
+                        path: 'game/:id/join',
+                        element: <NewGame isJoin />
                     }
                 ]
             }
