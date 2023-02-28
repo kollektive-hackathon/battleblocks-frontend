@@ -26,7 +26,7 @@ export default function Block(props: Props) {
         <div className="block">
             {[...Array(2).keys()].map(
                 (numero) =>
-                    (numero === 0 ? aLocations : bLocations).includes((numero + 1).toString()) && (
+                    !!(numero === 0 ? aLocations : bLocations).length && (
                         <div key={numero} className="block__row">
                             {[...Array(4).keys()].map(
                                 (num) =>
