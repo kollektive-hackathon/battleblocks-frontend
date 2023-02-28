@@ -10,7 +10,7 @@ import { API_URL } from '@/config/variables'
 import { Notification, NotificationContext } from '@/context/NotificationContext'
 import { useResize } from '@/hooks/useResize.hook'
 import Login from '@/pages/Login.page'
-import { getLocalIdToken, getRefreshedToken, persistTokenAndUser } from '@/utils/token'
+import { getLocalIdToken, getRefreshedToken, persistToken } from '@/utils/token'
 
 import { User, UserContext } from './context/UserContext'
 
@@ -47,7 +47,7 @@ axios.interceptors.response.use(
                 try {
                     const data = await getRefreshedToken()
                     if (data?.idToken && data?.refreshToken) {
-                        persistTokenAndUser(data.idToken, data.refreshToken)
+                        persistToken(data.idToken, data.refreshToken)
                     }
 
                     return axios(originalConfig)
@@ -78,12 +78,11 @@ export default function App() {
     const { showOverlay, setShowOverlay, resizeCallback } = useResize()
 
     useEffect(() => {
-        const storedUser = localStorage.getItem('battleblocks_user')
-            ? JSON.parse(localStorage.getItem('battleblocks_user')!)
-            : null
-
-        // TODO: check token and log user in if it's valid
-        setUser(storedUser)
+        if (getLocalIdToken()) {
+            fetchUser()
+        } else {
+            setUser(null)
+        }
 
         fcl.currentUser.subscribe(setBloctoUser)
 
@@ -97,6 +96,13 @@ export default function App() {
         setTimeout(() => {
             setNotification(null)
         }, 5000)
+    }, [])
+
+    const fetchUser = useCallback(async () => {
+        axios
+            .get('/profile')
+            .then((result) => setUser(result.data))
+            .catch(() => setUser(null))
     }, [])
 
     return (

@@ -4,7 +4,7 @@ import axios from 'axios'
 
 import { useNotificationContext } from '@/context/NotificationContext'
 import { useUserContext } from '@/context/UserContext'
-import { persistTokenAndUser } from '@/utils/token'
+import { persistToken } from '@/utils/token'
 
 export default function Login() {
     const { setUser } = useUserContext()
@@ -23,7 +23,7 @@ export default function Login() {
 
                 const { idToken, refreshToken, profile } = data
 
-                persistTokenAndUser(idToken, refreshToken, profile)
+                persistToken(idToken, refreshToken)
 
                 setUser(profile ?? null)
 
@@ -56,8 +56,6 @@ export default function Login() {
             })
 
             setUser(data)
-
-            localStorage.setItem('battleblocks_user', JSON.stringify(data))
         } catch (e) {
             setNotification({
                 title: 'registration-error',

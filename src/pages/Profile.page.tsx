@@ -5,7 +5,7 @@ import Loader from '@/components/Loader.comp'
 import { useNotificationContext } from '@/context/NotificationContext'
 import { useUserContext } from '@/context/UserContext'
 import { cosign } from '@/flow/cosign.tx'
-import { removeTokenAndUser } from '@/utils/token'
+import { removeToken } from '@/utils/token'
 
 export default function Profile() {
     const { bloctoUser, setUser, user } = useUserContext()
@@ -16,7 +16,7 @@ export default function Profile() {
     const logout = useCallback(() => {
         setUser(null)
 
-        removeTokenAndUser()
+        removeToken()
     }, [])
 
     const copyToClipboard = useCallback(

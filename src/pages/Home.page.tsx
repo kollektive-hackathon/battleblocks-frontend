@@ -3,7 +3,7 @@ import { Link, Outlet } from 'react-router-dom'
 
 import { useUserContext } from '@/context/UserContext'
 import { fetchBalance } from '@/flow/fetchBalance.script'
-import { removeTokenAndUser } from '@/utils/token'
+import { removeToken } from '@/utils/token'
 
 export default function Home() {
     const { user, setUser } = useUserContext()
@@ -21,7 +21,7 @@ export default function Home() {
     const logout = useCallback(() => {
         setUser(null)
 
-        removeTokenAndUser()
+        removeToken()
     }, [])
 
     return (
