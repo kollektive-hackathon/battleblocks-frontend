@@ -18,7 +18,16 @@
 }
 
 .load-more {
+    position: relative;
+    bottom: 12px;
+
     color: white;
 
     cursor: pointer;
+
+    &:hover {
+        color: red;
+        /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
+        transition: color 0.3s ease-in-out;
+    }
 }
