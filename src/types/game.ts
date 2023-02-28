@@ -1,5 +1,6 @@
 export const GameStatusEnum = {
     Created: 'CREATED',
+    Preparing: 'PREPARING',
     Playing: 'PLAYING',
     Finished: 'FINISHED'
 } as const
