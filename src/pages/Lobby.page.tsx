@@ -52,7 +52,7 @@ export default function Lobby() {
                 <table className="page-container__content__table">
                     <thead>
                         <tr>
-                            <th>active lobbies</th>
+                            <th>active lobbies ({gamesList?.gameCount ?? 0})</th>
                             <th>players</th>
                             <th>time created</th>
                             <th>stake</th>
