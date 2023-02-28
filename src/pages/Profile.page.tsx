@@ -11,8 +11,8 @@ export default function Profile() {
     const { bloctoUser, setUser, user } = useUserContext()
     const { setNotification } = useNotificationContext()
     const [custodialWallet, setCustodialWallet] = useState<string>('')
+    const [connectWalletMessage, setConnectWalletMessage] = useState('personal-wallet?connect >>')
 
-    const [connnectWalletMessage, setConnnectWalletMessage] = useState('personal-wallet?connect >>')
     const logout = useCallback(() => {
         setUser(null)
 
@@ -31,19 +31,15 @@ export default function Profile() {
         [setNotification]
     )
 
-    const sendCosignTx = async () => {
-        let result
+    const sendCosignTx = useCallback(async () => {
+        if (connectWalletMessage !== 'Connecting...') {
+            await setConnectWalletMessage('Connecting...')
 
-        if (connnectWalletMessage !== 'Connecting...') {
-            await setConnnectWalletMessage('Connecting...')
+            await cosign(user?.custodialWalletAddress!)
 
-            result = await cosign(user?.custodialWalletAddress!)
-        }
-
-        if (result) {
             setCustodialWallet(bloctoUser?.addr!)
         }
-    }
+    }, [connectWalletMessage, user?.custodialWalletAddress, bloctoUser?.addr])
 
     useEffect(() => {
         axios
@@ -81,16 +77,19 @@ export default function Profile() {
                             personal-wallet:{' '}
                             <span
                                 className="wallet-container__address"
-                                onClick={() =>
-                                    (user.selfCustodyWalletAddress || custodialWallet) &&
-                                    copyToClipboard(user.selfCustodyWalletAddress || custodialWallet)}
+                                onClick={
+                                    () =>
+                                        (user.selfCustodyWalletAddress || custodialWallet) &&
+                                        copyToClipboard(user.selfCustodyWalletAddress || custodialWallet)
+                                    // eslint-disable-next-line react/jsx-curly-newline
+                                }
                             >
                                 {user.selfCustodyWalletAddress || custodialWallet}
                             </span>
                         </div>
                     ) : (
                         <div className="profile__wallet-container__connect" onClick={() => sendCosignTx()}>
-                            {connnectWalletMessage}
+                            {connectWalletMessage}
                         </div>
                     )}
                 </div>
