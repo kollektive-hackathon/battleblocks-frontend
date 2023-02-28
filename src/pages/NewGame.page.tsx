@@ -9,11 +9,12 @@ import DropTarget from '@/components/dragAndDrop/DropTarget.comp'
 import { useNotificationContext } from '@/context/NotificationContext'
 import { useUserContext } from '@/context/UserContext'
 import { PlacementItem, TCell } from '@/types/game'
-import { EMPTY_BOARD } from '@/utils/game'
+import { BLOCK_PLACEMENT_DEFAULT, EMPTY_BOARD, getShipCoordinates } from '@/utils/game'
 
 export default function NewGame() {
     const [game] = useState<TCell[][]>(EMPTY_BOARD)
     const [placements, setPlacements] = useState<PlacementItem[]>([])
+    const [blockPlacements, setBlockPlacements] = useState<{ [coordinates: string]: string }>(BLOCK_PLACEMENT_DEFAULT)
 
     const { state } = useLocation()
     const { user } = useUserContext()
@@ -21,6 +22,15 @@ export default function NewGame() {
     const navigate = useNavigate()
 
     const createMatch = useCallback(() => {
+        if (!placements.length) {
+            setNotification({
+                title: 'placement-error',
+                description: 'make sure you place ships containing at least 10 blocks'
+            })
+
+            return
+        }
+
         axios.post('/game', { stake: state.stake, placements }).catch(() =>
             setNotification({
                 title: 'placement-error',
@@ -29,9 +39,36 @@ export default function NewGame() {
         )
     }, [state.stake, placements])
 
-    const addPlacement = useCallback((x: number, y: number, blockId: number) => {
-        setPlacements((prevState) => [...prevState, { x, y, blockId }])
-    }, [])
+    const addPlacement = useCallback(
+        (x: number, y: number, blockId: number) => {
+            if (placements.find((placement) => placement.blockId === blockId)) {
+                setNotification({
+                    title: 'placement-error',
+                    description: 'ship can be placed only once'
+                })
+
+                return
+            }
+
+            setPlacements((prevState) => [...prevState, { x, y, blockId }])
+
+            const shipCoordinates = getShipCoordinates(
+                user?.inventoryBlocks.find((block) => block.id === blockId)!.blockType!,
+                { x, y }
+            )
+
+            const shipColor = user?.inventoryBlocks.find((block) => block.id === blockId)!.colorHex!
+
+            // eslint-disable-next-line no-restricted-syntax
+            for (const { x: xs, y: ys } of shipCoordinates) {
+                setBlockPlacements((prevState) => ({
+                    ...prevState,
+                    [`${xs}${ys}`]: shipColor
+                }))
+            }
+        },
+        [setPlacements, placements]
+    )
 
     // if user lands on this page, stake isn't set
     if (!state?.stake) {
@@ -53,7 +90,7 @@ export default function NewGame() {
             <div className="page-container__content">
                 <div className="game-board">
                     {game.map((boardRow) => (
-                        <div key={boardRow[0].coordinates.x} className="game-board__row">
+                        <div key={boardRow[0].coordinates.y} className="game-board__row">
                             {boardRow.map((boardCell) => (
                                 <DropTarget
                                     key={`${boardCell.coordinates.x}${boardCell.coordinates.y}`}
@@ -65,6 +102,9 @@ export default function NewGame() {
                                         isRevealedDefault={boardCell.isRevealed}
                                         isShipDefault={boardCell.isShip}
                                         myBoard
+                                        colorHex={
+                                            blockPlacements[`${boardCell.coordinates.x}${boardCell.coordinates.y}`]
+                                        }
                                     />
                                 </DropTarget>
                             ))}

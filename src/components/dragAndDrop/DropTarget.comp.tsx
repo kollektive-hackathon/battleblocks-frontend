@@ -9,19 +9,12 @@ type Props = {
 
 export default function DropTarget(props: Props) {
     const { children, onDrop, x, y } = props
-    const [{ canDrop }, dropRef] = useDrop({
+    const [, dropRef] = useDrop({
         accept: 'COMPONENT',
         drop: (item) => {
             onDrop(x, y, (item as any).data)
-        },
-        collect: (monitor) => ({
-            canDrop: monitor.canDrop()
-        })
+        }
     })
 
-    return (
-        <div ref={dropRef} style={{ backgroundColor: canDrop ? 'green' : 'white' }}>
-            {children}
-        </div>
-    )
+    return <div ref={dropRef}>{children}</div>
 }

@@ -2,12 +2,13 @@ import { Coordinates, TCell } from '@/types/game'
 
 const EMPTY_BOARD: TCell[][] = []
 const PAGE_SIZE = 8
+const BLOCK_PLACEMENT_DEFAULT: { [coordinates: string]: string } = {}
 
-for (let x = 0; x < 10; x += 1) {
+for (let y = 0; y < 10; y += 1) {
     EMPTY_BOARD.push([])
 
-    for (let y = 0; y < 10; y += 1) {
-        EMPTY_BOARD[x].push({
+    for (let x = 0; x < 10; x += 1) {
+        EMPTY_BOARD[y].push({
             coordinates: {
                 x,
                 y
@@ -15,6 +16,13 @@ for (let x = 0; x < 10; x += 1) {
             isRevealed: false,
             isShip: false
         })
+    }
+}
+
+for (let x = 0; x <= 9; x += 1) {
+    for (let y = 0; y <= 9; y += 1) {
+        const key = `${x}${y}`
+        BLOCK_PLACEMENT_DEFAULT[key] = '#e5e5e5'
     }
 }
 
@@ -65,4 +73,4 @@ function getShipCoordinates(blockType: string, placement: Coordinates): Coordina
     return li
 }
 
-export { EMPTY_BOARD, getShipCoordinates, PAGE_SIZE }
+export { BLOCK_PLACEMENT_DEFAULT, EMPTY_BOARD, getShipCoordinates, PAGE_SIZE }
