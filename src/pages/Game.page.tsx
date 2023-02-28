@@ -20,13 +20,14 @@ export default function Game() {
             <div className="page-container__content">
                 <div className="game-board">
                     {game.map((boardRow) => (
-                        <div key={boardRow[0].coordinates.x} className="game-board__row">
+                        <div key={boardRow[0].coordinates.y} className="game-board__row">
                             {boardRow.map((boardCell) => (
                                 <Cell
                                     key={`${boardCell.coordinates.x}${boardCell.coordinates.y}`}
                                     isRevealedDefault={boardCell.isRevealed}
                                     isShipDefault={boardCell.isShip}
                                     myBoard
+                                    colorHex="#e5e5e5"
                                 />
                             ))}
                         </div>
@@ -35,13 +36,14 @@ export default function Game() {
                 <div className="delimiter" />
                 <div className="game-board">
                     {game.map((boardRow) => (
-                        <div key={boardRow[0].coordinates.x} className="game-board__row">
+                        <div key={boardRow[0].coordinates.y} className="game-board__row">
                             {boardRow.map((boardCell) => (
                                 <Cell
                                     key={`${boardCell.coordinates.x}${boardCell.coordinates.y}`}
                                     isRevealedDefault={boardCell.isRevealed}
                                     isShipDefault={boardCell.isShip}
                                     myBoard={false}
+                                    colorHex="#e5e5e5"
                                 />
                             ))}
                         </div>
