@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import axios from 'axios'
 
 import Loader from '@/components/Loader.comp'
@@ -10,6 +10,8 @@ import { removeTokenAndUser } from '@/utils/token'
 export default function Profile() {
     const { bloctoUser, setUser, user } = useUserContext()
     const { setNotification } = useNotificationContext()
+    const [custodialWallet, setCustodialWallet] = useState<string>('')
+    const [connectWalletMessage, setConnectWalletMessage] = useState('personal-wallet?connect >>')
 
     const logout = useCallback(() => {
         setUser(null)
@@ -28,6 +30,16 @@ export default function Profile() {
         },
         [setNotification]
     )
+
+    const sendCosignTx = useCallback(async () => {
+        if (connectWalletMessage !== 'Connecting...') {
+            await setConnectWalletMessage('Connecting...')
+
+            await cosign(user?.custodialWalletAddress!)
+
+            setCustodialWallet(bloctoUser?.addr!)
+        }
+    }, [connectWalletMessage, user?.custodialWalletAddress, bloctoUser?.addr])
 
     useEffect(() => {
         axios
@@ -60,28 +72,24 @@ export default function Profile() {
                             {user.custodialWalletAddress}
                         </span>
                     </div>
-                    {user.selfCustodyWalletAddress ? (
+                    {user.selfCustodyWalletAddress || custodialWallet ? (
                         <div className="profile__wallet-container__connected">
                             personal-wallet:{' '}
                             <span
                                 className="wallet-container__address"
                                 onClick={
                                     () =>
-                                        user.selfCustodyWalletAddress ||
-                                        (bloctoUser?.addr &&
-                                            copyToClipboard(user.selfCustodyWalletAddress || bloctoUser?.addr))
+                                        (user.selfCustodyWalletAddress || custodialWallet) &&
+                                        copyToClipboard(user.selfCustodyWalletAddress || custodialWallet)
                                     // eslint-disable-next-line react/jsx-curly-newline
                                 }
                             >
-                                {user.selfCustodyWalletAddress || bloctoUser?.addr}
+                                {user.selfCustodyWalletAddress || custodialWallet}
                             </span>
                         </div>
                     ) : (
-                        <div
-                            className="profile__wallet-container__connect"
-                            onClick={() => cosign(user.custodialWalletAddress)}
-                        >
-                            personal-wallet?connect &gt;&gt;
+                        <div className="profile__wallet-container__connect" onClick={() => sendCosignTx()}>
+                            {connectWalletMessage}
                         </div>
                     )}
                 </div>

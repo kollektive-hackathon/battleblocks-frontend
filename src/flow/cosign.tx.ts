@@ -5,7 +5,7 @@ const KEY_ID = 0
 
 const signingFunction = async (signable: any, battleBlocksWallet: string) => {
     // TODO: catch possible error
-    const { data } = await axios.post('/cosign', { payload: signable })
+    const { data } = await axios.post(`/cosign`, { payload: signable })
 
     const signature = Buffer.from(data, 'base64').toString('hex')
 
@@ -24,13 +24,10 @@ const serverAuthorization = (account: any, battleBlocksWallet: string) => ({
     signingFunction: (signable: any) => signingFunction(signable, battleBlocksWallet)
 })
 
-export const cosign = (battleBlocksWallet?: string) => {
-    if (!battleBlocksWallet) {
-        return
-    }
-
-    fcl.send([
-        fcl.transaction`
+export const cosign = async (battleBlocksWallet: string | null) => {
+    const tx = await fcl
+        .send([
+            fcl.transaction`
 import BattleBlocksAccounts from 0xBATTLE_BLOCKS_ADDRESS
 import BattleBlocksNFT from 0xBATTLE_BLOCKS_ADDRESS
 import FungibleToken from 0xFUNGIBLE_TOKEN_ADDRESS
@@ -125,9 +122,12 @@ transaction {
     }
 }
             `,
-        fcl.payer((account: any) => serverAuthorization(account, battleBlocksWallet!)),
-        fcl.proposer(fcl.authz),
-        fcl.authorizations([fcl.authz, (account: any) => serverAuthorization(account, battleBlocksWallet!)]),
-        fcl.limit(9999)
-    ]).then(fcl.decode)
+            fcl.payer((account: any) => serverAuthorization(account, battleBlocksWallet!)),
+            fcl.proposer(fcl.authz),
+            fcl.authorizations([fcl.authz, (account: any) => serverAuthorization(account, battleBlocksWallet!)]),
+            fcl.limit(9999)
+        ])
+        .then(fcl.decode)
+
+    return fcl.tx(tx).onceSealed()
 }
