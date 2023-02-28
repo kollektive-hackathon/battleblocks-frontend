@@ -116,6 +116,13 @@ a:hover {
     }
 }
 
+.login-page__message {
+    position: absolute;
+    top: 60%;
+    left: 39%;
+    text-align: center;
+}
+
 .draggable-component {
     transform: translate(0, 0);
 }
