@@ -7,7 +7,7 @@ import { useUserContext } from '@/context/UserContext'
 import { persistToken } from '@/utils/token'
 
 export default function Login() {
-    const { setUser } = useUserContext()
+    const { setUser, setEmail } = useUserContext()
     // default has to be true because of conditions in rendering, will be set to false if user isn't registered
     const [isRegistered, setIsRegistered] = useState(true)
     const [username, setUsername] = useState('')
@@ -56,6 +56,8 @@ export default function Login() {
             })
 
             setUser(data)
+
+            setEmail(data.email)
         } catch (e) {
             setNotification({
                 title: 'registration-error',
