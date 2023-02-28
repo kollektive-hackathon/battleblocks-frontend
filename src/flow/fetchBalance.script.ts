@@ -23,9 +23,7 @@ export async function fetchBalance(address: string) {
     }
 
     try {
-        const result: number = (await send([script(CODE), args([arg(address, Address)])]).then(decode)) ?? 0
-
-        return result
+        return +(await send([script(CODE), args([arg(address, Address)])]).then(decode)) ?? 0
     } catch (e) {
         return 0
     }
