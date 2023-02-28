@@ -4,17 +4,17 @@ import Cell from '@/components/Cell.comp'
 import { TCell } from '@/types/game'
 import { EMPTY_BOARD } from '@/utils/game'
 
-export default function NewGame() {
+export default function Game() {
     // TODO: fetch game on create
     const [game] = useState<TCell[][]>(EMPTY_BOARD)
 
     return (
-        <div className="new-game page-container">
+        <div className="game page-container">
             <div className="page-container__title">
                 <div className="page-container__title__value">you vs ???</div>
-                <div className="new-game-stake">
-                    <div className="new-game-stake__title">prize?amount&gt;</div>
-                    <div className="new-game-stake__value">$69</div>
+                <div className="game-stake">
+                    <div className="game-stake__title">prize?amount&gt;</div>
+                    <div className="game-stake__value">$69</div>
                 </div>
             </div>
             <div className="page-container__content">

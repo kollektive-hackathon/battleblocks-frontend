@@ -1,4 +1,4 @@
-.new-game-stake {
+.game-stake {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -6,19 +6,24 @@
     letter-spacing: 0.1em;
 }
 
-.new-game-stake__title {
+.game-stake__title {
     font-size: 12px;
 }
 
-.new-game-stake__value {
+.game-stake__value {
     font-size: 15px;
 }
 
-.new-game .page-container__content {
+.new-game .page-container__content,
+.game .page-container__content {
     display: flex;
     justify-content: space-between;
     max-width: 100%;
     padding: 0;
+}
+
+.game .page-container__content {
+    height: calc(100% - 83px);
 }
 
 .delimiter {
