@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 import { Outlet } from 'react-router-dom'
 import * as fcl from '@onflow/fcl'
 import axios from 'axios'
@@ -98,23 +100,25 @@ export default function App() {
     }, [])
 
     return (
-        <NotificationContext.Provider value={{ notification, setNotification: setNotificationAndUnset }}>
-            <UserContext.Provider value={{ user, setUser, bloctoUser }}>
-                <>
-                    {user === undefined ? <Loader /> : user === null ? <Login /> : <Outlet />}
-                    {!!notification && (
-                        <div className="notification">
-                            <div className="notification__title">{notification.title}!&gt;</div>
-                            <div className="notification__description">{notification.description}</div>
-                        </div>
-                    )}
-                    {showOverlay && (
-                        <div className="modal-backdrop" onClick={() => setShowOverlay(false)}>
-                            for optimal experience, please use app in full screen
-                        </div>
-                    )}
-                </>
-            </UserContext.Provider>
-        </NotificationContext.Provider>
+        <DndProvider backend={HTML5Backend}>
+            <NotificationContext.Provider value={{ notification, setNotification: setNotificationAndUnset }}>
+                <UserContext.Provider value={{ user, setUser, bloctoUser }}>
+                    <>
+                        {user === undefined ? <Loader /> : user === null ? <Login /> : <Outlet />}
+                        {!!notification && (
+                            <div className="notification">
+                                <div className="notification__title">{notification.title}!&gt;</div>
+                                <div className="notification__description">{notification.description}</div>
+                            </div>
+                        )}
+                        {showOverlay && (
+                            <div className="modal-backdrop" onClick={() => setShowOverlay(false)}>
+                                for optimal experience, please use app in full screen
+                            </div>
+                        )}
+                    </>
+                </UserContext.Provider>
+            </NotificationContext.Provider>
+        </DndProvider>
     )
 }
