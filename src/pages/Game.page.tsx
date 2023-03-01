@@ -1,36 +1,43 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 
 import Cell from '@/components/Cell.comp'
 import { useNotificationContext } from '@/context/NotificationContext'
 import { useUserContext } from '@/context/UserContext'
-// eslint-disable-next-line no-unused-vars
-import type { Coordinates, Game, TCell } from '@/types/game'
-import { BLOCK_PLACEMENT_DEFAULT, EMPTY_BOARD, getShipCoordinates } from '@/utils/game'
+import { Coordinates, GameSocketMessage, GameSocketMessageEnum, GameStatusEnum, TGame } from '@/types/game'
+import { BLOCK_PLACEMENT_DEFAULT, EMPTY_BOARD, getShipCoordinates, HIT_PLACEMENT_DEFAULT } from '@/utils/game'
 
-// eslint-disable-next-line no-redeclare
+const OWNER_TURN = 1
+const CHALLENGER_TURN = 2
+
 export default function Game() {
-    const [game] = useState<TCell[][]>(EMPTY_BOARD)
     const [socket, setSocket] = useState<WebSocket>()
-    const [gameInfo, setGameInfo] = useState<Game>()
-    const [blockPlacements, setBlockPlacements] = useState<{ [coordinates: string]: string }>(BLOCK_PLACEMENT_DEFAULT)
+    const [gameInfo, setGameInfo] = useState<TGame>()
+    const [blockPlacements, setBlockPlacements] = useState(BLOCK_PLACEMENT_DEFAULT)
+    const [hitPlacements, setHitPlacements] = useState(HIT_PLACEMENT_DEFAULT)
+    const [opponentHitPlacements, setOpponentHitPlacements] = useState(HIT_PLACEMENT_DEFAULT)
+    const [attackedBlock, setAttackedBlock] = useState('')
 
     const { id } = useParams<{ id: string }>()
     const { setNotification } = useNotificationContext()
     const { user } = useUserContext()
 
+    const isMyTurn = useMemo(() => {
+        return gameInfo?.ownerId === user?.id && gameInfo?.turn === OWNER_TURN
+    }, [gameInfo?.turn, user?.id, gameInfo?.ownerId])
+
     useEffect(() => {
         const fetchGame = async () => {
-            axios
+            return axios
                 .get(`/game/${id}`)
                 .then((result) => setGameInfo(result.data))
                 .catch(() => setNotification({ title: 'game-error', description: 'error fetching game' }))
         }
 
         fetchGame()
-            .then(() => openSocket())
             .then(() => fetchPlacement())
+            .then(() => openSocket())
 
         return () => {
             if (socket) {
@@ -46,11 +53,94 @@ export default function Game() {
 
         sock.onmessage = (e) => {
             const { payload, type } = JSON.parse(e.data)
+
+            handleSocketMessage(type, payload)
         }
     }, [setSocket])
 
+    const handleSocketMessage = useCallback(
+        (type: GameSocketMessage, payload: any) => {
+            switch (type) {
+                case GameSocketMessageEnum.GameCreated:
+                    console.log('created', payload)
+
+                    setGameInfo((prevState) => ({
+                        ...prevState!,
+                        gameStatus: GameStatusEnum.Created
+                    }))
+
+                    break
+
+                case GameSocketMessageEnum.ChallengerJoined:
+                    console.log('joined', payload)
+
+                    setGameInfo((prevState) => ({
+                        ...prevState!,
+                        gameStatus: GameStatusEnum.Playing,
+                        turn: payload.turn,
+                        challengerUsername: payload.challengerName
+                    }))
+
+                    setNotification({
+                        title: 'time-for-battle',
+                        description: `${payload.challengerName} joined your game`
+                    })
+
+                    break
+
+                case GameSocketMessageEnum.MoveDone:
+                    console.log('move', payload)
+
+                    setGameInfo((prevState) => ({
+                        ...prevState!,
+                        turn: prevState!.turn === OWNER_TURN ? CHALLENGER_TURN : OWNER_TURN
+                    }))
+
+                    // TODO: check this
+                    setAttackedBlock('')
+
+                    if (payload.userId === user?.id) {
+                        setHitPlacements((prevState) => ({
+                            ...prevState,
+                            [`${payload.x}${payload.y}`]: payload.isHit
+                        }))
+                    } else {
+                        setOpponentHitPlacements((prevState) => ({
+                            ...prevState,
+                            [`${payload.x}${payload.y}`]: payload.isHit
+                        }))
+                    }
+
+                    break
+
+                case GameSocketMessageEnum.GameOver: {
+                    console.log('game over', payload)
+
+                    const winnerId = +payload.winnerId
+
+                    setGameInfo((prevState) => ({
+                        ...prevState!,
+                        gameStatus: GameStatusEnum.Finished,
+                        winnerId
+                    }))
+
+                    setNotification({
+                        title: 'game-over',
+                        description: user?.id === winnerId ? 'congratulations, you won!' : 'better luck next time!'
+                    })
+
+                    break
+                }
+
+                default:
+                    throw Error('Unsupported websocket message type')
+            }
+        },
+        [setGameInfo]
+    )
+
     const fetchPlacement = useCallback(() => {
-        axios
+        return axios
             .get(`/game/${id}/placement`)
             .then((result) => {
                 result.data.forEach((placement: Coordinates & { colorHex: string; blockType: string }) => {
@@ -73,6 +163,17 @@ export default function Game() {
             )
     }, [setBlockPlacements])
 
+    const attack = useCallback((x: number, y: number) => {
+        axios
+            .post(`/game/${id}/moves`, { x, y })
+            .then(() => {
+                setAttackedBlock(`${x}${y}`)
+            })
+            .catch(() =>
+                setNotification({ title: 'attack-error', description: 'something went wrong, please try again' })
+            )
+    }, [])
+
     return (
         <div className="game page-container">
             <div className="page-container__title">
@@ -87,15 +188,13 @@ export default function Game() {
             </div>
             <div className="page-container__content">
                 <div className="game-board">
-                    {game.map((boardRow) => (
-                        <div key={boardRow[0].coordinates.y} className="game-board__row">
+                    {EMPTY_BOARD.map((boardRow) => (
+                        <div key={boardRow[0].y} className="game-board__row">
                             {boardRow.map((boardCell) => (
                                 <Cell
-                                    key={`${boardCell.coordinates.x}${boardCell.coordinates.y}`}
-                                    isRevealedDefault={boardCell.isRevealed}
-                                    isShipDefault={boardCell.isShip}
-                                    myBoard
-                                    colorHex={blockPlacements[`${boardCell.coordinates.x}${boardCell.coordinates.y}`]}
+                                    key={`${boardCell.x}${boardCell.y}`}
+                                    colorHex={blockPlacements[`${boardCell.x}${boardCell.y}`]}
+                                    isHit={opponentHitPlacements[`${boardCell.x}${boardCell.y}`]}
                                 />
                             ))}
                         </div>
@@ -103,14 +202,15 @@ export default function Game() {
                 </div>
                 <div className="delimiter" />
                 <div className="game-board">
-                    {game.map((boardRow) => (
-                        <div key={boardRow[0].coordinates.y} className="game-board__row">
+                    {EMPTY_BOARD.map((boardRow) => (
+                        <div key={boardRow[0].y} className="game-board__row">
                             {boardRow.map((boardCell) => (
                                 <Cell
-                                    key={`${boardCell.coordinates.x}${boardCell.coordinates.y}`}
-                                    isRevealedDefault={boardCell.isRevealed}
-                                    isShipDefault={boardCell.isShip}
-                                    myBoard={false}
+                                    key={`${boardCell.x}${boardCell.y}`}
+                                    onClick={() => attack(boardCell.x, boardCell.y)}
+                                    isHit={hitPlacements[`${boardCell.x}${boardCell.y}`]}
+                                    isAttacked={attackedBlock === `${boardCell.x}${boardCell.y}`}
+                                    disabled={!!attackedBlock || !isMyTurn}
                                 />
                             ))}
                         </div>

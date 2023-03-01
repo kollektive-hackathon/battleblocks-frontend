@@ -61,11 +61,15 @@
     }
 
     &--hit {
-        background-color: red;
+        background-color: #8c1110;
     }
 
     &--miss {
         background-color: #9b9b9b;
+    }
+
+    &--try {
+        background-color: #474747;
     }
 }
 

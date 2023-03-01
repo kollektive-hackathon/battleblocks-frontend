@@ -1,25 +1,28 @@
-import { useState } from 'react'
-
 type Props = {
-    isRevealedDefault: boolean
-    isShipDefault: boolean
-    myBoard: boolean
+    isHit: boolean | null
     colorHex?: string
+    isAttacked?: boolean
+    onClick?: () => void
+    disabled?: boolean
 }
 
 export default function Cell(props: Props) {
-    const { isRevealedDefault, isShipDefault, myBoard, colorHex } = props
-    const [isRevealed, setIsRevealed] = useState(isRevealedDefault)
-    const [isShip] = useState(isShipDefault)
+    const { isHit, colorHex, onClick, isAttacked, disabled } = props
 
     return (
         <div
             className={`game-board__cell${
-                isRevealed ? (isShip ? ' game-board__cell--hit' : ' game-board__cell--miss') : ''
+                isHit !== null
+                    ? isHit
+                        ? ' game-board__cell--hit'
+                        : ' game-board__cell--miss'
+                    : isAttacked
+                    ? ' game-board__cell--try'
+                    : ''
             }`}
-            onClick={!myBoard ? () => setIsRevealed(true) : () => {}}
+            onClick={onClick && !disabled ? () => onClick() : () => {}}
             style={{
-                cursor: myBoard ? 'default' : isRevealed ? 'not-allowed' : 'pointer',
+                cursor: !onClick ? 'default' : isHit !== null || isAttacked ? 'not-allowed' : 'pointer',
                 backgroundColor: colorHex ?? ''
             }}
         />
