@@ -139,8 +139,6 @@ export default function Game() {
                     break
 
                 case GameSocketMessageEnum.MoveDone:
-                    console.log('move', payload)
-
                     setGameInfo((prevState) => ({
                         ...prevState!,
                         turn: payload.turn
