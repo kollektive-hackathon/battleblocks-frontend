@@ -136,7 +136,7 @@ export default function Game() {
                     throw Error('Unsupported websocket message type')
             }
         },
-        [setGameInfo]
+        [setGameInfo, user?.id, setNotification]
     )
 
     const fetchPlacement = useCallback(() => {
