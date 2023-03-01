@@ -174,14 +174,13 @@ export default function Game() {
     )
 
     const attack = useCallback((x: number, y: number) => {
-        axios
-            .post(`/game/${id}/moves`, { x, y })
-            .then(() => {
-                setAttackedBlock(`${x}${y}`)
-            })
-            .catch(() =>
-                setNotification({ title: 'attack-error', description: 'something went wrong, please try again' })
-            )
+        setAttackedBlock(`${x}${y}`)
+
+        axios.post(`/game/${id}/moves`, { x, y }).catch(() => {
+            setAttackedBlock('')
+
+            setNotification({ title: 'attack-error', description: 'something went wrong, please try again' })
+        })
     }, [])
 
     const isMyTurn = useMemo(() => {
