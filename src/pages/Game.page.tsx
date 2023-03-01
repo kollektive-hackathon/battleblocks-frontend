@@ -9,7 +9,6 @@ import { Coordinates, GameSocketMessage, GameSocketMessageEnum, GameStatusEnum, 
 import { BLOCK_PLACEMENT_DEFAULT, EMPTY_BOARD, getShipCoordinates, HIT_PLACEMENT_DEFAULT } from '@/utils/game'
 
 const OWNER_TURN = 1
-const CHALLENGER_TURN = 2
 
 export default function Game() {
     const [socket, setSocket] = useState<WebSocket>()
@@ -134,10 +133,9 @@ export default function Game() {
 
                     setGameInfo((prevState) => ({
                         ...prevState!,
-                        turn: prevState!.turn === OWNER_TURN ? CHALLENGER_TURN : OWNER_TURN
+                        turn: payload.turn
                     }))
 
-                    // TODO: check this
                     setAttackedBlock('')
 
                     if (payload.userId === user?.id) {
