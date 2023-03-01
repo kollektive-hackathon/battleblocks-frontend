@@ -80,19 +80,20 @@ export default function Game() {
         axios
             .get(`/game/${id}/moves`)
             .then((result) => {
-                const { userId, isHit, x, y } = result.data
-
-                if (userId === user?.id) {
-                    setHits((prevState) => ({
-                        ...prevState,
-                        [`${x}${y}`]: isHit
-                    }))
-                } else {
-                    setOpponentHits((prevState) => ({
-                        ...prevState,
-                        [`${x}${y}`]: isHit
-                    }))
-                }
+                result.data.forEach((item: { userId: number; x: number; y: number; isHit: boolean }) => {
+                    const { userId, isHit, x, y } = item
+                    if (userId === user?.id) {
+                        setHits((prevState) => ({
+                            ...prevState,
+                            [`${x}${y}`]: isHit
+                        }))
+                    } else {
+                        setOpponentHits((prevState) => ({
+                            ...prevState,
+                            [`${x}${y}`]: isHit
+                        }))
+                    }
+                })
             })
             .catch(() =>
                 setNotification({ title: 'history-error', description: 'error fetching played moves, please refresh' })
