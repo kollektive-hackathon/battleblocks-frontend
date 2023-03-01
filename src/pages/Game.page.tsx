@@ -99,8 +99,6 @@ export default function Game() {
         (type: GameSocketMessage, payload: any) => {
             switch (type) {
                 case GameSocketMessageEnum.GameCreated:
-                    console.log('created', payload)
-
                     setGameInfo((prevState) => ({
                         ...prevState!,
                         gameStatus: GameStatusEnum.Created
@@ -109,8 +107,6 @@ export default function Game() {
                     break
 
                 case GameSocketMessageEnum.ChallengerJoined:
-                    console.log('joined', payload)
-
                     setGameInfo((prevState) => ({
                         ...prevState!,
                         gameStatus: GameStatusEnum.Playing,
