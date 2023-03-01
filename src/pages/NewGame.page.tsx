@@ -117,11 +117,13 @@ export default function NewGame(props: Props) {
                     <div className="game-board__placement">
                         <div className="game-board__placement__title">pick&&place?10-blocks</div>
                         <div className="game-board__placement__inventory">
-                            {user?.inventoryBlocks.map((block) => (
-                                <DraggableComponent key={block.id} blockId={block.id}>
-                                    <Block block={block} />
-                                </DraggableComponent>
-                            ))}
+                            {user?.inventoryBlocks
+                                .filter((block) => block.active)
+                                .map((block) => (
+                                    <DraggableComponent key={block.id} blockId={block.id}>
+                                        <Block block={block} />
+                                    </DraggableComponent>
+                                ))}
                         </div>
                         <div className="game-board__placement__submit" onClick={() => createMatch()}>
                             confirm block placement &gt;&gt;
