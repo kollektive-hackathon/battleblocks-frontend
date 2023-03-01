@@ -18,7 +18,7 @@ type Props = {
 export default function NewGame(props: Props) {
     const { isJoin } = props
     const [placements, setPlacements] = useState<PlacementItem[]>([])
-    const [blockPlacements, setBlockPlacements] = useState<{ [coordinates: string]: string }>(BLOCK_PLACEMENT_DEFAULT)
+    const [blockPlacements, setBlockPlacements] = useState(BLOCK_PLACEMENT_DEFAULT)
 
     const { state } = useLocation()
     const { user } = useUserContext()
