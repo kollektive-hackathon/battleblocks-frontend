@@ -170,6 +170,8 @@ export default function Game() {
                         description: user?.id === winnerId ? 'congratulations, you won!' : 'better luck next time!'
                     })
 
+                    socket?.close()
+
                     break
                 }
 
@@ -177,7 +179,7 @@ export default function Game() {
                     throw Error('Unsupported websocket message type')
             }
         },
-        [setGameInfo, user?.id, setNotification]
+        [setGameInfo, user?.id, setNotification, socket]
     )
 
     const attack = useCallback((x: number, y: number) => {
