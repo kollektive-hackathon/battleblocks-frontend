@@ -84,9 +84,9 @@ export default function Login() {
                             >
                                 <img src="/public/icons/google.svg" alt="Google login" />
                             </div>
-                            <div className="login__container__app login__container__app--twitter">
+                            {/* <div className="login__container__app login__container__app--twitter">
                                 <img src="/public/icons/twitter.svg" alt="Twitter login" />
-                            </div>
+                            </div> */}
                         </div>
                     </>
                 ) : (
