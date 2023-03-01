@@ -22,7 +22,7 @@ export default function Cell(props: Props) {
             }`}
             onClick={onClick && !disabled ? () => onClick() : () => {}}
             style={{
-                cursor: !onClick ? 'default' : isHit !== null || isAttacked ? 'not-allowed' : 'pointer',
+                cursor: !onClick ? 'default' : isHit !== null || isAttacked || disabled ? 'not-allowed' : 'pointer',
                 backgroundColor: colorHex ?? ''
             }}
         />
