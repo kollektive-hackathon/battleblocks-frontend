@@ -31,6 +31,27 @@ export default function Profile() {
         [setNotification]
     )
 
+    const toggleActive = useCallback(
+        (newBlockId: number) => {
+            const activeBlocks = user?.inventoryBlocks.filter((block) => block.active).map((block) => block.id) ?? []
+
+            const activeBlockIds = activeBlocks.includes(newBlockId)
+                ? activeBlocks.filter((id) => id !== newBlockId)
+                : [...activeBlocks, newBlockId]
+
+            axios
+                .put('/profile/blocks', { activeBlockIds })
+                .then((result) => setUser(result.data))
+                .catch(() =>
+                    setNotification({
+                        title: 'toggle-error',
+                        description: 'error toggling item in inventory'
+                    })
+                )
+        },
+        [user]
+    )
+
     const sendCosignTx = useCallback(async () => {
         if (connectWalletMessage !== 'Connecting...') {
             await setConnectWalletMessage('Connecting...')
@@ -108,9 +129,7 @@ export default function Profile() {
                                 <tr
                                     key={block.id}
                                     className={`table-item${!block.active ? ' table-item--deactivated' : ''}`}
-                                    onClick={() => {
-                                        // TODO: toggle active
-                                    }}
+                                    onClick={() => toggleActive(block.id)}
                                 >
                                     <td className="table-item__property">{block.name}</td>
                                     <td className="table-item__property">{block.blockType}</td>

@@ -93,7 +93,8 @@ export default function Lobby() {
                                         </td>
                                         <td className="table-item__property">
                                             {game.ownerId === user?.id ? 'you' : game.ownerUsername} vs{' '}
-                                            {game.challengerUsername ?? '???'}
+                                            {(game.challengerId === user?.id ? 'you' : game.challengerUsername) ??
+                                                '???'}
                                         </td>
                                         <td className="table-item__property">
                                             {DateTime.fromMillis(game.timeCreated).toFormat('HH:mm dd/LL/yyyy')}
