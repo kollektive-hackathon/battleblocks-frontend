@@ -187,7 +187,7 @@ export default function Game() {
                     throw Error('Unsupported websocket message type')
             }
         },
-        [setGameInfo, user?.id, setNotification, socket]
+        [setGameInfo, user?.id, setNotification, socket, setAttackedBlock, setHits, setOpponentHits]
     )
 
     const attack = useCallback((x: number, y: number) => {
@@ -242,8 +242,11 @@ export default function Game() {
                         )
                     )}
                     {(gameInfo?.gameStatus === GameStatusEnum.Created ||
-                        gameInfo?.gameStatus === GameStatusEnum.Preparing) &&
-                        gameInfo.ownerId === user?.id && <div className="game-board__message">waiting for</div>}
+                        gameInfo?.gameStatus === GameStatusEnum.Preparing) && (
+                        <div className="game-board__message">
+                            {gameInfo.ownerId === user?.id ? 'waiting for' : 'waiting...'}
+                        </div>
+                    )}
                 </div>
                 <div className="delimiter" />
                 <div className="game-board">
@@ -270,8 +273,11 @@ export default function Game() {
                         )
                     )}
                     {(gameInfo?.gameStatus === GameStatusEnum.Created ||
-                        gameInfo?.gameStatus === GameStatusEnum.Preparing) &&
-                        gameInfo.ownerId === user?.id && <div className="game-board__message">someone to join</div>}
+                        gameInfo?.gameStatus === GameStatusEnum.Preparing) && (
+                        <div className="game-board__message">
+                            {gameInfo.ownerId === user?.id ? 'someone to join' : 'waiting...'}
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
