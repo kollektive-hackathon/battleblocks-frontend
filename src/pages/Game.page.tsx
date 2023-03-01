@@ -140,7 +140,7 @@ export default function Game() {
 
                     break
 
-                case GameSocketMessageEnum.MoveDone:
+                case GameSocketMessageEnum.MoveDone: {
                     setGameInfo((prevState) => ({
                         ...prevState!,
                         turn: payload.turn
@@ -148,7 +148,9 @@ export default function Game() {
 
                     setAttackedBlock('')
 
-                    if (payload.userId === user?.id) {
+                    const isMine = payload.userId === user?.id
+
+                    if (isMine) {
                         setHits((prevState) => ({
                             ...prevState,
                             [`${payload.x}${payload.y}`]: payload.isHit
@@ -160,7 +162,15 @@ export default function Game() {
                         }))
                     }
 
+                    setNotification({
+                        title: `${isMine ? 'your' : "opponent's"}-attack-${payload.isHit ? 'hit' : 'miss'}`,
+                        description: `${!isMine ? 'you have' : `${gameInfo?.challengerUsername} has`} ${
+                            9 - Object.values(isMine ? hits : opponentHits).filter((value) => value).length
+                        } lives left`
+                    })
+
                     break
+                }
 
                 case GameSocketMessageEnum.GameOver: {
                     const winnerId = +payload.winnerId
@@ -185,7 +195,18 @@ export default function Game() {
                     throw Error('Unsupported websocket message type')
             }
         },
-        [setGameInfo, user?.id, setNotification, socket, setAttackedBlock, setHits, setOpponentHits]
+        [
+            setGameInfo,
+            user?.id,
+            setNotification,
+            socket,
+            setAttackedBlock,
+            setHits,
+            setOpponentHits,
+            hits,
+            opponentHits,
+            gameInfo?.challengerUsername
+        ]
     )
 
     const attack = useCallback((x: number, y: number) => {
