@@ -131,10 +131,12 @@ export default function Game() {
                         challengerUsername: payload.challengerName
                     }))
 
-                    setNotification({
-                        title: 'time-for-battle',
-                        description: `${payload.challengerName} joined your game`
-                    })
+                    if (payload.challengerName !== user?.username) {
+                        setNotification({
+                            title: 'time-for-battle',
+                            description: `${payload.challengerName} joined your game`
+                        })
+                    }
 
                     break
 
