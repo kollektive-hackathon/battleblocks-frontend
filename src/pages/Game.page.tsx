@@ -230,9 +230,8 @@ export default function Game() {
                         )
                     )}
                     {(gameInfo?.gameStatus === GameStatusEnum.Created ||
-                        gameInfo?.gameStatus === GameStatusEnum.Preparing) && (
-                        <div className="game-board__message">waiting for</div>
-                    )}
+                        gameInfo?.gameStatus === GameStatusEnum.Preparing) &&
+                        gameInfo.ownerId === user?.id && <div className="game-board__message">waiting for</div>}
                 </div>
                 <div className="delimiter" />
                 <div className="game-board">
@@ -259,9 +258,8 @@ export default function Game() {
                         )
                     )}
                     {(gameInfo?.gameStatus === GameStatusEnum.Created ||
-                        gameInfo?.gameStatus === GameStatusEnum.Preparing) && (
-                        <div className="game-board__message">someone to join</div>
-                    )}
+                        gameInfo?.gameStatus === GameStatusEnum.Preparing) &&
+                        gameInfo.ownerId === user?.id && <div className="game-board__message">someone to join</div>}
                 </div>
             </div>
         </div>
