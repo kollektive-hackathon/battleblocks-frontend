@@ -18,7 +18,7 @@ export default function CreateMatchModal(props: Props) {
 
     const createMatch = useCallback(async () => {
         const balance = await fetchBalance(user?.custodialWalletAddress ?? '')
-        if (balance < (stake ?? 0)) {
+        if (balance < (stake ?? 0) + 1) {
             setNotification({
                 title: 'invalid-stake',
                 description: `you don't have enough FLOW`
