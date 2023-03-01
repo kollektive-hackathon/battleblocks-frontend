@@ -79,8 +79,24 @@ export default function Game() {
     const fetchMoves = useCallback(() => {
         axios
             .get(`/game/${id}/moves`)
-            .then((result) => console.log(result.data))
-            .catch(() => setNotification({ title: 'history-error', description: 'error fetching move history' }))
+            .then((result) => {
+                const { userId, isHit, x, y } = result.data
+
+                if (userId === user?.id) {
+                    setHits((prevState) => ({
+                        ...prevState,
+                        [`${x}${y}`]: isHit
+                    }))
+                } else {
+                    setOpponentHits((prevState) => ({
+                        ...prevState,
+                        [`${x}${y}`]: isHit
+                    }))
+                }
+            })
+            .catch(() =>
+                setNotification({ title: 'history-error', description: 'error fetching played moves, please refresh' })
+            )
     }, [setNotification])
 
     const openSocket = useCallback(() => {
