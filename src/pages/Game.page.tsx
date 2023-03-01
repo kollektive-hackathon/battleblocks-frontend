@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 
 import Cell from '@/components/Cell.comp'
@@ -15,28 +15,23 @@ export default function Game() {
     const [socket, setSocket] = useState<WebSocket>()
     const [gameInfo, setGameInfo] = useState<TGame>()
     const [blockPlacements, setBlockPlacements] = useState(BLOCK_PLACEMENT_DEFAULT)
-    const [hitPlacements, setHitPlacements] = useState(HIT_PLACEMENT_DEFAULT)
-    const [opponentHitPlacements, setOpponentHitPlacements] = useState(HIT_PLACEMENT_DEFAULT)
+    const [hits, setHits] = useState(HIT_PLACEMENT_DEFAULT)
+    const [opponentHits, setOpponentHits] = useState(HIT_PLACEMENT_DEFAULT)
     const [attackedBlock, setAttackedBlock] = useState('')
 
     const { id } = useParams<{ id: string }>()
     const { setNotification } = useNotificationContext()
     const { user } = useUserContext()
+    const navigate = useNavigate()
 
     const isMyTurn = useMemo(() => {
         return gameInfo?.ownerId === user?.id && gameInfo?.turn === OWNER_TURN
     }, [gameInfo?.turn, user?.id, gameInfo?.ownerId])
 
     useEffect(() => {
-        const fetchGame = async () => {
-            return axios
-                .get(`/game/${id}`)
-                .then((result) => setGameInfo(result.data))
-                .catch(() => setNotification({ title: 'game-error', description: 'error fetching game' }))
-        }
-
         fetchGame()
             .then(() => fetchPlacement())
+            .then(() => fetchMoves())
             .then(() => openSocket())
 
         return () => {
@@ -45,6 +40,52 @@ export default function Game() {
             }
         }
     }, [])
+
+    const fetchGame = useCallback(async () => {
+        return axios
+            .get(`/game/${id}`)
+            .then((result) => {
+                setGameInfo(result.data)
+
+                const { ownerId, challengerId } = result.data
+
+                if (ownerId && challengerId && ![ownerId, challengerId].includes(user?.id)) {
+                    navigate('/')
+                }
+            })
+            .catch(() => setNotification({ title: 'game-error', description: 'error fetching game' }))
+    }, [setGameInfo, setNotification])
+
+    const fetchPlacement = useCallback(() => {
+        return axios
+            .get(`/game/${id}/placement`)
+            .then((result) => {
+                result.data.forEach((placement: Coordinates & { colorHex: string; blockType: string }) => {
+                    const shipCoordinates = getShipCoordinates(placement.blockType, {
+                        x: +placement.x,
+                        y: +placement.y
+                    })
+
+                    // eslint-disable-next-line no-restricted-syntax
+                    for (const { x: xs, y: ys } of shipCoordinates) {
+                        setBlockPlacements((prevState) => ({
+                            ...prevState,
+                            [`${xs}${ys}`]: placement.colorHex
+                        }))
+                    }
+                })
+            })
+            .catch(() =>
+                setNotification({ title: 'fetch-error', description: 'error fetching your placement, please refresh' })
+            )
+    }, [setBlockPlacements, setNotification])
+
+    const fetchMoves = useCallback(() => {
+        axios
+            .get(`/game/${id}/moves`)
+            .then((result) => console.log(result.data))
+            .catch(() => setNotification({ title: 'history-error', description: 'error fetching move history' }))
+    }, [setNotification])
 
     const openSocket = useCallback(() => {
         const sock = new WebSocket(`wss://battleblocks.lol/api/ws/game/${id}`)
@@ -100,12 +141,12 @@ export default function Game() {
                     setAttackedBlock('')
 
                     if (payload.userId === user?.id) {
-                        setHitPlacements((prevState) => ({
+                        setHits((prevState) => ({
                             ...prevState,
                             [`${payload.x}${payload.y}`]: payload.isHit
                         }))
                     } else {
-                        setOpponentHitPlacements((prevState) => ({
+                        setOpponentHits((prevState) => ({
                             ...prevState,
                             [`${payload.x}${payload.y}`]: payload.isHit
                         }))
@@ -139,30 +180,6 @@ export default function Game() {
         [setGameInfo, user?.id, setNotification]
     )
 
-    const fetchPlacement = useCallback(() => {
-        return axios
-            .get(`/game/${id}/placement`)
-            .then((result) => {
-                result.data.forEach((placement: Coordinates & { colorHex: string; blockType: string }) => {
-                    const shipCoordinates = getShipCoordinates(placement.blockType, {
-                        x: +placement.x,
-                        y: +placement.y
-                    })
-
-                    // eslint-disable-next-line no-restricted-syntax
-                    for (const { x: xs, y: ys } of shipCoordinates) {
-                        setBlockPlacements((prevState) => ({
-                            ...prevState,
-                            [`${xs}${ys}`]: placement.colorHex
-                        }))
-                    }
-                })
-            })
-            .catch(() =>
-                setNotification({ title: 'fetch-error', description: 'error fetching your placement, please refresh' })
-            )
-    }, [setBlockPlacements])
-
     const attack = useCallback((x: number, y: number) => {
         axios
             .post(`/game/${id}/moves`, { x, y })
@@ -194,7 +211,7 @@ export default function Game() {
                                 <Cell
                                     key={`${boardCell.x}${boardCell.y}`}
                                     colorHex={blockPlacements[`${boardCell.x}${boardCell.y}`]}
-                                    isHit={opponentHitPlacements[`${boardCell.x}${boardCell.y}`]}
+                                    isHit={opponentHits[`${boardCell.x}${boardCell.y}`]}
                                 />
                             ))}
                         </div>
@@ -208,7 +225,7 @@ export default function Game() {
                                 <Cell
                                     key={`${boardCell.x}${boardCell.y}`}
                                     onClick={() => attack(boardCell.x, boardCell.y)}
-                                    isHit={hitPlacements[`${boardCell.x}${boardCell.y}`]}
+                                    isHit={hits[`${boardCell.x}${boardCell.y}`]}
                                     isAttacked={attackedBlock === `${boardCell.x}${boardCell.y}`}
                                     disabled={!!attackedBlock || !isMyTurn}
                                 />
