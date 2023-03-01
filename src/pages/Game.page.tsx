@@ -9,6 +9,7 @@ import { Coordinates, GameSocketMessage, GameSocketMessageEnum, GameStatusEnum, 
 import { BLOCK_PLACEMENT_DEFAULT, EMPTY_BOARD, getShipCoordinates, HIT_PLACEMENT_DEFAULT } from '@/utils/game'
 
 const OWNER_TURN = 1
+const CHALLENGER_TURN = 2
 
 export default function Game() {
     const [socket, setSocket] = useState<WebSocket>()
@@ -22,10 +23,6 @@ export default function Game() {
     const { setNotification } = useNotificationContext()
     const { user } = useUserContext()
     const navigate = useNavigate()
-
-    const isMyTurn = useMemo(() => {
-        return gameInfo?.ownerId === user?.id && gameInfo?.turn === OWNER_TURN
-    }, [gameInfo?.turn, user?.id, gameInfo?.ownerId])
 
     useEffect(() => {
         fetchGame()
@@ -190,6 +187,13 @@ export default function Game() {
                 setNotification({ title: 'attack-error', description: 'something went wrong, please try again' })
             )
     }, [])
+
+    const isMyTurn = useMemo(() => {
+        return (
+            (gameInfo?.ownerId === user?.id && gameInfo?.turn === OWNER_TURN) ||
+            (gameInfo?.challengerId === user?.id && gameInfo?.turn === CHALLENGER_TURN)
+        )
+    }, [gameInfo?.turn, user?.id, gameInfo?.ownerId])
 
     return (
         <div className="game page-container">
