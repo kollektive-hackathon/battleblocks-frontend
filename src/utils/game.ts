@@ -1,20 +1,18 @@
-import { Coordinates, TCell } from '@/types/game'
+import { Coordinates } from '@/types/game'
 
-const EMPTY_BOARD: TCell[][] = []
+const EMPTY_BOARD: Coordinates[][] = []
 const PAGE_SIZE = 8
 const BLOCK_PLACEMENT_DEFAULT: { [coordinates: string]: string } = {}
+
+const HIT_PLACEMENT_DEFAULT: { [coordinates: string]: boolean | null } = {}
 
 for (let y = 0; y < 10; y += 1) {
     EMPTY_BOARD.push([])
 
     for (let x = 0; x < 10; x += 1) {
         EMPTY_BOARD[y].push({
-            coordinates: {
-                x,
-                y
-            },
-            isRevealed: false,
-            isShip: false
+            x,
+            y
         })
     }
 }
@@ -23,6 +21,8 @@ for (let x = 0; x <= 9; x += 1) {
     for (let y = 0; y <= 9; y += 1) {
         const key = `${x}${y}`
         BLOCK_PLACEMENT_DEFAULT[key] = '#e5e5e5'
+
+        HIT_PLACEMENT_DEFAULT[key] = null
     }
 }
 
@@ -73,4 +73,4 @@ function getShipCoordinates(blockType: string, placement: Coordinates): Coordina
     return li
 }
 
-export { BLOCK_PLACEMENT_DEFAULT, EMPTY_BOARD, getShipCoordinates, PAGE_SIZE }
+export { BLOCK_PLACEMENT_DEFAULT, EMPTY_BOARD, getShipCoordinates, HIT_PLACEMENT_DEFAULT, PAGE_SIZE }

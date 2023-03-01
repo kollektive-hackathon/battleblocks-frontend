@@ -7,7 +7,16 @@ export const GameStatusEnum = {
 
 type GameStatus = (typeof GameStatusEnum)[keyof typeof GameStatusEnum]
 
-export type Game = {
+export const GameSocketMessageEnum = {
+    GameCreated: 'GAME_CREATED',
+    MoveDone: 'MOVE_DONE',
+    ChallengerJoined: 'CHALLENGER_JOINED',
+    GameOver: 'GAME_OVER'
+}
+
+export type GameSocketMessage = (typeof GameSocketMessageEnum)[keyof typeof GameSocketMessageEnum]
+
+export type TGame = {
     id: number
     ownerId: number
     ownerUsername: string
@@ -18,6 +27,7 @@ export type Game = {
     gameStatus?: GameStatus
     timeStarted?: number
     winnerId?: number
+    turn?: number
 }
 
 export type Coordinates = {
@@ -25,18 +35,12 @@ export type Coordinates = {
     y: number
 }
 
-export type TCell = {
-    coordinates: Coordinates
-    isRevealed: boolean
-    isShip: boolean
-}
-
 export type PlacementItem = Coordinates & {
     blockId: number
 }
 
 export type GameList = {
-    games: Game[]
+    games: TGame[]
     nextPageToken: number
     gameCount: number
 }
