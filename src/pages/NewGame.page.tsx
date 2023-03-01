@@ -8,7 +8,7 @@ import DraggableComponent from '@/components/dragAndDrop/Draggable.comp'
 import DropTarget from '@/components/dragAndDrop/DropTarget.comp'
 import { useNotificationContext } from '@/context/NotificationContext'
 import { useUserContext } from '@/context/UserContext'
-import { PlacementItem, TCell } from '@/types/game'
+import { PlacementItem } from '@/types/game'
 import { BLOCK_PLACEMENT_DEFAULT, EMPTY_BOARD, getShipCoordinates } from '@/utils/game'
 
 type Props = {
@@ -17,7 +17,6 @@ type Props = {
 
 export default function NewGame(props: Props) {
     const { isJoin } = props
-    const [game] = useState<TCell[][]>(EMPTY_BOARD)
     const [placements, setPlacements] = useState<PlacementItem[]>([])
     const [blockPlacements, setBlockPlacements] = useState<{ [coordinates: string]: string }>(BLOCK_PLACEMENT_DEFAULT)
 
@@ -37,7 +36,7 @@ export default function NewGame(props: Props) {
         }
 
         axios
-            .post(`/game${isJoin ? `${state.id}/join` : ''}`, { stake: state?.stake, placements })
+            .post(`/game${isJoin ? `/${state.id}/join` : ''}`, { stake: state?.stake, placements })
             .then((result) => {
                 const { id } = result.data
 
@@ -101,23 +100,16 @@ export default function NewGame(props: Props) {
             </div>
             <div className="page-container__content">
                 <div className="game-board">
-                    {game.map((boardRow) => (
-                        <div key={boardRow[0].coordinates.y} className="game-board__row">
+                    {EMPTY_BOARD.map((boardRow) => (
+                        <div key={boardRow[0].y} className="game-board__row">
                             {boardRow.map((boardCell) => (
                                 <DropTarget
-                                    key={`${boardCell.coordinates.x}${boardCell.coordinates.y}`}
+                                    key={`${boardCell.x}${boardCell.y}`}
                                     onDrop={addPlacement}
-                                    x={boardCell.coordinates.x}
-                                    y={boardCell.coordinates.y}
+                                    x={boardCell.x}
+                                    y={boardCell.y}
                                 >
-                                    <Cell
-                                        isRevealedDefault={boardCell.isRevealed}
-                                        isShipDefault={boardCell.isShip}
-                                        myBoard
-                                        colorHex={
-                                            blockPlacements[`${boardCell.coordinates.x}${boardCell.coordinates.y}`]
-                                        }
-                                    />
+                                    <Cell colorHex={blockPlacements[`${boardCell.x}${boardCell.y}`]} isHit={null} />
                                 </DropTarget>
                             ))}
                         </div>
