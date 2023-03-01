@@ -161,8 +161,6 @@ export default function Game() {
                     break
 
                 case GameSocketMessageEnum.GameOver: {
-                    console.log('game over', payload)
-
                     const winnerId = +payload.winnerId
 
                     setGameInfo((prevState) => ({
