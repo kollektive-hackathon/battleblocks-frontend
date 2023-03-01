@@ -227,6 +227,10 @@ export default function Game() {
                             </div>
                         )
                     )}
+                    {(gameInfo?.gameStatus === GameStatusEnum.Created ||
+                        gameInfo?.gameStatus === GameStatusEnum.Preparing) && (
+                        <div className="game-board__message">waiting for</div>
+                    )}
                 </div>
                 <div className="delimiter" />
                 <div className="game-board">
@@ -251,6 +255,10 @@ export default function Game() {
                                 {gameInfo.winnerId === user?.id ? 'loser' : 'winner'}
                             </div>
                         )
+                    )}
+                    {(gameInfo?.gameStatus === GameStatusEnum.Created ||
+                        gameInfo?.gameStatus === GameStatusEnum.Preparing) && (
+                        <div className="game-board__message">someone to join</div>
                     )}
                 </div>
             </div>
