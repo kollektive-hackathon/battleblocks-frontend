@@ -81,6 +81,8 @@ export default function NewGame(props: Props) {
         [setPlacements, placements]
     )
 
+    const placementIds = useMemo(() => placements.map((placement) => placement.blockId) ?? [], [placements])
+
     // if user lands on this page, stake isn't set
     if (!state?.stake) {
         navigate('/')
@@ -118,7 +120,7 @@ export default function NewGame(props: Props) {
                         <div className="game-board__placement__title">pick&&place?10-blocks</div>
                         <div className="game-board__placement__inventory">
                             {user?.inventoryBlocks
-                                .filter((block) => block.active)
+                                .filter((block) => block.active && !placementIds.includes(block.id))
                                 .map((block) => (
                                     <DraggableComponent key={block.id} blockId={block.id}>
                                         <Block block={block} />
