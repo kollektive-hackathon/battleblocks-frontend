@@ -218,6 +218,15 @@ export default function Game() {
                             ))}
                         </div>
                     ))}
+                    {gameInfo?.gameStatus === GameStatusEnum.Playing ? (
+                        <div className="game-board__message">{isMyTurn ? 'your?turn' : 'opponent?turn'} &gt;&gt;</div>
+                    ) : (
+                        gameInfo?.gameStatus === GameStatusEnum.Finished && (
+                            <div className="game-board__message">
+                                {gameInfo.winnerId === user?.id ? 'winner' : 'loser'}
+                            </div>
+                        )
+                    )}
                 </div>
                 <div className="delimiter" />
                 <div className="game-board">
@@ -234,6 +243,15 @@ export default function Game() {
                             ))}
                         </div>
                     ))}
+                    {gameInfo?.gameStatus === GameStatusEnum.Playing ? (
+                        <div className="game-board__message">{isMyTurn ? 'press-to-attack ↑' : 'waiting...'}</div>
+                    ) : (
+                        gameInfo?.gameStatus === GameStatusEnum.Finished && (
+                            <div className="game-board__message">
+                                {gameInfo.winnerId === user?.id ? 'loser' : 'winner'}
+                            </div>
+                        )
+                    )}
                 </div>
             </div>
         </div>
