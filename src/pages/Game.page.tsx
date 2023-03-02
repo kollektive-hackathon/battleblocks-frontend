@@ -6,10 +6,14 @@ import Cell from '@/components/Cell.comp'
 import { useNotificationContext } from '@/context/NotificationContext'
 import { useUserContext } from '@/context/UserContext'
 import { Coordinates, GameSocketMessage, GameSocketMessageEnum, GameStatusEnum, TGame } from '@/types/game'
-import { BLOCK_PLACEMENT_DEFAULT, EMPTY_BOARD, getShipCoordinates, HIT_PLACEMENT_DEFAULT } from '@/utils/game'
-
-const OWNER_TURN = 1
-const CHALLENGER_TURN = 2
+import {
+    BLOCK_PLACEMENT_DEFAULT,
+    CHALLENGER_TURN,
+    EMPTY_BOARD,
+    getShipCoordinates,
+    HIT_PLACEMENT_DEFAULT,
+    OWNER_TURN
+} from '@/utils/game'
 
 export default function Game() {
     const [socket, setSocket] = useState<WebSocket>()

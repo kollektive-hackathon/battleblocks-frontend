@@ -1,5 +1,7 @@
 import { Coordinates } from '@/types/game'
 
+const OWNER_TURN = 1
+const CHALLENGER_TURN = 2
 const EMPTY_BOARD: Coordinates[][] = []
 const PAGE_SIZE = 8
 const BLOCK_PLACEMENT_DEFAULT: { [coordinates: string]: string } = {}
@@ -73,4 +75,12 @@ function getShipCoordinates(blockType: string, placement: Coordinates): Coordina
     return li
 }
 
-export { BLOCK_PLACEMENT_DEFAULT, EMPTY_BOARD, getShipCoordinates, HIT_PLACEMENT_DEFAULT, PAGE_SIZE }
+export {
+    BLOCK_PLACEMENT_DEFAULT,
+    CHALLENGER_TURN,
+    EMPTY_BOARD,
+    getShipCoordinates,
+    HIT_PLACEMENT_DEFAULT,
+    OWNER_TURN,
+    PAGE_SIZE
+}

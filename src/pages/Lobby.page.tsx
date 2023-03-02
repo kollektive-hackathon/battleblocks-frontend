@@ -6,9 +6,20 @@ import { DateTime } from 'luxon'
 import CreateMatchModal from '@/components/CreateMatchModal.comp'
 import Loader from '@/components/Loader.comp'
 import { useNotificationContext } from '@/context/NotificationContext'
-import { useUserContext } from '@/context/UserContext'
-import { GameList } from '@/types/game'
-import { PAGE_SIZE } from '@/utils/game'
+import { User, useUserContext } from '@/context/UserContext'
+import { GameList, TGame } from '@/types/game'
+import { CHALLENGER_TURN, OWNER_TURN, PAGE_SIZE } from '@/utils/game'
+
+const getGameRoute = (game: TGame, user: User) =>
+    `/game/${game.id}${!game.challengerId && game.ownerId !== user?.id ? '/join' : ''}`
+
+const getNewGameConfig = (game: TGame) => ({
+    state: {
+        stake: game.stake,
+        owner: game.ownerUsername,
+        id: game.id
+    }
+})
 
 export default function Lobby() {
     const [gamesList, setGamesList] = useState<GameList>()
@@ -66,21 +77,14 @@ export default function Lobby() {
                                 {gamesList.games.map((game) => (
                                     <tr
                                         key={game.id}
-                                        className="table-item"
+                                        className={`table-item${
+                                            (game.ownerId === user?.id && game.turn === CHALLENGER_TURN) ||
+                                            (game.challengerId === user?.id && game.turn === OWNER_TURN)
+                                                ? ' table-item--deactivated'
+                                                : ''
+                                        }`}
                                         onClick={
-                                            () =>
-                                                navigate(
-                                                    `/game/${game.id}${
-                                                        !game.challengerId && game.ownerId !== user?.id ? '/join' : ''
-                                                    }`,
-                                                    {
-                                                        state: {
-                                                            stake: game.stake,
-                                                            owner: game.ownerUsername,
-                                                            id: game.id
-                                                        }
-                                                    }
-                                                )
+                                            () => navigate(getGameRoute(game, user!), getNewGameConfig(game))
                                             // eslint-disable-next-line
                                         }
                                     >
