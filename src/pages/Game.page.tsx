@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 
@@ -17,6 +17,9 @@ import {
 
 export default function Game() {
     const [socket, setSocket] = useState<WebSocket>()
+    const gameRef = useRef<TGame>(null)
+    const hitsRef = useRef<{ [coordinates: string]: boolean | null }>(null)
+    const opponentHitsRef = useRef<{ [coordinates: string]: boolean | null }>(null)
     const [gameInfo, setGameInfo] = useState<TGame>()
     const [blockPlacements, setBlockPlacements] = useState(BLOCK_PLACEMENT_DEFAULT)
     const [hits, setHits] = useState(HIT_PLACEMENT_DEFAULT)
@@ -55,6 +58,22 @@ export default function Game() {
             })
             .catch(() => setNotification({ title: 'game-error', description: 'error fetching game' }))
     }, [setGameInfo, setNotification])
+
+    // hacks because these objects haven't updated in handleSocketMessage
+    useEffect(() => {
+        // @ts-ignore
+        gameRef.current = gameInfo
+    }, [gameInfo])
+
+    useEffect(() => {
+        // @ts-ignore
+        hitsRef.current = hits
+    }, [hits])
+
+    useEffect(() => {
+        // @ts-ignore
+        opponentHitsRef.current = opponentHits
+    }, [opponentHits])
 
     const fetchPlacement = useCallback(() => {
         return axios
@@ -168,8 +187,12 @@ export default function Game() {
 
                     setNotification({
                         title: `${isMine ? 'your' : "opponent's"}-attack-${payload.isHit ? 'hit' : 'miss'}`,
-                        description: `${!isMine ? 'you have' : `${gameInfo?.challengerUsername} has`} ${
-                            9 - Object.values(isMine ? hits : opponentHits).filter((value) => value).length
+                        description: `${!isMine ? 'you have' : `${gameRef.current?.challengerUsername} has`} ${
+                            10 -
+                            (payload.isHit ? 1 : 0) -
+                            Object.values((isMine ? hitsRef.current : opponentHitsRef.current) ?? {}).filter(
+                                (value) => value
+                            ).length
                         } lives left`
                     })
 
@@ -199,18 +222,7 @@ export default function Game() {
                     throw Error('Unsupported websocket message type')
             }
         },
-        [
-            setGameInfo,
-            user?.id,
-            setNotification,
-            socket,
-            setAttackedBlock,
-            setHits,
-            setOpponentHits,
-            hits,
-            opponentHits,
-            gameInfo?.challengerUsername
-        ]
+        [setGameInfo, user?.id, setNotification, socket, setAttackedBlock, setHits, setOpponentHits]
     )
 
     const attack = useCallback((x: number, y: number) => {
