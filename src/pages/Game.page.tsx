@@ -60,6 +60,7 @@ export default function Game() {
     }, [setGameInfo, setNotification])
 
     // hacks because these objects haven't updated in handleSocketMessage
+    // TODO: check if these refs need to be updated like this or just once in (initial) useEffect
     useEffect(() => {
         // @ts-ignore
         gameRef.current = gameInfo
