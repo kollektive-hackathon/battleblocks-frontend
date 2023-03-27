@@ -1,6 +1,9 @@
 import { useCallback, useEffect, useState } from 'react'
+import ReactDOMServer from 'react-dom/server'
+import { Tooltip } from 'react-tooltip'
 import axios from 'axios'
 
+import Block from '@/components/Block.comp'
 import Loader from '@/components/Loader.comp'
 import { useNotificationContext } from '@/context/NotificationContext'
 import { useUserContext } from '@/context/UserContext'
@@ -126,16 +129,21 @@ export default function Profile() {
                         </thead>
                         <tbody>
                             {user.inventoryBlocks.map((block) => (
-                                <tr
-                                    key={block.id}
-                                    className={`table-item${!block.active ? ' table-item--deactivated' : ''}`}
-                                    onClick={() => toggleActive(block.id)}
-                                >
-                                    <td className="table-item__property">{block.name}</td>
-                                    <td className="table-item__property">{block.blockType}</td>
-                                    <td className="table-item__property">{block.rarity}</td>
-                                    <td className="table-item__property">{block.active ? '+' : '-'}</td>
-                                </tr>
+                                <>
+                                    <tr
+                                        key={block.id}
+                                        className={`table-item${!block.active ? ' table-item--deactivated' : ''}`}
+                                        onClick={() => toggleActive(block.id)}
+                                        data-tooltip-id="preview"
+                                        data-tooltip-html={ReactDOMServer.renderToStaticMarkup(<Block block={block} />)}
+                                    >
+                                        <td className="table-item__property">{block.name}</td>
+                                        <td className="table-item__property">{block.blockType}</td>
+                                        <td className="table-item__property">{block.rarity}</td>
+                                        <td className="table-item__property">{block.active ? '+' : '-'}</td>
+                                    </tr>
+                                    <Tooltip id="preview" style={{ backgroundColor: 'white' }} offset={0} />
+                                </>
                             ))}
                         </tbody>
                     </table>
