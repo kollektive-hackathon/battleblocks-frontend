@@ -80,20 +80,22 @@ export default function Game() {
         return axios
             .get(`/game/${id}/placement`)
             .then((result) => {
-                result.data.forEach((placement: Coordinates & { colorHex: string; blockType: string }) => {
-                    const shipCoordinates = getShipCoordinates(placement.blockType, {
-                        x: +placement.x,
-                        y: +placement.y
-                    })
+                result.data.forEach(
+                    (placement: Coordinates & { colorHex: string; blockType: string; pattern: string }) => {
+                        const shipCoordinates = getShipCoordinates(placement.blockType, {
+                            x: +placement.x,
+                            y: +placement.y
+                        })
 
-                    // eslint-disable-next-line no-restricted-syntax
-                    for (const { x: xs, y: ys } of shipCoordinates) {
-                        setBlockPlacements((prevState) => ({
-                            ...prevState,
-                            [`${xs}${ys}`]: placement.colorHex
-                        }))
+                        // eslint-disable-next-line no-restricted-syntax
+                        for (const { x: xs, y: ys } of shipCoordinates) {
+                            setBlockPlacements((prevState) => ({
+                                ...prevState,
+                                [`${xs}${ys}`]: { color: placement.colorHex, pattern: placement.pattern }
+                            }))
+                        }
                     }
-                })
+                )
             })
             .catch(() =>
                 setNotification({ title: 'fetch-error', description: 'error fetching your placement, please refresh' })
@@ -262,7 +264,8 @@ export default function Game() {
                             {boardRow.map((boardCell) => (
                                 <Cell
                                     key={`${boardCell.x}${boardCell.y}`}
-                                    colorHex={blockPlacements[`${boardCell.x}${boardCell.y}`]}
+                                    colorHex={blockPlacements[`${boardCell.x}${boardCell.y}`].color}
+                                    pattern={blockPlacements[`${boardCell.x}${boardCell.y}`].pattern}
                                     isHit={opponentHits[`${boardCell.x}${boardCell.y}`]}
                                 />
                             ))}
@@ -295,6 +298,7 @@ export default function Game() {
                                     isHit={hits[`${boardCell.x}${boardCell.y}`]}
                                     isAttacked={attackedBlock === `${boardCell.x}${boardCell.y}`}
                                     disabled={!!attackedBlock || !isMyTurn}
+                                    pattern="basic"
                                 />
                             ))}
                         </div>

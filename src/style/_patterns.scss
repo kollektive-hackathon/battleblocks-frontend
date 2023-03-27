@@ -1,0 +1,140 @@
+@mixin pattern {
+    background-color: black;
+    opacity: 1;
+}
+
+.pattern__basic {
+    background-color: currentcolor;
+}
+
+.pattern__wavy {
+    @include pattern;
+
+    background-image: repeating-radial-gradient(circle at 0 0, rgb(255 255 255 / 0%) 0, #000 10px), repeating-linear-gradient(currentColor, currentColor);
+}
+
+.pattern__rhombus {
+    @include pattern;
+
+    background-image: linear-gradient(135deg, currentColor 25%, rgb(255 255 255 / 0%) 25%), linear-gradient(225deg, currentColor 25%, rgb(255 255 255 / 0%) 25%), linear-gradient(45deg, currentColor 25%, rgb(255 255 255 / 0%) 25%), linear-gradient(315deg, currentColor 25%, #000 25%);
+    background-repeat: repeat;
+    background-position: 10px 0, 10px 0, 0 0, 0 0;
+    background-size: 10px 10px;
+}
+
+.pattern__zig-zag {
+    @include pattern;
+
+    background-image: linear-gradient(135deg, currentColor 25%, rgb(255 255 255 / 0%) 25%), linear-gradient(225deg, currentColor 25%, rgb(255 255 255 / 0%) 25%), linear-gradient(45deg, currentColor 25%, rgb(255 255 255 / 0%) 25%), linear-gradient(315deg, currentColor 25%, #000 25%);
+    background-repeat: repeat;
+    background-position: 4px 0, 4px 0, 0 0, 0 0;
+    background-size: 8px 8px;
+}
+
+.pattern__zig-zag--big {
+    @include pattern;
+
+    background: linear-gradient(135deg, currentColor 25%, rgb(255 255 255 / 0%) 25%) -7px 0/ 14px 14px, linear-gradient(225deg, currentColor 25%, rgb(255 255 255 / 0%) 25%) -7px 0/ 14px 14px, linear-gradient(315deg, currentColor 25%, rgb(255 255 255 / 0%) 25%) 0 0/ 14px 14px, linear-gradient(45deg, currentColor 25%, #000 25%) 0 0/ 14px 14px;
+}
+
+.pattern__rectangles {
+    @include pattern;
+
+    background-image: repeating-linear-gradient(45deg, currentColor 25%, rgb(255 255 255 / 0%) 25%, rgb(255 255 255 / 0%) 75%, currentColor 75%, currentColor), repeating-linear-gradient(45deg, currentColor 25%, #000 25%, #000 75%, currentColor 75%, currentColor);
+    background-position: 0 0, 4px 4px;
+    background-size: 8px 8px;
+}
+
+.pattern__lines--vertical {
+    @include pattern;
+
+    background-image: linear-gradient(to right, currentColor, currentColor 2px, #000 2px, #000);
+    background-size: 4px 100%;
+}
+
+.pattern__lines--horizontal {
+    @include pattern;
+
+    background-image: linear-gradient(0deg, #000000 50%, #fdff42 50%);
+    background-size: 5px 5px;
+}
+
+.pattern__isometric {
+    @include pattern;
+
+    background-image:
+        linear-gradient(30deg, #600f75 12%, rgb(255 255 255 / 0%) 12.5%, rgb(255 255 255 / 0%) 87%, #600f75 87.5%, #600f75),
+        linear-gradient(150deg, #600f75 12%, rgb(255 255 255 / 0%) 12.5%, rgb(255 255 255 / 0%) 87%, #600f75 87.5%, #600f75),
+        linear-gradient(30deg, #600f75 12%, rgb(255 255 255 / 0%) 12.5%, rgb(255 255 255 / 0%) 87%, #600f75 87.5%, #600f75),
+        linear-gradient(150deg, #600f75 12%, rgb(255 255 255 / 0%) 12.5%, rgb(255 255 255 / 0%) 87%, #600f75 87.5%, #600f75),
+        linear-gradient(60deg, #600f7577 25%, rgb(255 255 255 / 0%) 25.5%, rgb(255 255 255 / 0%) 75%, #600f7577 75%, #600f7577),
+        linear-gradient(60deg, #600f7577 25%, rgb(255 255 255 / 0%) 25.5%, rgb(255 255 255 / 0%) 75%, #600f7577 75%, #600f7577);
+    background-position: 0 0, 0 0, 7px 12px, 7px 12px, 0 0, 7px 12px;
+    background-size: 14px 25px;
+}
+
+.pattern__paper {
+    @include pattern;
+
+    background-image:
+        linear-gradient(currentColor 1.2px, rgb(255 255 255 / 0%) 1.2px),
+        linear-gradient(90deg, currentColor 1.2px, rgb(255 255 255 / 0%) 1.2px),
+        linear-gradient(currentColor 0.6px, rgb(255 255 255 / 0%) 0.6px),
+        linear-gradient(90deg, currentColor 0.6px, #000 0.6px);
+    background-position: -1.2px -1.2px, -1.2px -1.2px, -0.6px -0.6px, -0.6px -0.6px;
+    background-size: 30px 30px, 30px 30px, 6px 6px, 6px 6px;
+}
+
+.pattern__diagonal {
+    @include pattern;
+
+    background-image: repeating-linear-gradient(45deg, currentColor 0, currentColor 0.6px, #000 0, #000 50%);
+    background-size: 6px 6px;
+}
+
+.pattern__diagonal--2 {
+    @include pattern;
+
+    background: repeating-linear-gradient( 45deg, currentColor, currentColor 2.5px, #000000 2.5px, #000000 6px );
+}
+
+.pattern__diagonal--3 {
+    @include pattern;
+
+    background: repeating-linear-gradient( -45deg, currentColor, currentColor 2.5px, #000000 2.5px, #000000 3px );
+}
+
+.pattern__triangle {
+    @include pattern;
+
+    background-image: linear-gradient(45deg, currentColor 50%, #000 50%);
+    background-size: 6px 6px;
+}
+
+.pattern__triangle--reverse {
+    @include pattern;
+
+    background-image: linear-gradient(-45deg, #000, #000 50%, currentColor 50%, currentColor);
+    background-size: 10px 10px;
+}
+
+.pattern__moon {
+    @include pattern;
+
+    background-image: radial-gradient(ellipse farthest-corner at 7px 7px, currentColor, currentColor 50%, #000 50%);
+    background-size: 7px 7px;
+}
+
+.pattern__dot {
+    @include pattern;
+
+    background-image: radial-gradient(currentColor 0.25px, #000 0.25px);
+    background-size: 3px 3px;
+}
+
+.pattern__cross {
+    @include pattern;
+
+    background: radial-gradient(circle, rgba(255, 255, 255, 0) 20%, #000000 20%, #000000 80%, rgba(255, 255, 255, 0) 80%, rgba(255, 255, 255, 0)), radial-gradient(circle, rgba(255, 255, 255, 0) 20%, #000000 20%, #000000 80%, rgba(255, 255, 255, 0) 80%, rgba(255, 255, 255, 0)) 7.5px 7.5px, linear-gradient(currentColor 1px, rgba(255, 255, 255, 0) 1px) 0 -0.5px, linear-gradient(90deg, currentColor 1px, #000000 1px) -0.5px 0;
+    background-size: 15px 15px, 15px 15px, 7.5px 7.5px, 7.5px 7.5px;
+}

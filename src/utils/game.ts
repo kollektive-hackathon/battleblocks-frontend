@@ -4,7 +4,7 @@ const OWNER_TURN = 1
 const CHALLENGER_TURN = 2
 const EMPTY_BOARD: Coordinates[][] = []
 const PAGE_SIZE = 8
-const BLOCK_PLACEMENT_DEFAULT: { [coordinates: string]: string } = {}
+const BLOCK_PLACEMENT_DEFAULT: { [coordinates: string]: { color: string; pattern: string } } = {}
 
 const HIT_PLACEMENT_DEFAULT: { [coordinates: string]: boolean | null } = {}
 
@@ -22,7 +22,7 @@ for (let y = 0; y < 10; y += 1) {
 for (let x = 0; x <= 9; x += 1) {
     for (let y = 0; y <= 9; y += 1) {
         const key = `${x}${y}`
-        BLOCK_PLACEMENT_DEFAULT[key] = '#e5e5e5'
+        BLOCK_PLACEMENT_DEFAULT[key] = { color: '#e5e5e5', pattern: 'basic' }
 
         HIT_PLACEMENT_DEFAULT[key] = null
     }

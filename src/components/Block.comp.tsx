@@ -35,9 +35,9 @@ export default function Block(props: Props) {
                                     ) && (
                                         <div
                                             key={num}
-                                            className="block__cell"
+                                            className={`block__cell pattern__${block.pattern}`}
                                             style={{
-                                                backgroundColor: (numero === 0 ? aLocations : bLocations).includes(
+                                                color: (numero === 0 ? aLocations : bLocations).includes(
                                                     (num + 1).toString()
                                                 )
                                                     ? block.colorHex

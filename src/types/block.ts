@@ -6,6 +6,7 @@ export type BlockItem = {
     blockType: string
     rarity: Rarity
     colorHex: string
+    pattern: string
     active?: boolean
     price?: number
 }

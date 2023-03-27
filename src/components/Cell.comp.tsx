@@ -1,17 +1,16 @@
 type Props = {
     isHit: boolean | null
     colorHex?: string
+    pattern: string
     isAttacked?: boolean
     onClick?: () => void
     disabled?: boolean
 }
 
-export default function Cell(props: Props) {
-    const { isHit, colorHex, onClick, isAttacked, disabled } = props
-
+export default function Cell({ isHit, colorHex, onClick, isAttacked, disabled, pattern }: Props) {
     return (
         <div
-            className={`game-board__cell${
+            className={`${!isHit && `pattern__${pattern} `}game-board__cell${
                 isHit !== null
                     ? isHit
                         ? ' game-board__cell--hit'
@@ -23,7 +22,7 @@ export default function Cell(props: Props) {
             onClick={onClick && !disabled ? () => onClick() : () => {}}
             style={{
                 cursor: !onClick ? 'default' : isHit !== null || isAttacked || disabled ? 'not-allowed' : 'pointer',
-                backgroundColor: isHit !== null ? '' : colorHex ?? ''
+                color: isHit !== null ? '' : colorHex ?? ''
             }}
         />
     )
