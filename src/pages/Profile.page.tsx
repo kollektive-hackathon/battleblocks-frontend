@@ -82,7 +82,7 @@ export default function Profile() {
                     logout //
                 </div>
             </div>
-            <div className="page-container__content">
+            <div className="page-container__content page-container__content--scrollable">
                 <div className="profile__wallet-container">
                     <div className="profile__wallet-container__battleblocks">
                         battleblocks-wallet:{' '}

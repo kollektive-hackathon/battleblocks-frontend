@@ -61,7 +61,7 @@ export default function Lobby() {
                     create match &gt;&gt;
                 </div>{' '}
             </div>
-            <div className="page-container__content">
+            <div className="page-container__content page-container__content--scrollable">
                 <table className="page-container__content__table">
                     <thead>
                         <tr>

@@ -23,7 +23,7 @@ export default function Shop() {
         <div className="shop page-container">
             <div className="page-container__title">shop //</div>
 
-            <div className="page-container__content">
+            <div className="page-container__content page-container__content--scrollable">
                 <table className="page-container__content__table">
                     <thead>
                         <tr>
