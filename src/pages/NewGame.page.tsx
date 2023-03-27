@@ -26,7 +26,7 @@ export default function NewGame(props: Props) {
     const navigate = useNavigate()
 
     const createMatch = useCallback(() => {
-        if (Object.values(blockPlacements).filter((value) => value !== '#e5e5e5').length < 10) {
+        if (Object.values(blockPlacements).filter((value) => value.color !== '#e5e5e5').length < 10) {
             setNotification({
                 title: 'placement-error',
                 description: 'make sure your placed ships contain at least 10 blocks'
@@ -68,13 +68,15 @@ export default function NewGame(props: Props) {
                 { x, y }
             )
 
-            const shipColor = user?.inventoryBlocks.find((block) => block.id === blockId)!.colorHex!
+            const ship = user?.inventoryBlocks.find((block) => block.id === blockId)!
+            const shipColor = ship.colorHex!
+            const shipPattern = ship.pattern!
 
             // eslint-disable-next-line no-restricted-syntax
             for (const { x: xs, y: ys } of shipCoordinates) {
                 setBlockPlacements((prevState) => ({
                     ...prevState,
-                    [`${xs}${ys}`]: shipColor
+                    [`${xs}${ys}`]: { color: shipColor, pattern: shipPattern }
                 }))
             }
         },
@@ -111,7 +113,11 @@ export default function NewGame(props: Props) {
                                     x={boardCell.x}
                                     y={boardCell.y}
                                 >
-                                    <Cell colorHex={blockPlacements[`${boardCell.x}${boardCell.y}`]} isHit={null} />
+                                    <Cell
+                                        colorHex={blockPlacements[`${boardCell.x}${boardCell.y}`].color}
+                                        pattern={blockPlacements[`${boardCell.x}${boardCell.y}`].pattern}
+                                        isHit={null}
+                                    />
                                 </DropTarget>
                             ))}
                         </div>
