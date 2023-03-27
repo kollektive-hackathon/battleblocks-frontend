@@ -1,7 +1,7 @@
 type Props = {
     isHit: boolean | null
     colorHex?: string
-    pattern: string
+    pattern?: string
     isAttacked?: boolean
     onClick?: () => void
     disabled?: boolean
@@ -10,7 +10,7 @@ type Props = {
 export default function Cell({ isHit, colorHex, onClick, isAttacked, disabled, pattern }: Props) {
     return (
         <div
-            className={`${!isHit && `pattern__${pattern} `}game-board__cell${
+            className={`${!isHit && `pattern__${pattern || 'basic'} `}game-board__cell${
                 isHit !== null
                     ? isHit
                         ? ' game-board__cell--hit'

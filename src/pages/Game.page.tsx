@@ -298,7 +298,6 @@ export default function Game() {
                                     isHit={hits[`${boardCell.x}${boardCell.y}`]}
                                     isAttacked={attackedBlock === `${boardCell.x}${boardCell.y}`}
                                     disabled={!!attackedBlock || !isMyTurn}
-                                    pattern="basic"
                                 />
                             ))}
                         </div>
