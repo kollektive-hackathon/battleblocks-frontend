@@ -36,14 +36,16 @@ export default function Shop() {
 
                     <tbody>
                         {items ? (
-                            items.map((item) => (
-                                <tr key={item.id} className="table-item" onClick={() => setPurchaseItem(item)}>
-                                    <td className="table-item__property">{item.name}</td>
-                                    <td className="table-item__property">{item.blockType}</td>
-                                    <td className="table-item__property">{item.rarity}</td>
-                                    <td className="table-item__property">${item.price}</td>
-                                </tr>
-                            ))
+                            items
+                                .sort((a, b) => a.price! - b.price!)
+                                .map((item) => (
+                                    <tr key={item.id} className="table-item" onClick={() => setPurchaseItem(item)}>
+                                        <td className="table-item__property">{item.name}</td>
+                                        <td className="table-item__property">{item.blockType}</td>
+                                        <td className="table-item__property">{item.rarity}</td>
+                                        <td className="table-item__property">${item.price}</td>
+                                    </tr>
+                                ))
                         ) : (
                             <tr>
                                 <td style={{ backgroundColor: 'black' }}>
