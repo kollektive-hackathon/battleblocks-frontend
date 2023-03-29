@@ -15,8 +15,7 @@ type Props = {
     isJoin: boolean
 }
 
-export default function NewGame(props: Props) {
-    const { isJoin } = props
+export default function NewGame({ isJoin }: Props) {
     const [placements, setPlacements] = useState<PlacementItem[]>([])
     const [blockPlacements, setBlockPlacements] = useState(BLOCK_PLACEMENT_DEFAULT)
 
@@ -129,7 +128,7 @@ export default function NewGame(props: Props) {
                                 .filter((block) => block.active && !placementIds.includes(block.id))
                                 .map((block) => (
                                     <DraggableComponent key={block.id} blockId={block.id}>
-                                        <Block block={block} />
+                                        <Block block={block} isDraggable />
                                     </DraggableComponent>
                                 ))}
                         </div>

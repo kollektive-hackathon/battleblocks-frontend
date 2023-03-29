@@ -4,10 +4,10 @@ import { BlockItem } from '@/types/block'
 
 type Props = {
     block: BlockItem
+    isDraggable?: boolean
 }
 
-export default function Block(props: Props) {
-    const { block } = props
+export default function Block({ block, isDraggable }: Props) {
     const [aLocations, bLocations] = useMemo(() => {
         const a = block.blockType.substring(
             1,
@@ -35,7 +35,9 @@ export default function Block(props: Props) {
                                     ) && (
                                         <div
                                             key={num}
-                                            className={`block__cell pattern__${block.pattern}`}
+                                            className={`block__cell pattern__${block.pattern} ${
+                                                num === 0 && numero === 0 && isDraggable ? 'block__cell--draggable' : ''
+                                            }`}
                                             style={{
                                                 color: (numero === 0 ? aLocations : bLocations).includes(
                                                     (num + 1).toString()
