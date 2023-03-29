@@ -100,6 +100,10 @@ export default function NewGame({ isJoin }: Props) {
         <div className="new-game page-container">
             <div className="page-container__title">
                 <div className="page-container__title__value">you vs {state?.owner ?? '???'}</div>
+                <div className="game-stake">
+                    <div className="game-stake__title">stake?amount&gt;</div>
+                    <div className="game-stake__value">{state.stake} flow</div>
+                </div>
             </div>
             <div className="page-container__content">
                 <div className="game-board">
