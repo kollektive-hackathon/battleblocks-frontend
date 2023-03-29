@@ -7,8 +7,7 @@ type Props = {
     y: number
 }
 
-export default function DropTarget(props: Props) {
-    const { children, onDrop, x, y } = props
+export default function DropTarget({ children, onDrop, x, y }: Props) {
     const [, dropRef] = useDrop({
         accept: 'COMPONENT',
         drop: (item) => {

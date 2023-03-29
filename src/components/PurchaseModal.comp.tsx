@@ -10,8 +10,7 @@ type Props = {
     item: BlockItem
     closeModal: () => void
 }
-export default function PurchaseModal(props: Props) {
-    const { item, closeModal } = props
+export default function PurchaseModal({ item, closeModal }: Props) {
     const [showPaypal, setShowPaypal] = useState(false)
     const { setNotification } = useNotificationContext()
     const { user } = useUserContext()

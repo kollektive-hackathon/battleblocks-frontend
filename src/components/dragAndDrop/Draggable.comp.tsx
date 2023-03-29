@@ -5,8 +5,7 @@ type Props = {
     blockId: number
 }
 
-export default function DraggableComponent(props: Props) {
-    const { children, blockId } = props
+export default function DraggableComponent({ children, blockId }: Props) {
     const [{ isDragging }, dragRef] = useDrag({
         type: 'COMPONENT',
         item: { data: blockId },

@@ -9,8 +9,7 @@ type Props = {
     closeModal: () => void
 }
 
-export default function CreateMatchModal(props: Props) {
-    const { closeModal } = props
+export default function CreateMatchModal({ closeModal }: Props) {
     const [stake, setStake] = useState<number>()
     const { setNotification } = useNotificationContext()
     const { user } = useUserContext()
