@@ -43,7 +43,7 @@ export default function CreateMatchModal({ closeModal }: Props) {
     return (
         <div className="modal-backdrop" onClick={() => closeModal()}>
             <div className="modal" onClick={(e) => e.stopPropagation()}>
-                <div className="modal__title">create match</div>
+                <div className="modal__title">create match //</div>
                 <div className="modal__stake">
                     <input
                         type="number"
