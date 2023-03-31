@@ -37,13 +37,6 @@ body {
     height: 100%;
 }
 
-a:hover {
-    color: red;
-
-    /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
-    transition: color 0.3s ease-in-out;
-}
-
 .page-container {
     width: 850px;
     height: 650px;
@@ -144,4 +137,13 @@ a:hover {
 
 .react-tooltip {
     z-index: 9;
+}
+
+@media only screen and (hover: hover) {
+    a:hover {
+        color: red;
+
+        /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
+        transition: color 0.3s ease-in-out;
+    }
 }

@@ -29,8 +29,10 @@
 
 .logout {
     cursor: pointer;
+}
 
-    &:hover {
+@media only screen and (hover: hover) {
+    .logout:hover {
         color: red;
 
         /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */

@@ -110,8 +110,10 @@
     font-size: 12px;
 
     cursor: pointer;
+}
 
-    &:hover {
+@media only screen and (hover: hover) {
+    .game-board__placement__submit:hover {
         color: red;
         /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
         transition: color 0.3s ease-in-out;

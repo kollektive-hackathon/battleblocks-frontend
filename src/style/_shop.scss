@@ -3,10 +3,6 @@
 
     cursor: pointer;
 
-    &:hover {
-        opacity: 0.8;
-    }
-
     &--deactivated {
         filter: brightness(0.5);
     }
@@ -14,4 +10,10 @@
 
 .table-item__property {
     font-size: 15px;
+}
+
+@media only screen and (hover: hover) {
+    .table-item:hover {
+        opacity: 0.8;
+    }
 }

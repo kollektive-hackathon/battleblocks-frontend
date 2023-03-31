@@ -1,11 +1,5 @@
 .create-match {
     cursor: pointer;
-
-    &:hover {
-        color: red;
-        /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
-        transition: color 0.3s ease-in-out;
-    }
 }
 
 .load-more__row {
@@ -24,8 +18,16 @@
     color: white;
 
     cursor: pointer;
+}
 
-    &:hover {
+@media only screen and (hover: hover) {
+    .create-match:hover {
+        color: red;
+        /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
+        transition: color 0.3s ease-in-out;
+    }
+
+    .load-more:hover {
         color: red;
         /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
         transition: color 0.3s ease-in-out;
