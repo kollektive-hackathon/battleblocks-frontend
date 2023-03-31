@@ -8,7 +8,6 @@ import axios from 'axios'
 import Loader from '@/components/Loader.comp'
 import { API_URL } from '@/config/variables'
 import { Notification, NotificationContext } from '@/context/NotificationContext'
-import { useResize } from '@/hooks/useResize.hook'
 import Login from '@/pages/Login.page'
 import { getLocalIdToken, getRefreshedToken, persistToken } from '@/utils/token'
 
@@ -76,7 +75,6 @@ export default function App() {
     const [email, setEmail] = useState('')
     const [bloctoUser, setBloctoUser] = useState()
     const [notification, setNotification] = useState<Notification | null>(null)
-    const { showOverlay, setShowOverlay, resizeCallback } = useResize()
 
     useEffect(() => {
         if (getLocalIdToken()) {
@@ -86,9 +84,6 @@ export default function App() {
         }
 
         fcl.currentUser.subscribe(setBloctoUser)
-
-        // initial call, afterwards useEffect will take care of everything :)
-        resizeCallback()
     }, [])
 
     useEffect(() => {
@@ -154,11 +149,6 @@ export default function App() {
                             <div className="notification">
                                 <div className="notification__title">{notification.title}!&gt;</div>
                                 <div className="notification__description">{notification.description}</div>
-                            </div>
-                        )}
-                        {showOverlay && (
-                            <div className="modal-backdrop" onClick={() => setShowOverlay(false)}>
-                                for optimal experience, please use app in full screen
                             </div>
                         )}
                     </>
