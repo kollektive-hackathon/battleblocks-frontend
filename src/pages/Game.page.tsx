@@ -271,6 +271,7 @@ export default function Game() {
                             ))}
                         </div>
                     ))}
+                    {/* TODO: clean this up */}
                     {gameInfo?.gameStatus === GameStatusEnum.Playing ? (
                         <div className="game-board__message">{isMyTurn ? 'your?turn' : 'opponent?turn'} &gt;&gt;</div>
                     ) : (
@@ -302,6 +303,7 @@ export default function Game() {
                             ))}
                         </div>
                     ))}
+                    {/* TODO: clean this up */}
                     {gameInfo?.gameStatus === GameStatusEnum.Playing ? (
                         <div className="game-board__message">{isMyTurn ? 'press-to-attack ↑' : 'waiting...'}</div>
                     ) : (
