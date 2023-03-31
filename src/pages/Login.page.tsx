@@ -4,14 +4,16 @@ import axios from 'axios'
 
 import { useNotificationContext } from '@/context/NotificationContext'
 import { useUserContext } from '@/context/UserContext'
+import { useIsMobile } from '@/hooks/isMobile.hook'
 import { persistToken } from '@/utils/token'
 
 export default function Login() {
-    const { setUser, setEmail } = useUserContext()
     // default has to be true because of conditions in rendering, will be set to false if user isn't registered
     const [isRegistered, setIsRegistered] = useState(true)
     const [username, setUsername] = useState('')
+    const { setUser, setEmail } = useUserContext()
     const { setNotification } = useNotificationContext()
+    const { isMobile } = useIsMobile()
 
     const authenticateGoogle = useCallback(
         // eslint-disable-next-line camelcase
@@ -71,11 +73,19 @@ export default function Login() {
             <div className="login__content">
                 {isRegistered ? (
                     <>
-                        <div className="login__title">
-                            battlebl
-                            <div className="white-square" />
-                            cks
-                        </div>
+                        {!isMobile ? (
+                            <div className="login__title">
+                                battlebl
+                                <div className="white-square" />
+                                cks
+                            </div>
+                        ) : (
+                            <div className="logo">
+                                battle <br /> bl
+                                <div className="white-square white-square--small" />
+                                cks
+                            </div>
+                        )}
                         <div className="login__message">continue?with&gt;</div>
                         <div className="login__container">
                             <div
