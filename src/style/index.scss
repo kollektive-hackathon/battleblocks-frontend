@@ -112,8 +112,9 @@ body {
             border-top: 8px solid black;
 
             td {
-                vertical-align: middle;
                 padding: 0 13px;
+
+                vertical-align: middle;
 
                 &:first-of-type {
                     text-align: left;
