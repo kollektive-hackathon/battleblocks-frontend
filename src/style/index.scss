@@ -1,5 +1,6 @@
 @use "./reset";
 @use "./loader";
+@use "./patterns";
 @use "./home";
 @use "./lobby";
 @use "./game";
@@ -9,7 +10,6 @@
 @use "./error";
 @use "./login";
 @use "./modal";
-@use "./patterns";
 
 // noinspection CssUnknownTarget
 @import url("https://fonts.googleapis.com/css2?family=Heebo&display=swap");

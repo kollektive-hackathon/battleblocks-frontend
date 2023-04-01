@@ -10,7 +10,7 @@ type Props = {
 export default function Cell({ isHit, colorHex, onClick, isAttacked, disabled, pattern }: Props) {
     return (
         <div
-            className={`${!isHit && `pattern__${pattern || 'basic'} `}game-board__cell${
+            className={`${!isHit && pattern ? `pattern__${pattern} ` : ''}game-board__cell${
                 isHit !== null
                     ? isHit
                         ? ' game-board__cell--hit'
@@ -22,7 +22,8 @@ export default function Cell({ isHit, colorHex, onClick, isAttacked, disabled, p
             onClick={onClick && !disabled ? () => onClick() : () => {}}
             style={{
                 cursor: !onClick ? 'default' : isHit !== null || isAttacked || disabled ? 'not-allowed' : 'pointer',
-                color: isHit !== null ? '' : colorHex ?? ''
+                color: isHit !== null ? '' : colorHex ?? '',
+                backgroundColor: isHit !== null ? '' : colorHex ?? ''
             }}
         />
     )
