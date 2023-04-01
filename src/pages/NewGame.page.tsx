@@ -8,6 +8,7 @@ import DraggableComponent from '@/components/dragAndDrop/Draggable.comp'
 import DropTarget from '@/components/dragAndDrop/DropTarget.comp'
 import { useNotificationContext } from '@/context/NotificationContext'
 import { useUserContext } from '@/context/UserContext'
+import { useIsMobile } from '@/hooks/isMobile.hook'
 import { PlacementItem } from '@/types/game'
 import { BLOCK_PLACEMENT_DEFAULT, EMPTY_BOARD, getShipCoordinates } from '@/utils/game'
 
@@ -23,6 +24,7 @@ export default function NewGame({ isJoin }: Props) {
     const { user } = useUserContext()
     const { setNotification } = useNotificationContext()
     const navigate = useNavigate()
+    const { isMobile } = useIsMobile()
 
     const createMatch = useCallback(() => {
         if (Object.values(blockPlacements).filter((value) => value.color !== '#e5e5e5').length < 10) {
@@ -141,8 +143,14 @@ export default function NewGame({ isJoin }: Props) {
                         </div>
                     </div>
                 </div>
-                <div className="delimiter" />
-                <div className="game-board">{isJoin ? 'place blocks and confirm' : 'waiting for opponent...'}</div>
+                {!isMobile && (
+                    <>
+                        <div className="delimiter" />
+                        <div className="game-board">
+                            {isJoin ? 'place blocks and confirm' : 'waiting for opponent...'}
+                        </div>
+                    </>
+                )}
             </div>
         </div>
     )

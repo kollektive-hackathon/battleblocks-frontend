@@ -1,3 +1,5 @@
+@use "constants";
+
 .game-stake {
     display: flex;
     flex-direction: column;
@@ -117,5 +119,38 @@
         color: red;
         /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
         transition: color 0.3s ease-in-out;
+    }
+}
+
+@media only screen and (max-width: constants.$desktop-breakpoint) {
+    .game-board {
+        gap: 4px;
+        width: 100%;
+    }
+
+    .game-board__row {
+        gap: 4px;
+    }
+
+    .game-board__cell {
+        width: 30px;
+        height: 30px;
+    }
+
+    .new-game .page-container__content,
+    .game .page-container__content {
+        height: calc(100% - 63px);
+    }
+
+    .game-board__placement {
+        margin-top: 26px;
+    }
+
+    .game-board__placement__inventory {
+        height: 180px;
+    }
+
+    .game-board__placement__submit {
+        margin-top: 10px;
     }
 }
