@@ -1,3 +1,5 @@
+@use "constants";
+
 .modal-backdrop {
     position: fixed;
     top: 0;
@@ -54,4 +56,20 @@
 
     background-color: #d9d9d9;
     border: 4px solid black;
+}
+
+@media only screen and (max-width: constants.$desktop-breakpoint) {
+    .modal {
+        gap: 20px;
+        width: 85vw;
+    }
+
+    .modal__title {
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .modal__preview {
+        padding: 40px 60px;
+    }
 }
