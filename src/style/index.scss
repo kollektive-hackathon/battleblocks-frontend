@@ -5,7 +5,7 @@
 @use "lobby";
 @use "game";
 @use "profile";
-@use "shop";
+@use "table";
 @use "block";
 @use "error";
 @use "login";
@@ -94,7 +94,7 @@ body {
         th {
             padding: 12px 0 8px;
 
-            &:first-of-type {
+            &:nth-child(-n+2) {
                 text-align: left;
             }
         }
@@ -106,13 +106,14 @@ body {
         color: black;
 
         tr {
-            height: 0;
+            height: 70px;
 
             background-color: #e5e5e5;
             border-top: 8px solid black;
 
             td {
-                padding: 26px 13px;
+                vertical-align: middle;
+                padding: 0 13px;
 
                 &:first-of-type {
                     text-align: left;

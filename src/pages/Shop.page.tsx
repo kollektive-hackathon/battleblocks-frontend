@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 
+import Block from '@/components/Block.comp'
 import Loader from '@/components/Loader.comp'
 import PurchaseModal from '@/components/PurchaseModal.comp'
 import { useNotificationContext } from '@/context/NotificationContext'
@@ -41,7 +42,9 @@ export default function Shop() {
                                 .map((item) => (
                                     <tr key={item.id} className="table-item" onClick={() => setPurchaseItem(item)}>
                                         <td className="table-item__property">{item.name}</td>
-                                        <td className="table-item__property">{item.blockType}</td>
+                                        <td className="table-item__property">
+                                            <Block block={item} isSmall />
+                                        </td>
                                         <td className="table-item__property">{item.rarity}</td>
                                         <td className="table-item__property">${item.price}</td>
                                     </tr>

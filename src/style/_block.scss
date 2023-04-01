@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     gap: 5px;
+    width: fit-content;
 }
 
 .block__row {
@@ -15,5 +16,18 @@
 
     &--draggable {
         cursor: move;
+    }
+}
+
+.block--small {
+    gap: 2px;
+
+    .block__row {
+        gap: 2px;
+    }
+
+    .block__cell {
+        width: 18px;
+        height: 18px;
     }
 }

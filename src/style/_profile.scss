@@ -1,3 +1,5 @@
+@use "constants";
+
 .profile__wallet-container {
     display: flex;
     gap: 10px;
@@ -37,5 +39,21 @@
 
         /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
         transition: color 0.3s ease-in-out;
+    }
+}
+
+@media only screen and (max-width: constants.$desktop-breakpoint) {
+    .profile__wallet-container {
+        flex-direction: column;
+    }
+
+    .profile__wallet-container__battleblocks,
+    .profile__wallet-container__custodial,
+    .profile__wallet-container__connect,
+    .profile__wallet-container__connected {
+        width: 100%;
+        padding: 20px 0;
+
+        font-size: 14px;
     }
 }
