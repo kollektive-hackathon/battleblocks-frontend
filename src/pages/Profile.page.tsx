@@ -9,6 +9,19 @@ import { cosign } from '@/flow/cosign.tx'
 import { useIsMobile } from '@/hooks/isMobile.hook'
 import { removeToken } from '@/utils/token'
 
+const copyToClipboardMobile = (text: string) => {
+    const input = document.createElement('input')
+    input.setAttribute('value', text)
+
+    document.body.appendChild(input)
+
+    input.select()
+
+    document.execCommand('copy')
+
+    document.body.removeChild(input)
+}
+
 export default function Profile() {
     const [custodialWallet, setCustodialWallet] = useState<string>('')
     const [connectWalletMessage, setConnectWalletMessage] = useState('personal-wallet?connect >>')
@@ -25,12 +38,21 @@ export default function Profile() {
 
     const copyToClipboard = useCallback(
         (address: string) => {
-            navigator.clipboard.writeText(address).then(() => {
+            if (!isMobile) {
+                navigator.clipboard.writeText(address).then(() => {
+                    setNotification({
+                        title: 'wallet-address',
+                        description: 'successfully copied to clipboard'
+                    })
+                })
+            } else {
+                copyToClipboardMobile(address)
+
                 setNotification({
                     title: 'wallet-address',
                     description: 'successfully copied to clipboard'
                 })
-            })
+            }
         },
         [setNotification]
     )
