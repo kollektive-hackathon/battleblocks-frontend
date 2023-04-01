@@ -82,7 +82,7 @@ export default function Login() {
                         ) : (
                             <div className="logo">
                                 battle <br /> bl
-                                <div className="white-square white-square--small" />
+                                <div className="white-square white-square--smaller" />
                                 cks
                             </div>
                         )}
