@@ -154,4 +154,30 @@ body {
         width: 95%;
         height: calc(100% - 100px - 40px);
     }
+
+    .page-container__title {
+        margin: 16px 8px;
+
+        font-size: 14px;
+    }
+
+    .page-container__content {
+        height: calc(100% - 46px);
+    }
+
+    .page-container__content__table {
+        thead th {
+            padding: 8px 0 4px;
+
+            font-size: 15px;
+        }
+
+        tbody tr {
+            border-top-width: 5px;
+
+            td {
+                padding: 16px 8px;
+            }
+        }
+    }
 }
