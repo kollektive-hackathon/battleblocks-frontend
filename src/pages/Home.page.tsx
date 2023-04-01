@@ -10,7 +10,7 @@ const NAV_ITEMS = {
     Play: 'play',
     Profile: 'profile',
     Shop: 'shop'
-}
+} as const
 
 export default function Home() {
     const [balance, setBalance] = useState<number>()
