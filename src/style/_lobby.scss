@@ -1,3 +1,5 @@
+@use "constants";
+
 .create-match {
     cursor: pointer;
 }
@@ -31,5 +33,11 @@
         color: red;
         /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
         transition: color 0.3s ease-in-out;
+    }
+}
+
+@media only screen and (max-width: constants.$desktop-breakpoint) {
+    .lobby .page-container__content__table thead th:nth-child(2) {
+        text-align: center;
     }
 }

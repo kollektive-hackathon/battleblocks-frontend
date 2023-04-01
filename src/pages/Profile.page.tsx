@@ -6,6 +6,7 @@ import Loader from '@/components/Loader.comp'
 import { useNotificationContext } from '@/context/NotificationContext'
 import { useUserContext } from '@/context/UserContext'
 import { cosign } from '@/flow/cosign.tx'
+import { useIsMobile } from '@/hooks/isMobile.hook'
 import { removeToken } from '@/utils/token'
 
 export default function Profile() {
@@ -14,6 +15,7 @@ export default function Profile() {
 
     const { bloctoUser, setUser, user } = useUserContext()
     const { setNotification } = useNotificationContext()
+    const { isMobile } = useIsMobile()
 
     const logout = useCallback(() => {
         setUser(null)
@@ -122,7 +124,7 @@ export default function Profile() {
                             <tr>
                                 <th>my inventory</th>
                                 <th>block type</th>
-                                <th>rarity</th>
+                                {!isMobile && <th>rarity</th>}
                                 <th>active</th>
                             </tr>
                         </thead>
@@ -137,7 +139,7 @@ export default function Profile() {
                                     <td className="table-item__property">
                                         <Block block={block} isSmall />
                                     </td>
-                                    <td className="table-item__property">{block.rarity}</td>
+                                    {!isMobile && <td className="table-item__property">{block.rarity}</td>}
                                     <td className="table-item__property">{block.active ? '+' : '-'}</td>
                                 </tr>
                             ))}
