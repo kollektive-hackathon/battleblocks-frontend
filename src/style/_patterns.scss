@@ -3,10 +3,6 @@
     opacity: 1;
 }
 
-.pattern__basic {
-    background-color: currentcolor;
-}
-
 .pattern__wavy {
     @include pattern;
 

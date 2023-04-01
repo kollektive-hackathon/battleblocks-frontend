@@ -1,15 +1,16 @@
-@use "./reset";
-@use "./loader";
-@use "./patterns";
-@use "./home";
-@use "./lobby";
-@use "./game";
-@use "./profile";
-@use "./shop";
-@use "./block";
-@use "./error";
-@use "./login";
-@use "./modal";
+@use "reset";
+@use "loader";
+@use "patterns";
+@use "home";
+@use "lobby";
+@use "game";
+@use "profile";
+@use "shop";
+@use "block";
+@use "error";
+@use "login";
+@use "modal";
+@use "constants";
 
 // noinspection CssUnknownTarget
 @import url("https://fonts.googleapis.com/css2?family=Heebo&display=swap");
@@ -145,5 +146,12 @@ body {
 
         /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
         transition: color 0.3s ease-in-out;
+    }
+}
+
+@media only screen and (max-width: constants.$desktop-breakpoint) {
+    .page-container {
+        width: 95%;
+        height: calc(100% - 100px - 40px);
     }
 }
