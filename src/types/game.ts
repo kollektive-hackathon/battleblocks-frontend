@@ -5,7 +5,7 @@ export const GameStatusEnum = {
     Finished: 'FINISHED'
 } as const
 
-export type GameStatus = (typeof GameStatusEnum)[keyof typeof GameStatusEnum]
+type GameStatus = (typeof GameStatusEnum)[keyof typeof GameStatusEnum]
 
 export const GameSocketMessageEnum = {
     GameCreated: 'GAME_CREATED',
