@@ -2,14 +2,13 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 
-import Cell from '@/components/Cell.comp'
+import GameBoard from '@/components/GameBoard.comp'
 import { useNotificationContext } from '@/context/NotificationContext'
 import { useUserContext } from '@/context/UserContext'
 import { Coordinates, GameSocketMessage, GameSocketMessageEnum, GameStatusEnum, TGame } from '@/types/game'
 import {
     BLOCK_PLACEMENT_DEFAULT,
     CHALLENGER_TURN,
-    EMPTY_BOARD,
     getShipCoordinates,
     HIT_PLACEMENT_DEFAULT,
     OWNER_TURN
@@ -257,70 +256,25 @@ export default function Game() {
                     <div className="game-stake__value">{gameInfo?.stake} flow</div>
                 </div>
             </div>
-            <div className="page-container__content">
-                <div className="game-board">
-                    {EMPTY_BOARD.map((boardRow) => (
-                        <div key={boardRow[0].y} className="game-board__row">
-                            {boardRow.map((boardCell) => (
-                                <Cell
-                                    key={`${boardCell.x}${boardCell.y}`}
-                                    colorHex={blockPlacements[`${boardCell.x}${boardCell.y}`].color}
-                                    pattern={blockPlacements[`${boardCell.x}${boardCell.y}`].pattern}
-                                    isHit={opponentHits[`${boardCell.x}${boardCell.y}`]}
-                                />
-                            ))}
-                        </div>
-                    ))}
-                    {/* TODO: clean this up */}
-                    {gameInfo?.gameStatus === GameStatusEnum.Playing ? (
-                        <div className="game-board__message">{isMyTurn ? 'your?turn' : 'opponent?turn'} &gt;&gt;</div>
-                    ) : (
-                        gameInfo?.gameStatus === GameStatusEnum.Finished && (
-                            <div className="game-board__message">
-                                {gameInfo.winnerId === user?.id ? 'winner' : 'loser'}
-                            </div>
-                        )
-                    )}
-                    {(gameInfo?.gameStatus === GameStatusEnum.Created ||
-                        gameInfo?.gameStatus === GameStatusEnum.Preparing) && (
-                        <div className="game-board__message">
-                            {gameInfo.ownerId === user?.id ? 'waiting for' : 'waiting...'}
-                        </div>
-                    )}
+            {!!gameInfo && (
+                <div className="page-container__content">
+                    <GameBoard
+                        hits={opponentHits}
+                        blockPlacements={blockPlacements}
+                        gameInfo={gameInfo!}
+                        isMyTurn={isMyTurn}
+                    />
+                    <div className="delimiter" />
+                    <GameBoard
+                        hits={hits}
+                        blockPlacements={blockPlacements}
+                        gameInfo={gameInfo!}
+                        isMyTurn={isMyTurn}
+                        attack={attack}
+                        attackedBlock={attackedBlock}
+                    />
                 </div>
-                <div className="delimiter" />
-                <div className="game-board">
-                    {EMPTY_BOARD.map((boardRow) => (
-                        <div key={boardRow[0].y} className="game-board__row">
-                            {boardRow.map((boardCell) => (
-                                <Cell
-                                    key={`${boardCell.x}${boardCell.y}`}
-                                    onClick={() => attack(boardCell.x, boardCell.y)}
-                                    isHit={hits[`${boardCell.x}${boardCell.y}`]}
-                                    isAttacked={attackedBlock === `${boardCell.x}${boardCell.y}`}
-                                    disabled={!!attackedBlock || !isMyTurn}
-                                />
-                            ))}
-                        </div>
-                    ))}
-                    {/* TODO: clean this up */}
-                    {gameInfo?.gameStatus === GameStatusEnum.Playing ? (
-                        <div className="game-board__message">{isMyTurn ? 'press-to-attack ↑' : 'waiting...'}</div>
-                    ) : (
-                        gameInfo?.gameStatus === GameStatusEnum.Finished && (
-                            <div className="game-board__message">
-                                {gameInfo.winnerId === user?.id ? 'loser' : 'winner'}
-                            </div>
-                        )
-                    )}
-                    {(gameInfo?.gameStatus === GameStatusEnum.Created ||
-                        gameInfo?.gameStatus === GameStatusEnum.Preparing) && (
-                        <div className="game-board__message">
-                            {gameInfo.ownerId === user?.id ? 'someone to join' : 'waiting...'}
-                        </div>
-                    )}
-                </div>
-            </div>
+            )}
         </div>
     )
 }

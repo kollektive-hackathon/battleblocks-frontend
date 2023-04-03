@@ -5,7 +5,7 @@ export const GameStatusEnum = {
     Finished: 'FINISHED'
 } as const
 
-type GameStatus = (typeof GameStatusEnum)[keyof typeof GameStatusEnum]
+export type GameStatus = (typeof GameStatusEnum)[keyof typeof GameStatusEnum]
 
 export const GameSocketMessageEnum = {
     GameCreated: 'GAME_CREATED',
@@ -38,6 +38,9 @@ export type Coordinates = {
 export type PlacementItem = Coordinates & {
     blockId: number
 }
+
+export type BlockPlacement = { [coordinates: string]: { color: string; pattern: string } }
+export type HitsPlacement = { [coordinates: string]: boolean | null }
 
 export type GameList = {
     games: TGame[]
