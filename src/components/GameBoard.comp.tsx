@@ -2,6 +2,7 @@ import { useCallback } from 'react'
 
 import Cell from '@/components/Cell.comp'
 import { useUserContext } from '@/context/UserContext'
+import { useIsMobile } from '@/hooks/isMobile.hook'
 import { BlockPlacement, HitsPlacement, TGame } from '@/types/game'
 import { EMPTY_BOARD, GAME_BOARD_MESSAGES } from '@/utils/game'
 
@@ -10,13 +11,23 @@ type Props = {
     gameInfo: TGame
     isMyTurn: boolean
     blockPlacements: BlockPlacement
+    toggleGrid: () => void
     attackedBlock?: string
     // if it's my board, attack is undefined
     attack?: (x: number, y: number) => void
 }
 
-export default function GameBoard({ hits, blockPlacements, attackedBlock, gameInfo, attack, isMyTurn }: Props) {
+export default function GameBoard({
+    hits,
+    blockPlacements,
+    attackedBlock,
+    gameInfo,
+    attack,
+    isMyTurn,
+    toggleGrid
+}: Props) {
     const { user } = useUserContext()
+    const { isMobile } = useIsMobile()
 
     const getBoardMessage = useCallback(() => {
         if (!gameInfo.gameStatus) {
@@ -68,6 +79,11 @@ export default function GameBoard({ hits, blockPlacements, attackedBlock, gameIn
             ))}
 
             <div className="game-board__message">{getBoardMessage()}</div>
+            {isMobile && (
+                <div className="game-board__toggle-grid" onClick={toggleGrid}>
+                    flip&gt;&gt;board
+                </div>
+            )}
         </div>
     )
 }

@@ -5,6 +5,7 @@ import axios from 'axios'
 import GameBoard from '@/components/GameBoard.comp'
 import { useNotificationContext } from '@/context/NotificationContext'
 import { useUserContext } from '@/context/UserContext'
+import { useIsMobile } from '@/hooks/isMobile.hook'
 import { Coordinates, GameSocketMessage, GameSocketMessageEnum, GameStatusEnum, TGame } from '@/types/game'
 import {
     BLOCK_PLACEMENT_DEFAULT,
@@ -24,11 +25,13 @@ export default function Game() {
     const [hits, setHits] = useState(HIT_PLACEMENT_DEFAULT)
     const [opponentHits, setOpponentHits] = useState(HIT_PLACEMENT_DEFAULT)
     const [attackedBlock, setAttackedBlock] = useState('')
+    const [showPrimaryGrid, setShowPrimaryGrid] = useState(true)
 
     const { id } = useParams<{ id: string }>()
     const { setNotification } = useNotificationContext()
     const { user } = useUserContext()
     const navigate = useNavigate()
+    const { isMobile } = useIsMobile()
 
     useEffect(() => {
         fetchGame()
@@ -258,21 +261,27 @@ export default function Game() {
             </div>
             {!!gameInfo && (
                 <div className="page-container__content">
-                    <GameBoard
-                        hits={opponentHits}
-                        blockPlacements={blockPlacements}
-                        gameInfo={gameInfo!}
-                        isMyTurn={isMyTurn}
-                    />
-                    <div className="delimiter" />
-                    <GameBoard
-                        hits={hits}
-                        blockPlacements={blockPlacements}
-                        gameInfo={gameInfo!}
-                        isMyTurn={isMyTurn}
-                        attack={attack}
-                        attackedBlock={attackedBlock}
-                    />
+                    {(!isMobile || showPrimaryGrid) && (
+                        <GameBoard
+                            hits={opponentHits}
+                            blockPlacements={blockPlacements}
+                            gameInfo={gameInfo!}
+                            isMyTurn={isMyTurn}
+                            toggleGrid={() => setShowPrimaryGrid(!showPrimaryGrid)}
+                        />
+                    )}
+                    {!isMobile && <div className="delimiter" />}
+                    {(!isMobile || !showPrimaryGrid) && (
+                        <GameBoard
+                            hits={hits}
+                            blockPlacements={blockPlacements}
+                            gameInfo={gameInfo!}
+                            isMyTurn={isMyTurn}
+                            attack={attack}
+                            attackedBlock={attackedBlock}
+                            toggleGrid={() => setShowPrimaryGrid(!showPrimaryGrid)}
+                        />
+                    )}
                 </div>
             )}
         </div>
