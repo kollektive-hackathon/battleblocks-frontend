@@ -79,7 +79,7 @@
 }
 
 .game-board__toggle-grid-cta {
-    margin-top: 75px;
+    margin-top: 50px;
 }
 
 .game-board__placement {
@@ -127,9 +127,23 @@
 }
 
 @media only screen and (max-width: constants.$desktop-breakpoint) {
+    .game-stake {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .game-stake__title {
+        font-size: 10px;
+    }
+
+    .game-stake__value {
+        font-size: 12px;
+    }
+
     .game-board {
         gap: 4px;
         width: 100%;
+        padding-top: 6px;
     }
 
     .game-board__row {
@@ -143,15 +157,11 @@
 
     .new-game .page-container__content,
     .game .page-container__content {
-        height: calc(100% - 63px);
+        height: calc(100% - 40px);
     }
 
     .game-board__placement {
         margin-top: 26px;
-    }
-
-    .game-board__placement__inventory {
-        height: 180px;
     }
 
     .game-board__placement__submit {

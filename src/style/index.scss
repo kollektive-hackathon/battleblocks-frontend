@@ -163,10 +163,12 @@ body {
 
     .page-container__title {
         margin: 14px 8px;
+
+        font-size: 12px;
     }
 
     .page-container__content {
-        height: calc(100% - 46px);
+        height: calc(100% - 40px);
     }
 
     .page-container__content__table {
