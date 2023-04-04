@@ -1,3 +1,5 @@
+@use "constants";
+
 .block {
     display: flex;
     flex-direction: column;
@@ -29,5 +31,12 @@
     .block__cell {
         width: 18px;
         height: 18px;
+    }
+}
+
+@media only screen and (max-width: constants.$desktop-breakpoint) {
+    .block__cell {
+        width: 30px;
+        height: 30px;
     }
 }

@@ -128,7 +128,14 @@ export default function NewGame({ isJoin }: Props) {
                         </div>
                     ))}
                     <div className="game-board__placement">
-                        <div className="game-board__placement__title">pick&&place?10-blocks</div>
+                        <div className="game-board__placement__title">
+                            pick&&place?10-blocks
+                            {isMobile && (
+                                <div className="game-board__placement__submit" onClick={() => createMatch()}>
+                                    confirm block placement &gt;&gt;
+                                </div>
+                            )}
+                        </div>
                         <div className="game-board__placement__inventory">
                             {user?.inventoryBlocks
                                 .filter((block) => block.active && !placementIds.includes(block.id))
@@ -138,9 +145,11 @@ export default function NewGame({ isJoin }: Props) {
                                     </DraggableComponent>
                                 ))}
                         </div>
-                        <div className="game-board__placement__submit" onClick={() => createMatch()}>
-                            confirm block placement &gt;&gt;
-                        </div>
+                        {!isMobile && (
+                            <div className="game-board__placement__submit" onClick={() => createMatch()}>
+                                confirm block placement &gt;&gt;
+                            </div>
+                        )}
                     </div>
                 </div>
                 {!isMobile && (

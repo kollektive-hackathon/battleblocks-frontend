@@ -161,10 +161,23 @@
     }
 
     .game-board__placement {
-        margin-top: 26px;
+        margin-top: 15px;
+    }
+
+    .game-board__placement__title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: calc(100% - 30px);
+
+        font-size: 10px;
     }
 
     .game-board__placement__submit {
-        margin-top: 10px;
+        margin-top: 0;
+    }
+
+    .game-board__placement__inventory {
+        height: 85px;
     }
 }
