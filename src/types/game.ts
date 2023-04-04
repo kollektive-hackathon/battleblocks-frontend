@@ -39,6 +39,9 @@ export type PlacementItem = Coordinates & {
     blockId: number
 }
 
+export type BlockPlacement = { [coordinates: string]: { color: string; pattern: string } }
+export type HitsPlacement = { [coordinates: string]: boolean | null }
+
 export type GameList = {
     games: TGame[]
     nextPageToken: number

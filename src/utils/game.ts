@@ -1,12 +1,58 @@
-import { Coordinates } from '@/types/game'
+import { BlockPlacement, Coordinates, GameStatusEnum, HitsPlacement } from '@/types/game'
 
 const OWNER_TURN = 1
 const CHALLENGER_TURN = 2
 const EMPTY_BOARD: Coordinates[][] = []
 const PAGE_SIZE = 8
-const BLOCK_PLACEMENT_DEFAULT: { [coordinates: string]: { color: string; pattern: string } } = {}
+const BLOCK_PLACEMENT_DEFAULT: BlockPlacement = {}
 
-const HIT_PLACEMENT_DEFAULT: { [coordinates: string]: boolean | null } = {}
+const HIT_PLACEMENT_DEFAULT: HitsPlacement = {}
+
+const MY_BOARD_FIELD = 'myBoard'
+const OPPONENT_BOARD_FIELD = 'opponentBoard'
+
+const GAME_BOARD_MESSAGES = {
+    [GameStatusEnum.Playing]: {
+        [MY_BOARD_FIELD]: {
+            true: 'your?turn',
+            false: 'opponent?turn'
+        },
+        [OPPONENT_BOARD_FIELD]: {
+            true: 'press-to-attack ↑',
+            false: 'waiting...'
+        }
+    },
+    [GameStatusEnum.Finished]: {
+        [MY_BOARD_FIELD]: {
+            true: 'winner',
+            false: 'loser'
+        },
+        [OPPONENT_BOARD_FIELD]: {
+            true: 'winner',
+            false: 'loser'
+        }
+    },
+    [GameStatusEnum.Created]: {
+        [MY_BOARD_FIELD]: {
+            true: 'waiting for',
+            false: 'waiting...'
+        },
+        [OPPONENT_BOARD_FIELD]: {
+            true: 'someone to join',
+            false: 'waiting...'
+        }
+    },
+    [GameStatusEnum.Preparing]: {
+        [MY_BOARD_FIELD]: {
+            true: 'waiting for',
+            false: 'waiting...'
+        },
+        [OPPONENT_BOARD_FIELD]: {
+            true: 'someone to join',
+            false: 'waiting...'
+        }
+    }
+} as const
 
 for (let y = 0; y < 10; y += 1) {
     EMPTY_BOARD.push([])
@@ -79,8 +125,11 @@ export {
     BLOCK_PLACEMENT_DEFAULT,
     CHALLENGER_TURN,
     EMPTY_BOARD,
+    GAME_BOARD_MESSAGES,
     getShipCoordinates,
     HIT_PLACEMENT_DEFAULT,
+    MY_BOARD_FIELD,
+    OPPONENT_BOARD_FIELD,
     OWNER_TURN,
     PAGE_SIZE
 }

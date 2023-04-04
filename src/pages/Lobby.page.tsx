@@ -7,6 +7,7 @@ import CreateMatchModal from '@/components/CreateMatchModal.comp'
 import Loader from '@/components/Loader.comp'
 import { useNotificationContext } from '@/context/NotificationContext'
 import { User, useUserContext } from '@/context/UserContext'
+import { useIsMobile } from '@/hooks/isMobile.hook'
 import { GameList, TGame } from '@/types/game'
 import { CHALLENGER_TURN, OWNER_TURN, PAGE_SIZE } from '@/utils/game'
 
@@ -28,6 +29,7 @@ export default function Lobby() {
     const { user } = useUserContext()
     const { setNotification } = useNotificationContext()
     const navigate = useNavigate()
+    const { isMobile } = useIsMobile()
 
     useEffect(() => {
         fetchGames()
@@ -66,8 +68,12 @@ export default function Lobby() {
                     <thead>
                         <tr>
                             <th>active lobbies ({gamesList?.gameCount ?? 0})</th>
-                            <th>players</th>
-                            <th>time created</th>
+                            {!isMobile && (
+                                <>
+                                    <th>players</th>
+                                    <th>time created</th>
+                                </>
+                            )}
                             <th>stake</th>
                         </tr>
                     </thead>
@@ -88,21 +94,25 @@ export default function Lobby() {
                                             // eslint-disable-next-line
                                         }
                                     >
-                                        <td className="table-item__property">
-                                            {game.challengerId
-                                                ? 'battling //'
-                                                : game.ownerId === user?.id
-                                                ? 'waiting //'
-                                                : 'join >>'}
-                                        </td>
+                                        {!isMobile && (
+                                            <td className="table-item__property">
+                                                {game.challengerId
+                                                    ? 'battling //'
+                                                    : game.ownerId === user?.id
+                                                    ? 'waiting //'
+                                                    : 'join >>'}
+                                            </td>
+                                        )}
                                         <td className="table-item__property">
                                             {game.ownerId === user?.id ? 'you' : game.ownerUsername} vs{' '}
                                             {(game.challengerId === user?.id ? 'you' : game.challengerUsername) ??
                                                 '???'}
                                         </td>
-                                        <td className="table-item__property">
-                                            {DateTime.fromMillis(game.timeCreated).toFormat('HH:mm dd/LL/yyyy')}
-                                        </td>
+                                        {!isMobile && (
+                                            <td className="table-item__property">
+                                                {DateTime.fromMillis(game.timeCreated).toFormat('HH:mm dd/LL/yyyy')}
+                                            </td>
+                                        )}
                                         <td className="table-item__property">{game.stake} flow</td>
                                     </tr>
                                 ))}

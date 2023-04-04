@@ -1,6 +1,4 @@
 import { useCallback, useEffect, useState } from 'react'
-import ReactDOMServer from 'react-dom/server'
-import { Tooltip } from 'react-tooltip'
 import axios from 'axios'
 
 import Block from '@/components/Block.comp'
@@ -8,13 +6,29 @@ import Loader from '@/components/Loader.comp'
 import { useNotificationContext } from '@/context/NotificationContext'
 import { useUserContext } from '@/context/UserContext'
 import { cosign } from '@/flow/cosign.tx'
+import { useIsMobile } from '@/hooks/isMobile.hook'
 import { removeToken } from '@/utils/token'
 
+const copyToClipboardMobile = (text: string) => {
+    const input = document.createElement('input')
+    input.setAttribute('value', text)
+
+    document.body.appendChild(input)
+
+    input.select()
+
+    document.execCommand('copy')
+
+    document.body.removeChild(input)
+}
+
 export default function Profile() {
-    const { bloctoUser, setUser, user } = useUserContext()
-    const { setNotification } = useNotificationContext()
     const [custodialWallet, setCustodialWallet] = useState<string>('')
     const [connectWalletMessage, setConnectWalletMessage] = useState('personal-wallet?connect >>')
+
+    const { bloctoUser, setUser, user } = useUserContext()
+    const { setNotification } = useNotificationContext()
+    const { isMobile } = useIsMobile()
 
     const logout = useCallback(() => {
         setUser(null)
@@ -24,12 +38,21 @@ export default function Profile() {
 
     const copyToClipboard = useCallback(
         (address: string) => {
-            navigator.clipboard.writeText(address).then(() => {
+            if (!isMobile) {
+                navigator.clipboard.writeText(address).then(() => {
+                    setNotification({
+                        title: 'wallet-address',
+                        description: 'successfully copied to clipboard'
+                    })
+                })
+            } else {
+                copyToClipboardMobile(address)
+
                 setNotification({
                     title: 'wallet-address',
                     description: 'successfully copied to clipboard'
                 })
-            })
+            }
         },
         [setNotification]
     )
@@ -123,27 +146,24 @@ export default function Profile() {
                             <tr>
                                 <th>my inventory</th>
                                 <th>block type</th>
-                                <th>rarity</th>
+                                {!isMobile && <th>rarity</th>}
                                 <th>active</th>
                             </tr>
                         </thead>
                         <tbody>
                             {user.inventoryBlocks.map((block) => (
-                                <>
-                                    <tr
-                                        key={block.id}
-                                        className={`table-item${!block.active ? ' table-item--deactivated' : ''}`}
-                                        onClick={() => toggleActive(block.id)}
-                                        data-tooltip-id="preview"
-                                        data-tooltip-html={ReactDOMServer.renderToStaticMarkup(<Block block={block} />)}
-                                    >
-                                        <td className="table-item__property">{block.name}</td>
-                                        <td className="table-item__property">{block.blockType}</td>
-                                        <td className="table-item__property">{block.rarity}</td>
-                                        <td className="table-item__property">{block.active ? '+' : '-'}</td>
-                                    </tr>
-                                    <Tooltip id="preview" style={{ backgroundColor: 'white' }} offset={0} />
-                                </>
+                                <tr
+                                    key={block.id}
+                                    className={`table-item${!block.active ? ' table-item--deactivated' : ''}`}
+                                    onClick={() => toggleActive(block.id)}
+                                >
+                                    <td className="table-item__property">{block.name}</td>
+                                    <td className="table-item__property">
+                                        <Block block={block} isSmall />
+                                    </td>
+                                    {!isMobile && <td className="table-item__property">{block.rarity}</td>}
+                                    <td className="table-item__property">{block.active ? '+' : '-'}</td>
+                                </tr>
                             ))}
                         </tbody>
                     </table>

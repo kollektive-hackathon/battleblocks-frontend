@@ -5,9 +5,10 @@ import { BlockItem } from '@/types/block'
 type Props = {
     block: BlockItem
     isDraggable?: boolean
+    isSmall?: boolean
 }
 
-export default function Block({ block, isDraggable }: Props) {
+export default function Block({ block, isDraggable, isSmall }: Props) {
     const [aLocations, bLocations] = useMemo(() => {
         const a = block.blockType.substring(
             1,
@@ -23,7 +24,7 @@ export default function Block({ block, isDraggable }: Props) {
     }, [block.blockType])
 
     return (
-        <div className="block">
+        <div className={`block${isSmall ? ' block--small' : ''}`}>
             {[...Array(2).keys()].map(
                 (numero) =>
                     !!(numero === 0 ? aLocations : bLocations).length && (
@@ -40,6 +41,11 @@ export default function Block({ block, isDraggable }: Props) {
                                             }`}
                                             style={{
                                                 color: (numero === 0 ? aLocations : bLocations).includes(
+                                                    (num + 1).toString()
+                                                )
+                                                    ? block.colorHex
+                                                    : 'rgba(0,0,0,0)',
+                                                backgroundColor: (numero === 0 ? aLocations : bLocations).includes(
                                                     (num + 1).toString()
                                                 )
                                                     ? block.colorHex

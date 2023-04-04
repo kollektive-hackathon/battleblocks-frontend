@@ -1,18 +1,19 @@
 import { useCallback, useEffect, useState } from 'react'
 
-const MIN_WIDTH = 1000
-const MIN_HEIGHT = 900
+const DESKTOP_WIDTH = 1024
 
-export function useResize() {
-    const [showOverlay, setShowOverlay] = useState(false)
+export function useIsMobile() {
+    const [isMobile, setIsMobile] = useState(false)
 
     /* eslint-disable no-restricted-globals */
     const resizeCallback = useCallback(() => {
-        setShowOverlay(innerWidth < MIN_WIDTH || innerHeight < MIN_HEIGHT)
+        setIsMobile(innerWidth < DESKTOP_WIDTH)
     }, [])
 
     useEffect(() => {
         addEventListener('resize', resizeCallback)
+
+        resizeCallback()
 
         return () => {
             removeEventListener('resize', resizeCallback)
@@ -21,8 +22,6 @@ export function useResize() {
     /* eslint-enable no-restricted-globals */
 
     return {
-        showOverlay,
-        setShowOverlay,
-        resizeCallback
+        isMobile
     }
 }

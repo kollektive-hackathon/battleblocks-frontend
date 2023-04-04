@@ -1,3 +1,5 @@
+@use "constants";
+
 .login {
     display: grid;
     flex-direction: column;
@@ -29,6 +31,11 @@
     &--small {
         width: 41px;
         height: 41px;
+    }
+
+    &--smaller {
+        width: 25px;
+        height: 25px;
     }
 }
 
@@ -109,4 +116,25 @@
 
 .register__submit {
     cursor: pointer;
+}
+
+@media only screen and (max-width: constants.$desktop-breakpoint) {
+    .login__message {
+        margin-top: 60px;
+    }
+
+    .login__container {
+        margin-top: 20px;
+    }
+
+    .login__footer {
+        width: 75vw;
+        margin-bottom: 25px;
+    }
+
+    .register {
+        gap: 18px;
+        width: 80vw;
+        margin-top: 80px;
+    }
 }

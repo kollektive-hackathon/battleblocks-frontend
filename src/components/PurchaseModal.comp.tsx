@@ -19,7 +19,7 @@ export default function PurchaseModal({ item, closeModal }: Props) {
         <div className="modal-backdrop" onClick={() => closeModal()}>
             <div className="modal" onClick={(e) => e.stopPropagation()}>
                 <div className="modal__title">
-                    {item.name} // {item.blockType} // {item.rarity}
+                    {item.name} // {item.rarity}
                 </div>
                 <div className="modal__preview">
                     <Block block={item} />

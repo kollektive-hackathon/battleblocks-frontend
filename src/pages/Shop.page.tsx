@@ -1,16 +1,19 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 
+import Block from '@/components/Block.comp'
 import Loader from '@/components/Loader.comp'
 import PurchaseModal from '@/components/PurchaseModal.comp'
 import { useNotificationContext } from '@/context/NotificationContext'
+import { useIsMobile } from '@/hooks/isMobile.hook'
 import { BlockItem } from '@/types/block'
 
 export default function Shop() {
     const [items, setItems] = useState<BlockItem[]>()
-
     const [purchaseItem, setPurchaseItem] = useState<BlockItem>()
+
     const { setNotification } = useNotificationContext()
+    const { isMobile } = useIsMobile()
 
     useEffect(() => {
         axios
@@ -29,7 +32,7 @@ export default function Shop() {
                         <tr>
                             <th>skin name</th>
                             <th>block type</th>
-                            <th>rarity</th>
+                            {!isMobile && <th>rarity</th>}
                             <th>price</th>
                         </tr>
                     </thead>
@@ -41,8 +44,10 @@ export default function Shop() {
                                 .map((item) => (
                                     <tr key={item.id} className="table-item" onClick={() => setPurchaseItem(item)}>
                                         <td className="table-item__property">{item.name}</td>
-                                        <td className="table-item__property">{item.blockType}</td>
-                                        <td className="table-item__property">{item.rarity}</td>
+                                        <td className="table-item__property">
+                                            <Block block={item} isSmall />
+                                        </td>
+                                        {!isMobile && <td className="table-item__property">{item.rarity}</td>}
                                         <td className="table-item__property">${item.price}</td>
                                     </tr>
                                 ))

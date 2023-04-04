@@ -18,7 +18,6 @@ import '@/config/flow.config'
 import App from './App'
 
 import '@/style/index.scss'
-import 'react-tooltip/dist/react-tooltip.css'
 
 const router = createBrowserRouter([
     {
