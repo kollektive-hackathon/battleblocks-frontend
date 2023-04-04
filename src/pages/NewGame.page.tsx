@@ -109,24 +109,26 @@ export default function NewGame({ isJoin }: Props) {
             </div>
             <div className="page-container__content">
                 <div className="game-board">
-                    {EMPTY_BOARD.map((boardRow) => (
-                        <div key={boardRow[0].y} className="game-board__row">
-                            {boardRow.map((boardCell) => (
-                                <DropTarget
-                                    key={`${boardCell.x}${boardCell.y}`}
-                                    onDrop={addPlacement}
-                                    x={boardCell.x}
-                                    y={boardCell.y}
-                                >
-                                    <Cell
-                                        colorHex={blockPlacements[`${boardCell.x}${boardCell.y}`].color}
-                                        pattern={blockPlacements[`${boardCell.x}${boardCell.y}`].pattern}
-                                        isHit={null}
-                                    />
-                                </DropTarget>
-                            ))}
-                        </div>
-                    ))}
+                    <div className="game-board__grid">
+                        {EMPTY_BOARD.map((boardRow) => (
+                            <div key={boardRow[0].y} className="game-board__row">
+                                {boardRow.map((boardCell) => (
+                                    <DropTarget
+                                        key={`${boardCell.x}${boardCell.y}`}
+                                        onDrop={addPlacement}
+                                        x={boardCell.x}
+                                        y={boardCell.y}
+                                    >
+                                        <Cell
+                                            colorHex={blockPlacements[`${boardCell.x}${boardCell.y}`].color}
+                                            pattern={blockPlacements[`${boardCell.x}${boardCell.y}`].pattern}
+                                            isHit={null}
+                                        />
+                                    </DropTarget>
+                                ))}
+                            </div>
+                        ))}
+                    </div>
                     <div className="game-board__placement">
                         <div className="game-board__placement__title">
                             pick&&place?10-blocks

@@ -41,6 +41,12 @@
     padding-top: 17px;
 }
 
+.game-board__grid {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
 .game-board__row {
     display: flex;
     gap: 5px;
@@ -148,6 +154,7 @@
 
     .game-board {
         gap: 4px;
+        justify-content: space-between;
         width: 100%;
         padding-top: 6px;
     }
@@ -167,7 +174,7 @@
     }
 
     .game-board__placement {
-        margin-top: 15px;
+        margin-bottom: 15px;
     }
 
     .game-board__placement__title {
