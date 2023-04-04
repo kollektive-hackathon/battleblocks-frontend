@@ -8,43 +8,46 @@ const BLOCK_PLACEMENT_DEFAULT: BlockPlacement = {}
 
 const HIT_PLACEMENT_DEFAULT: HitsPlacement = {}
 
+const MY_BOARD_FIELD = 'myBoard'
+const OPPONENT_BOARD_FIELD = 'opponentBoard'
+
 const GAME_BOARD_MESSAGES = {
     [GameStatusEnum.Playing]: {
-        myBoard: {
+        [MY_BOARD_FIELD]: {
             true: 'your?turn',
             false: 'opponent?turn'
         },
-        opponentBoard: {
+        [OPPONENT_BOARD_FIELD]: {
             true: 'press-to-attack ↑',
             false: 'waiting...'
         }
     },
     [GameStatusEnum.Finished]: {
-        myBoard: {
+        [MY_BOARD_FIELD]: {
             true: 'winner',
             false: 'loser'
         },
-        opponentBoard: {
+        [OPPONENT_BOARD_FIELD]: {
             true: 'winner',
             false: 'loser'
         }
     },
     [GameStatusEnum.Created]: {
-        myBoard: {
+        [MY_BOARD_FIELD]: {
             true: 'waiting for',
             false: 'waiting...'
         },
-        opponentBoard: {
+        [OPPONENT_BOARD_FIELD]: {
             true: 'someone to join',
             false: 'waiting...'
         }
     },
     [GameStatusEnum.Preparing]: {
-        myBoard: {
+        [MY_BOARD_FIELD]: {
             true: 'waiting for',
             false: 'waiting...'
         },
-        opponentBoard: {
+        [OPPONENT_BOARD_FIELD]: {
             true: 'someone to join',
             false: 'waiting...'
         }
@@ -125,6 +128,8 @@ export {
     GAME_BOARD_MESSAGES,
     getShipCoordinates,
     HIT_PLACEMENT_DEFAULT,
+    MY_BOARD_FIELD,
+    OPPONENT_BOARD_FIELD,
     OWNER_TURN,
     PAGE_SIZE
 }

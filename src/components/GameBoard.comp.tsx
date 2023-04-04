@@ -4,7 +4,7 @@ import Cell from '@/components/Cell.comp'
 import { useUserContext } from '@/context/UserContext'
 import { useIsMobile } from '@/hooks/isMobile.hook'
 import { BlockPlacement, HitsPlacement, TGame } from '@/types/game'
-import { EMPTY_BOARD, GAME_BOARD_MESSAGES } from '@/utils/game'
+import { EMPTY_BOARD, GAME_BOARD_MESSAGES, MY_BOARD_FIELD, OPPONENT_BOARD_FIELD } from '@/utils/game'
 
 type Props = {
     hits: HitsPlacement
@@ -34,7 +34,7 @@ export default function GameBoard({
             return ''
         }
 
-        const MESSAGES = GAME_BOARD_MESSAGES[gameInfo.gameStatus][!attack ? 'myBoard' : 'opponentBoard']
+        const MESSAGES = GAME_BOARD_MESSAGES[gameInfo.gameStatus][!attack ? MY_BOARD_FIELD : OPPONENT_BOARD_FIELD]
 
         switch (gameInfo.gameStatus) {
             case 'CREATED':
