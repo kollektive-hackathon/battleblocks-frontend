@@ -146,7 +146,7 @@ export default function App() {
                             <Outlet />
                         )}
                         {!!notification && (
-                            <div className="notification">
+                            <div className="notification" onClick={() => setNotification(null)}>
                                 <div className="notification__title">{notification.title}!&gt;</div>
                                 <div className="notification__description">{notification.description}</div>
                             </div>
