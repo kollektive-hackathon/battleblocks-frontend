@@ -12,6 +12,13 @@ import { getLocalIdToken } from '@/utils/token'
 
 import { User, UserContext } from './context/UserContext'
 
+// hack to force hide address bar on mobile
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        window.scrollTo(0, 1)
+    }, 0)
+})
+
 export default function App() {
     const [user, setUser] = useState<User | null>()
     const [email, setEmail] = useState('')
