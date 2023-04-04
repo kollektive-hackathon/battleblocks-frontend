@@ -78,12 +78,14 @@ export default function GameBoard({
                 </div>
             ))}
 
-            <div className="game-board__message">{getBoardMessage()}</div>
-            {isMobile && (
-                <div className="game-board__toggle-grid-cta" onClick={toggleGrid}>
-                    <img src="/icons/switch.svg" alt="Flip board" width={35} />
-                </div>
-            )}
+            <div className="game-board__container">
+                <div className="game-board__message">{getBoardMessage()}</div>
+                {isMobile && (
+                    <div className="game-board__toggle-grid-cta" onClick={toggleGrid}>
+                        <img src="/icons/switch.svg" alt="Flip board" width={35} />
+                    </div>
+                )}
+            </div>
         </div>
     )
 }

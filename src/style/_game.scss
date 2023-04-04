@@ -72,14 +72,20 @@
     }
 }
 
-.game-board__message {
-    margin-top: 60px;
+.game-board__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100%;
+}
 
+.game-board__message {
     font-size: 24px;
 }
 
 .game-board__toggle-grid-cta {
-    margin-top: 50px;
+    display: flex;
+    justify-content: center;
 }
 
 .game-board__placement {
@@ -157,7 +163,7 @@
 
     .new-game .page-container__content,
     .game .page-container__content {
-        height: calc(100% - 40px);
+        height: calc(100% - 32px);
     }
 
     .game-board__placement {
