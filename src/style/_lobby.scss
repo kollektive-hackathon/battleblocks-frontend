@@ -4,19 +4,26 @@
     cursor: pointer;
 }
 
-.load-more__row {
+.page-container__content__table tbody tr.load-more__row {
     position: absolute;
-    bottom: 0;
+    bottom: -50px;
 
     display: flex;
     justify-content: center;
     width: 100%;
+    height: 50px;
+
+    background-color: black;
+
+    border-top: none;
+}
+
+.load-more__cell {
+    display: flex;
+    align-items: center;
 }
 
 .load-more {
-    position: relative;
-    bottom: 12px;
-
     color: white;
 
     cursor: pointer;
