@@ -1,3 +1,5 @@
+import { memo } from 'react'
+
 type Props = {
     isHit: boolean | null
     colorHex?: string
@@ -7,7 +9,7 @@ type Props = {
     disabled?: boolean
 }
 
-export default function Cell({ isHit, colorHex, onClick, isAttacked, disabled, pattern }: Props) {
+export default memo(function Cell({ isHit, colorHex, onClick, isAttacked, disabled, pattern }: Props) {
     return (
         <div
             className={`${!isHit && pattern ? `pattern__${pattern} ` : ''}game-board__cell${
@@ -27,4 +29,4 @@ export default function Cell({ isHit, colorHex, onClick, isAttacked, disabled, p
             }}
         />
     )
-}
+})
