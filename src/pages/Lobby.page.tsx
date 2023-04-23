@@ -118,7 +118,7 @@ export default function Lobby() {
                                 ))}
                                 {gamesList?.nextPageToken && (
                                     <tr className="load-more__row">
-                                        <td className="load-more__cell">
+                                        <td colSpan={isMobile ? 2 : 4} className="load-more__cell">
                                             <div className="load-more" onClick={() => fetchGames()}>
                                                 load more
                                             </div>
